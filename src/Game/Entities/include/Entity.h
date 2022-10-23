@@ -2,7 +2,12 @@
 
 #include "ofMain.h"
 
-enum Direction {left, right, up, down};
+enum Direction {
+    left,
+    right,
+    up,
+    down
+};
 
 class Entity {
    protected:
@@ -12,6 +17,10 @@ class Entity {
     int ox, oy, ow, oh; // Overworld Coordinates and dimensions
     ofImage fightingSprite;
     ofImage overworldSprite;
+
+    double angleOfMovement;
+    glm::vec2 velocity;
+    glm::vec2 movementDirection;
 
    public:
     Entity(int ox, int oy, int ow, int oh, int fx, int fy, int fw, int fh, int health, int baseDamage);

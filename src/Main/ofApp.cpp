@@ -75,6 +75,7 @@ void ofApp::update() {
             battleState->startBattle(overworldState->getEnemy());
             currentState = battleState;
         } else if (currentState->getNextState() == "Win") {
+            
             overworldState->getEnemy()->kill();
             if (currentArea->getRemainingEnemies() == 0) {
                 if (currentArea->getNextArea() == NULL) {

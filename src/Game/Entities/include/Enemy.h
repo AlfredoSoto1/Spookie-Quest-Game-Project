@@ -5,8 +5,9 @@
 
 class Enemy : public Entity {
    private:
-    Direction direction;
     int speed = 8;
+    int movingTime = 15;
+    int standingStillTime = 45;
     bool walking = false;
     int renderX = 1000;
     int renderY = 1000;
