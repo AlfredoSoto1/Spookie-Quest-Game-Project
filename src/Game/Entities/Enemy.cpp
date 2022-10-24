@@ -3,7 +3,6 @@
 Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy) : Entity(ox, oy, 50, 64, 420, 220, 97, 125, health, baseDamage) {
     this->id = id;
     this->entityName = entityName;
-    moveTimer = 0;
     vector<ofImage> downFrames;
     vector<ofImage> upFrames;
     vector<ofImage> leftFrames;
@@ -34,68 +33,80 @@ Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, i
     walkRight = new Animation(3, rightFrames);
     fighting = new Animation(7, leftFrames);
 
-    // if(ofRandom(1.0f) > 0.5)
-        angleOfMovement = 180.0;
-    // else
-    //     angleOfMovement = 0.0;
-
-    movementDirection = glm::vec2(1.0, 0.0);
+    speed = 8;
+    movingTime = 15;
+    standingStillTime = 40;
+    timeDirectionCounter = glm::vec2(0.0, 0.0);
 }
 
 void Enemy::inOverworldUpdate() {
-    if (moveTimer == 0) {
-        walking = true;
 
-        //change direction
-        if(angleOfMovement == 180.0)
-            angleOfMovement = 60.0;
-        else if(angleOfMovement == 60.0)
-            angleOfMovement = -60.0;
-        else if(angleOfMovement == -60.0)
-            angleOfMovement = 180.0;
-        // else if(angleOfMovement == 0.0)
-        //     angleOfMovement = 140.0;
-        // else if(angleOfMovement == 140.0)
-        //     angleOfMovement = -140.0;
-        // else if(angleOfMovement == -140.0)
-        //     angleOfMovement = 0.0;
-
-        movementDirection.x = glm::cos(angleOfMovement * PI / 180.0);
-        movementDirection.y = glm::sin(angleOfMovement * PI / 180.0);
+    if(linePath == 0) {
+        movementDirection.x = -2.0;
+        movementDirection.y =  0.0;
+    } else if(linePath == 1) {
+        movementDirection.x =  1.0; 
+        movementDirection.y =  1.0; 
+    }else if(linePath == 2) {
+        movementDirection.x =  1.0;
+        movementDirection.y = -1.0;
     }
-    if (moveTimer == movingTime) {
+
+    bool xFinished = false;
+    if(timeDirectionCounter.x < movingTime && walking) {
+        this->ox += movementDirection.x * speed;
+        timeDirectionCounter.x++;
+    }else {
+        xFinished = true;
+    }
+
+    bool yFinished = false;
+    if(timeDirectionCounter.y < movingTime && walking) {
+        this->oy += movementDirection.y * speed;
+        timeDirectionCounter.y++;
+    } else {
+        yFinished = true;
+    }
+
+    if(xFinished && yFinished) {
+        timeDirectionCounter.x = 0;
+        timeDirectionCounter.y = 0;
         walking = false;
+        standingStillCounter++;
     }
-    moveTimer++;
-    if (moveTimer == movingTime + standingStillTime) moveTimer = 0;
 
-    if (walking) {
+    if(standingStillCounter > standingStillTime) {
+        standingStillCounter = 0;
+        walking = true;
+        linePath++;
+        if(linePath > 2)
+            linePath = 0;
+    }
 
-         this->ox += movementDirection.x * speed;
-         this->oy += movementDirection.y * speed;
-
+    if(walking) {
         if(movementDirection.x < 0) {
             walkLeft->update();
             overworldSprite = walkLeft->getCurrentFrame();
         } else if(movementDirection.x > 0) {
             walkRight->update();
             overworldSprite = walkRight->getCurrentFrame();
-        } else if(movementDirection.y < 0) {
+        } else if(movementDirection.y > 0) {
             walkDown->update();
             overworldSprite = walkDown->getCurrentFrame();
-        } else if(movementDirection.y > 0) {
+        } else if(movementDirection.y < 0) {
             walkUp->update();
             overworldSprite = walkUp->getCurrentFrame();
         }
-    } else {
-        if(movementDirection.x < 0)
+    }else {
+        if(movementDirection.x < 0) {
             overworldSprite = walkLeft->getCurrentFrame();
-        else if(movementDirection.x > 0)
+        } else if(movementDirection.x > 0) {
             overworldSprite = walkRight->getCurrentFrame();
-        else if(movementDirection.y < 0)
+        } else if(movementDirection.y > 0) {
             overworldSprite = walkDown->getCurrentFrame();
-        else if(movementDirection.y > 0)
+        } else if(movementDirection.y < 0) {
             overworldSprite = walkUp->getCurrentFrame();
+        }      
     }
 }
 
