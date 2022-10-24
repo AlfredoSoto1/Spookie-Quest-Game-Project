@@ -5,8 +5,14 @@
 
 class Enemy : public Entity {
    private:
-    Direction direction;
-    int speed = 8;
+    int speed;
+    int movingTime;
+    int standingStillTime;
+
+    int linePath = 0;
+    int standingStillCounter = 0;
+    glm::vec2 timeDirectionCounter;
+
     bool walking = false;
     int renderX = 1000;
     int renderY = 1000;
@@ -16,7 +22,6 @@ class Enemy : public Entity {
     Animation *walkRight;
     Animation *fighting;
     string id;
-    int moveTimer;
     bool dead = false;
     string entityName;
     ofImage sprite;

@@ -11,6 +11,11 @@ Entity::Entity(int ox, int oy, int ow, int oh, int fx, int fy, int fw, int fh, i
     this->fw = fw;
     this->health = health;
     this->baseDamage = baseDamage;
+
+    angleOfMovement = 0.0;
+
+    velocity = glm::vec2(0.0, 0.0);
+    movementDirection = glm::vec2(0.0, 0.0);
 }
 
 Entity::~Entity(){}

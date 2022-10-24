@@ -3,7 +3,6 @@
 Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy) : Entity(ox, oy, 50, 64, 420, 220, 97, 125, health, baseDamage) {
     this->id = id;
     this->entityName = entityName;
-    moveTimer = 60;
     vector<ofImage> downFrames;
     vector<ofImage> upFrames;
     vector<ofImage> leftFrames;
@@ -34,71 +33,80 @@ Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, i
     walkRight = new Animation(3, rightFrames);
     fighting = new Animation(7, leftFrames);
 
-    direction = Direction::down;
+    speed = 8;
+    movingTime = 15;
+    standingStillTime = 40;
+    timeDirectionCounter = glm::vec2(0.0, 0.0);
 }
 
 void Enemy::inOverworldUpdate() {
-    if (moveTimer == 60) {
-        walking = true;
-        switch (direction) {
-            case Direction::left:
-                direction = Direction::up;
-                break;
-            case Direction::right:
-                direction = Direction::down;
-                break;
-            case Direction::up:
-                direction = Direction::right;
-                break;
-            case Direction::down:
-                direction = Direction::left;
-                break;
-        }
-    }
-    if (moveTimer == 45) {
-        walking = false;
-    }
-    moveTimer--;
-    if (moveTimer == 0) moveTimer = 60;
 
-    if (walking) {
-        switch (direction) {
-            case Direction::left:
-                this->ox -= speed;
-                walkLeft->update();
-                overworldSprite = walkLeft->getCurrentFrame();
-                break;
-            case Direction::right:
-                this->ox += speed;
-                walkRight->update();
-                overworldSprite = walkRight->getCurrentFrame();
-                break;
-            case Direction::up:
-                this->oy -= speed;
-                walkUp->update();
-                overworldSprite = walkUp->getCurrentFrame();
-                break;
-            case Direction::down:
-                this->oy += speed;
-                walkDown->update();
-                overworldSprite = walkDown->getCurrentFrame();
-                break;
-        }
+    if(linePath == 0) {
+        movementDirection.x = -2.0;
+        movementDirection.y =  0.0;
+    } else if(linePath == 1) {
+        movementDirection.x =  1.0; 
+        movementDirection.y =  1.0; 
+    }else if(linePath == 2) {
+        movementDirection.x =  1.0;
+        movementDirection.y = -1.0;
+    }
+
+    bool xFinished = false;
+    if(timeDirectionCounter.x < movingTime && walking) {
+        this->ox += movementDirection.x * speed;
+        timeDirectionCounter.x++;
+    }else {
+        xFinished = true;
+    }
+
+    bool yFinished = false;
+    if(timeDirectionCounter.y < movingTime && walking) {
+        this->oy += movementDirection.y * speed;
+        timeDirectionCounter.y++;
     } else {
-        switch (direction) {
-            case Direction::left:
-                overworldSprite = walkLeft->getCurrentFrame();
-                break;
-            case Direction::right:
-                overworldSprite = walkRight->getCurrentFrame();;
-                break;
-            case Direction::up:
-                overworldSprite = walkUp->getCurrentFrame();
-                break;
-            case Direction::down:
-                overworldSprite = walkDown->getCurrentFrame();
-                break;
+        yFinished = true;
+    }
+
+    if(xFinished && yFinished) {
+        timeDirectionCounter.x = 0;
+        timeDirectionCounter.y = 0;
+        walking = false;
+        standingStillCounter++;
+    }
+
+    if(standingStillCounter > standingStillTime) {
+        standingStillCounter = 0;
+        walking = true;
+        linePath++;
+        if(linePath > 2)
+            linePath = 0;
+    }
+
+    if(walking) {
+        if(movementDirection.x < 0) {
+            walkLeft->update();
+            overworldSprite = walkLeft->getCurrentFrame();
+        } else if(movementDirection.x > 0) {
+            walkRight->update();
+            overworldSprite = walkRight->getCurrentFrame();
+        } else if(movementDirection.y > 0) {
+            walkDown->update();
+            overworldSprite = walkDown->getCurrentFrame();
+        } else if(movementDirection.y < 0) {
+            walkUp->update();
+            overworldSprite = walkUp->getCurrentFrame();
         }
+    }else {
+        if(movementDirection.x < 0) {
+            overworldSprite = walkLeft->getCurrentFrame();
+        } else if(movementDirection.x > 0) {
+            overworldSprite = walkRight->getCurrentFrame();
+        } else if(movementDirection.y > 0) {
+            overworldSprite = walkDown->getCurrentFrame();
+        } else if(movementDirection.y < 0) {
+            overworldSprite = walkUp->getCurrentFrame();
+        }      
     }
 }
 
