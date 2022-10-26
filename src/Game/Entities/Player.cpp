@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(int health, int baseDamage) : Entity(INIT_X, INIT_Y, 64, 64, 64, 164, 192, 192, health, baseDamage) {
+Player::Player(int health, int baseDamage) : Entity(INIT_X, INIT_Y, 64, 64, INIT_BATTLE_X, INIT_BATTLE_Y, 192, 192, health, baseDamage) {
     vector<ofImage> downFrames;
     vector<ofImage> upFrames;
     vector<ofImage> leftFrames;
@@ -112,8 +112,9 @@ void Player::keyReleased(int key) {
 void Player::reset() {
     ox = INIT_X;
     oy = INIT_Y;
-    fx = INIT_X;
-    fy = INIT_Y;
+    fx = INIT_BATTLE_X;
+    fy = INIT_BATTLE_Y;
+    health = 100;
 }
 
 Player::~Player() {
