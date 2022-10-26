@@ -1,6 +1,8 @@
 #include "Enemy.h"
 
-Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy) : Entity(ox, oy, 50, 64, 420, 220, 97, 125, health, baseDamage) {
+Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy) : 
+    EntityFighter(ox, oy, 50, 64, 420, 220, 97, 125, health, baseDamage)
+{
     this->id = id;
     this->entityName = entityName;
     vector<ofImage> downFrames;
@@ -37,6 +39,7 @@ Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, i
     movingTime = 15;
     standingStillTime = 40;
     timeDirectionCounter = glm::vec2(0.0, 0.0);
+    movementDirection = glm::vec2(0.0, 0.0);
 }
 
 void Enemy::inOverworldUpdate() {

@@ -1,6 +1,8 @@
 #include "Player.h"
 
-Player::Player(int health, int baseDamage) : Entity(INIT_X, INIT_Y, 64, 64, INIT_BATTLE_X, INIT_BATTLE_Y, 192, 192, health, baseDamage) {
+Player::Player(int health, int baseDamage) : 
+    EntityFighter(INIT_X, INIT_Y, 64, 64, INIT_BATTLE_X, INIT_BATTLE_Y, 192, 192, health, baseDamage)
+{
     vector<ofImage> downFrames;
     vector<ofImage> upFrames;
     vector<ofImage> leftFrames;

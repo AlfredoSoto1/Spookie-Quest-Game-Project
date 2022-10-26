@@ -1,31 +1,17 @@
 #include "Entity.h"
 
-Entity::Entity(int ox, int oy, int ow, int oh, int fx, int fy, int fw, int fh, int health, int baseDamage) {
+Entity::Entity(int ox, int oy, int ow, int oh, int health) {
     this->ox = ox;
     this->oy = oy;
     this->oh = oh;
     this->ow = ow;
-    this->fx = fx;
-    this->fy = fy;
-    this->fh = fh;
-    this->fw = fw;
     this->health = health;
-    this->baseDamage = baseDamage;
-
-    angleOfMovement = 0.0;
-
-    velocity = glm::vec2(0.0, 0.0);
-    movementDirection = glm::vec2(0.0, 0.0);
 }
 
 Entity::~Entity(){}
 
 void Entity::inOverworldDraw() {
     overworldSprite.draw(ox, oy, ow, oh);
-}
-
-void Entity::fightingDraw() {
-    fightingSprite.draw(fx, fy, fw, fh);
 }
 
 bool Entity::collides(Entity* entity){

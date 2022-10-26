@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Animation.h"
-#include "Entity.h"
+#include "EntityFighter.h"
 
 #define INIT_X 100
 #define INIT_Y 100
@@ -15,7 +15,7 @@
 #define OXDIMENSION 2688
 #define OYDIMENSION 2560
 
-class Player : public Entity {
+class Player : public EntityFighter {
    private:
     Direction direction = Direction::up;
     int speed = 8;

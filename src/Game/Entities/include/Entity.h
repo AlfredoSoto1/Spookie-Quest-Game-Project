@@ -10,25 +10,11 @@ enum Direction {
 };
 
 class Entity {
-   protected:
-    int health;
-    int baseDamage;
-    int fx, fy, fw, fh; // Fighting coordinates and dimensions
-    int ox, oy, ow, oh; // Overworld Coordinates and dimensions
-    ofImage fightingSprite;
-    ofImage overworldSprite;
-
-    double angleOfMovement;
-    glm::vec2 velocity;
-    glm::vec2 movementDirection;
-
-   public:
-    Entity(int ox, int oy, int ow, int oh, int fx, int fy, int fw, int fh, int health, int baseDamage);
+public:
+    Entity(int ox, int oy, int ow, int oh, int health);
     virtual ~Entity();
     virtual void inOverworldUpdate() = 0;
-    virtual void fightingUpdate() = 0;
     virtual void inOverworldDraw();
-    virtual void fightingDraw();
     int getOX() { return ox; };
     int getOY() { return oy; };
     int getOW() { return ow; };
@@ -40,6 +26,11 @@ class Entity {
     void setOY(int oy) { this->oy = oy; };
     int getHealth() { return health; };
     void setHealth(int health) { this->health = health; };
-    int getDmg() { return baseDamage; };
-    void setDmg(int baseDamage) { this->baseDamage = baseDamage; };
+
+protected:
+    int health;
+    int ox, oy, ow, oh; // Overworld Coordinates and dimensions
+    ofImage overworldSprite;
+
+    glm::vec2 velocity;
 };
