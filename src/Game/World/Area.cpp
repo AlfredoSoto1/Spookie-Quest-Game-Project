@@ -1,6 +1,7 @@
 #include "Area.h"
 
 Area::Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Enemy *> enemies) {
+    this->name = name;
     this->nextArea = nextArea;
     areaImage.load(areaImagePath);
     areaMusic.load(areaMusicPath);

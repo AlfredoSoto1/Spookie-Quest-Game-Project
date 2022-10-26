@@ -90,8 +90,10 @@ void ofApp::update() {
             } else {
                 currentState = winState;
             }
-        } else if (currentState->getNextState() == "End")
+        } else if (currentState->getNextState() == "End"){
             currentState = endGameState;
+            player->reset();
+        }
         currentState->toggleMusic();
         currentState->reset();
     }

@@ -5,6 +5,10 @@
 
 #define INIT_X 100
 #define INIT_Y 100
+
+#define INIT_BATTLE_X 64
+#define INIT_BATTLE_Y 164
+
 #define CENTER_X 288
 #define CENTER_Y 208
 
