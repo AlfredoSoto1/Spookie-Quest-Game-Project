@@ -70,25 +70,30 @@ bool HitBox::collides(const HitBox& hitbox) {
     bool xCollision = x + width > hitbox.x && x < hitbox.x + hitbox.width;
     bool yCollision = y + height > hitbox.y && y < hitbox.y + hitbox.height;
 
-    ofSetColor(ofColor::white);
-    ofDrawBitmapString("collision: false", 100, 60);
-
-    if(!hitbox.isSolid)
+    //checks if its a solid
+    if(!hitbox.isSolid) {
+        continueToUpdate = true;
         return xCollision && yCollision;
+    }
 
+    //if its not a solid, then check if it has collided
     if(!(xCollision && yCollision)){
         continueToUpdate = true;
         ofSetColor(ofColor::white);
-        ofDrawBitmapString("collision: false", 100, 60);
         return false;
     }
 
-    if(x + width >= hitbox.x && lastX + lastWidth < hitbox.lastX) {
+    if(x + width > hitbox.x && lastX + lastWidth < hitbox.x) {
         x = hitbox.x - width;
+        ofSetColor(ofColor::red);
         continueToUpdate = false;
+    }
+
+    else {
         ofSetColor(ofColor::white);
-        ofDrawBitmapString("collision: true", 100, 60);
-    } 
+        continueToUpdate = true;
+    }
+
     // else 
     // if(x <= hitbox.x + hitbox.width && lastX > hitbox.lastX + hitbox.lastWidth) {
     //     ofSetColor(ofColor::blue);
