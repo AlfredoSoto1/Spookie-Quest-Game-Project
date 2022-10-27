@@ -1,7 +1,8 @@
 #include "Enemy.h"
 
 Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy) : 
-    EntityFighter(ox, oy, 50, 64, 420, 220, 97, 125, health, baseDamage)
+    // EntityFighter(ox, oy, 50, 64, 420, 220, 97, 125, health, baseDamage)
+    EntityFighter(HitBox(ox, oy, 50, 64), HitBox(420, 220, 97, 125), health, baseDamage)
 {
     this->id = id;
     this->entityName = entityName;
@@ -57,7 +58,8 @@ void Enemy::inOverworldUpdate() {
 
     bool xFinished = false;
     if(timeDirectionCounter.x < movingTime && walking) {
-        this->ox += movementDirection.x * speed;
+        // this->ox += movementDirection.x * speed;
+        hitbox.setX(hitbox.getX() + movementDirection.x * speed);
         timeDirectionCounter.x++;
     }else {
         xFinished = true;
@@ -65,7 +67,8 @@ void Enemy::inOverworldUpdate() {
 
     bool yFinished = false;
     if(timeDirectionCounter.y < movingTime && walking) {
-        this->oy += movementDirection.y * speed;
+        // this->oy += movementDirection.y * speed;
+        hitbox.setY(hitbox.getY() + movementDirection.y * speed);
         timeDirectionCounter.y++;
     } else {
         yFinished = true;
@@ -119,7 +122,8 @@ void Enemy::inOverworldDraw() {
     // ofDrawBitmapString("rY:" + to_string(renderY), 100 + 125 * ((stoi(id) % 10) - 1), 120);
     // ofDrawBitmapString("ow:" + to_string(ox), 100 + 125 * ((stoi(id) % 10) - 1), 140);
     // ofDrawBitmapString("oy:" + to_string(oy), 100 + 125 * ((stoi(id) % 10) - 1), 160);
-    overworldSprite.draw(renderX, renderY, ow, oh);
+    // overworldSprite.draw(renderX, renderY, ow, oh);
+    overworldSprite.draw(renderX, renderY, hitbox.getWidth(), hitbox.getHeight());
 }
 
 void Enemy::fightingUpdate() {

@@ -1,6 +1,6 @@
 #include "Area.h"
 
-Area::Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Enemy *> enemies) {
+Area::Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Enemy *> enemies, Rock* rock) {
     this->name = name;
     this->nextArea = nextArea;
     areaImage.load(areaImagePath);
@@ -8,6 +8,8 @@ Area::Area(string name, Area *nextArea, string areaImagePath, string areaMusicPa
     areaStage.load(areaStagePath);
     this->entrancePosition = entrancePosition;
     this->enemies = enemies;
+
+    this->rock = rock;
 }
 
 void Area::resetEnemies() {

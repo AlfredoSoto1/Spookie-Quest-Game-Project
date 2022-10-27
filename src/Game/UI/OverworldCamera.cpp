@@ -3,10 +3,15 @@
 OverworldCamera::OverworldCamera(Player *player) {
     this->player = player;
 
-    this->playerW = this->player->getOW();
-    this->playerH = this->player->getOH();
-    this->playerX = this->player->getOX() + (this->playerW / 2);
-    this->playerY = this->player->getOY() + (this->playerH / 2);
+    // this->playerW = this->player->getOW();
+    // this->playerH = this->player->getOH();
+    // this->playerX = this->player->getOX() + (this->playerW / 2);
+    // this->playerY = this->player->getOY() + (this->playerH / 2);
+    HitBox& playerHitBox = this->player->getHitBox();
+    this->playerW = playerHitBox.getX();
+    this->playerH = playerHitBox.getY();
+    this->playerX = playerHitBox.getX() + (this->playerW / 2);
+    this->playerY = playerHitBox.getY() + (this->playerH / 2);
 
     this->leftCornerX = this->playerX - (DIMENSIONX / 2);
     this->rightCornerX = this->playerX + (DIMENSIONX / 2);
@@ -31,8 +36,11 @@ OverworldCamera::OverworldCamera(Player *player) {
 }
 
 void OverworldCamera::update() {
-    this->playerX = this->player->getOX() + (this->playerW / 2);
-    this->playerY = this->player->getOY() + (this->playerH / 2);
+    HitBox& playerHitBox = this->player->getHitBox();
+    // this->playerX = this->player->getOX() + (this->playerW / 2);
+    // this->playerY = this->player->getOY() + (this->playerH / 2);
+    this->playerX = playerHitBox.getX() + (this->playerW / 2);
+    this->playerY = playerHitBox.getY() + (this->playerH / 2);
 
     this->leftCornerX = this->playerX - (DIMENSIONX / 2);
     this->rightCornerX = this->playerX + (DIMENSIONX / 2);

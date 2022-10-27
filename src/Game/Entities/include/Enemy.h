@@ -30,8 +30,7 @@ class Enemy : public EntityFighter {
    public:
     Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy);
     ~Enemy();
-    int getOX() { return ox; };
-    int getOY() { return oy; };
+    // int getOY() { return oy; };
     bool isDead() { return dead; };
     void kill() { this->dead = true; };
     void revive() { this->dead = false; };
