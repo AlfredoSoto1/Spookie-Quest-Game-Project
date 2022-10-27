@@ -35,8 +35,8 @@ protected:
     int lastHeight = 0;
 
 private:
-    bool isSolid = false;
-    bool continueToUpdate = true;
+    volatile bool isSolid = false;
+    volatile bool continueToUpdate = true;
 };
 
 #endif

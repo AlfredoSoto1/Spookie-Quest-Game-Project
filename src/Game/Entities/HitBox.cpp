@@ -83,19 +83,22 @@ bool HitBox::collides(const HitBox& hitbox) {
         return false;
     }
 
-    if(x + width > hitbox.x && lastX + lastWidth < hitbox.x) {
+    if(x + width > hitbox.x && x < hitbox.x) {
         x = hitbox.x - width;
         ofSetColor(ofColor::red);
         continueToUpdate = false;
     }
-
-    else {
-        ofSetColor(ofColor::white);
-        continueToUpdate = true;
+    else if(x < hitbox.x + hitbox.width && x + width > hitbox.x + hitbox.width) {
+        ofSetColor(ofColor::blue);
+        x = hitbox.x + hitbox.width;
+        continueToUpdate = false;
     }
-
-    // else 
-    // if(x <= hitbox.x + hitbox.width && lastX > hitbox.lastX + hitbox.lastWidth) {
+    if(y - height < hitbox.y && y > hitbox.y) {
+        y = hitbox.y + height;
+        ofSetColor(ofColor::yellow);
+        continueToUpdate = false;
+    }
+    // else if(x < hitbox.x + hitbox.width && x + width > hitbox.x + hitbox.width) {
     //     ofSetColor(ofColor::blue);
     //     x = hitbox.x + hitbox.width;
     //     continueToUpdate = false;
