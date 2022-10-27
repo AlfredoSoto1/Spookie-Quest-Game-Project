@@ -3,6 +3,7 @@
 Rock::Rock(int ox, int oy, int resistance) : 
     Entity(HitBox(ox, oy, 50, 50), resistance) 
 {
+    hitbox.setSolid(true);
     overworldSprite.load("images/entities/inmovable/rock.png");
 }
 

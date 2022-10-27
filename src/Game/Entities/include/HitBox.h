@@ -13,14 +13,15 @@ public:
     void setY(int y);    
     void setWidth(int w);    
     void setHeight(int h);
-    int getX();    
-    int getY();    
-    int getWidth();    
-    int getHeight();
+    int getX() const;    
+    int getY() const;    
+    int getWidth() const;    
+    int getHeight() const;
 
-    bool collides(const HitBox& hitBox);
-
+    void update();
     void setSolid(bool isSolid);    
+    
+    bool collides(const HitBox& hitBox);
     
 protected:
     int x = 0;
@@ -28,8 +29,14 @@ protected:
     int width = 0;
     int height = 0;
 
+    int lastX = 0;
+    int lastY = 0;
+    int lastWidth = 0;
+    int lastHeight = 0;
+
 private:
     bool isSolid = false;
+    bool continueToUpdate = true;
 };
 
 #endif
