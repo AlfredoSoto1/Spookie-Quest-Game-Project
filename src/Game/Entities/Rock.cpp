@@ -1,7 +1,7 @@
 #include "Rock.h"
 
 Rock::Rock(int ox, int oy, int resistance) : 
-    Structure(HitBox(ox, oy, 50, 50), resistance) 
+    Entity(HitBox(ox, oy, 50, 50), resistance) 
 {
     overworldSprite.load("images/entities/inmovable/rock.png");
 }

@@ -12,6 +12,8 @@ void OverworldState::loadArea(Area *area) {
     music = area->getMusic();
     music.setVolume(0.25);
     music.setLoop(true);
+    // player->setOX(area->getEntrancePos().x);
+    // player->setOY(area->getEntrancePos().y);
     HitBox& playerHitbox = player->getHitBox();
     playerHitbox.setX(area->getEntrancePos().x);
     playerHitbox.setY(area->getEntrancePos().y);
@@ -44,6 +46,8 @@ void OverworldState::draw() {
     for (unsigned int i = 0; i < area->getEnemies().size(); i++) {
         Enemy& enemy = *(area->getEnemies().at(i));
         if (!enemy.isDead()) {
+            // int playerDistanceX = area->getEnemies().at(i)->getOX() - camera->getPlayerX();
+            // int playerDistanceY = area->getEnemies().at(i)->getOY() - camera->getPlayerY();
             HitBox& enemyHitbox = enemy.getHitBox();
             int playerDistanceX = enemyHitbox.getX() - camera->getPlayerX();
             int playerDistanceY = enemyHitbox.getY() - camera->getPlayerY();

@@ -3,9 +3,9 @@
 #ifndef ROCK_HEADER
 #define ROCK_HEADER
 
-#include "Structure.h"
+#include "Entity.h"
 
-class Rock : public Structure {
+class Rock : public Entity {
 public:
     Rock(int ox, int oy, int resistance);
     virtual ~Rock();
