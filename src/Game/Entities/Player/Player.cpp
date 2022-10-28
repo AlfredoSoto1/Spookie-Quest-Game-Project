@@ -38,35 +38,46 @@ void Player::inOverworldUpdate() {
         switch (pressedKeys[0]) {
             case 'a':
                 hitbox.setDirection(Direction::left);
-                if (hitbox.getX() - speed >= CENTER_X)
-                    // this->ox -= speed;
+
+                if (hitbox.getX() - speed > 0)
                     hitbox.setX(hitbox.getX() - speed);
+                else
+                    hitbox.setX(0);
+                // if (hitbox.getX() - speed >= ofGetWidth()/2)
+                //     hitbox.setX(hitbox.getX() - speed);
                 walkLeft->update();
                 overworldSprite = walkLeft->getCurrentFrame();
                 break;
             case 'd':
                 hitbox.setDirection(Direction::right);
-                if (hitbox.getX() + speed <= OXDIMENSION - CENTER_X)
-                    // this->ox += speed;
+                if (hitbox.getX() + speed < ofGetWidth())
                     hitbox.setX(hitbox.getX() + speed);
-
+                else
+                    hitbox.setX(ofGetWidth());
+                // if (hitbox.getX() + speed <= OXDIMENSION - ofGetWidth()/2)
+                //     hitbox.setX(hitbox.getX() + speed);
                 walkRight->update();
                 overworldSprite = walkRight->getCurrentFrame();
                 break;
             case 'w':
                 hitbox.setDirection(Direction::up);
-                if (hitbox.getY() - speed >= CENTER_Y)
-                    // this->oy -= speed;
+                if (hitbox.getY() - speed > 0)
                     hitbox.setY(hitbox.getY() - speed);
+                else
+                    hitbox.setY(0);
+                // if (hitbox.getY() - speed >= ofGetHeight()/2)
+                //     hitbox.setY(hitbox.getY() - speed);
                 walkUp->update();
                 overworldSprite = walkUp->getCurrentFrame();
-
                 break;
             case 's':
                 hitbox.setDirection(Direction::down);
-                if (hitbox.getY() + speed <= OYDIMENSION - CENTER_Y)
-                    // this->oy += speed;
+                if (hitbox.getY() + speed < ofGetHeight())
                     hitbox.setY(hitbox.getY() + speed);
+                else
+                    hitbox.setY(ofGetHeight());
+                // if (hitbox.getY() + speed <= OYDIMENSION - ofGetHeight()/2)
+                //     hitbox.setY(hitbox.getY() + speed);
                 walkDown->update();
                 overworldSprite = walkDown->getCurrentFrame();
                 break;
@@ -98,7 +109,11 @@ void Player::inOverworldDraw() {
     // uncomment this to see the coordinates of your player
     // ofDrawBitmapString("ow:" + to_string(ox), 100, 60);
     // ofDrawBitmapString("oy:" + to_string(oy), 100, 80);
-    overworldSprite.draw(CENTER_X, CENTER_Y, hitbox.getWidth(), hitbox.getHeight());
+    // overworldSprite.draw(ofGetWidth()/2 - hitbox.getWidth() / 2, ofGetHeight()/2 - hitbox.getHeight() / 2, hitbox.getWidth(), hitbox.getHeight());
+
+    float ox = hitbox.getX() - hitbox.getWidth()/2;
+    float oy = hitbox.getY() - hitbox.getHeight()/2;
+    overworldSprite.draw(ox, oy, hitbox.getWidth(), hitbox.getHeight());
 }
 
 void Player::keyPressed(int key) {

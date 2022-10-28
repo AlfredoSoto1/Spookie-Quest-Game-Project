@@ -9,8 +9,8 @@
 #define INIT_BATTLE_X 64
 #define INIT_BATTLE_Y 164
 
-#define CENTER_X 288
-#define CENTER_Y 208
+// #define CENTER_X 288
+// #define CENTER_Y 208
 
 #define OXDIMENSION 2688
 #define OYDIMENSION 2560
@@ -29,6 +29,9 @@ private:
 public:
     Player(int health, int baseDamage);
     ~Player();
+
+    int getSpeed() { return speed; }
+
     void inOverworldUpdate();
     void fightingUpdate();
     void inOverworldDraw();
