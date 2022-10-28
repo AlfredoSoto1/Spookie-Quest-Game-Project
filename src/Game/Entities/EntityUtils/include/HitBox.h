@@ -7,8 +7,7 @@ enum Direction {
     left,
     right,
     up,
-    down, 
-    center
+    down
 };
 
 struct HitBox {
