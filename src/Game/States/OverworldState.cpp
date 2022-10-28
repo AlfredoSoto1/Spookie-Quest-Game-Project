@@ -43,18 +43,6 @@ void OverworldState::update() {
     playerHitbox.collides(rockHitbox);
 
     camera->update();
-
-    //TODO
-    //-----merge this all into a for loop in the future-----
-
-    //updates all entity hitboxes
-    playerHitbox.update();
-    rockHitbox.update();
-    for (unsigned int i = 0; i < area->getEnemies().size(); i++) {
-        Enemy& enemy = *(area->getEnemies().at(i));
-        HitBox& enemyHitbox = enemy.getHitBox();
-        enemyHitbox.update();    
-    }
 }
 
 void OverworldState::draw() {

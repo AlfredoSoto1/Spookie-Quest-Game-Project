@@ -8,8 +8,8 @@ OverworldCamera::OverworldCamera(Player *player) {
     // this->playerX = this->player->getOX() + (this->playerW / 2);
     // this->playerY = this->player->getOY() + (this->playerH / 2);
     HitBox& playerHitBox = this->player->getHitBox();
-    this->playerW = playerHitBox.getX();
-    this->playerH = playerHitBox.getY();
+    this->playerW = playerHitBox.getWidth();
+    this->playerH = playerHitBox.getHeight();
     this->playerX = playerHitBox.getX() + (this->playerW / 2);
     this->playerY = playerHitBox.getY() + (this->playerH / 2);
 

@@ -3,13 +3,6 @@
 #include "ofMain.h"
 #include "HitBox.h"
 
-enum Direction {
-    left,
-    right,
-    up,
-    down
-};
-
 class Entity {
 public:
     // Entity(int ox, int oy, int ow, int oh, int health);

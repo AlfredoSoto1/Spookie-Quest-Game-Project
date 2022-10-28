@@ -16,8 +16,7 @@
 #define OYDIMENSION 2560
 
 class Player : public EntityFighter {
-   private:
-    Direction direction = Direction::up;
+private:
     int speed = 8;
     bool walking = false;
     Animation *walkUp;
@@ -27,7 +26,7 @@ class Player : public EntityFighter {
     Animation *fighting;
     vector<char> pressedKeys;
 
-   public:
+public:
     Player(int health, int baseDamage);
     ~Player();
     void inOverworldUpdate();

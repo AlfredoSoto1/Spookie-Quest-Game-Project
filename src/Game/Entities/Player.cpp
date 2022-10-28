@@ -37,7 +37,7 @@ void Player::inOverworldUpdate() {
     if (!pressedKeys.empty()) {
         switch (pressedKeys[0]) {
             case 'a':
-                direction = Direction::left;
+                hitbox.setDirection(Direction::left);
                 if (hitbox.getX() - speed >= CENTER_X)
                     // this->ox -= speed;
                     hitbox.setX(hitbox.getX() - speed);
@@ -45,7 +45,7 @@ void Player::inOverworldUpdate() {
                 overworldSprite = walkLeft->getCurrentFrame();
                 break;
             case 'd':
-                direction = Direction::right;
+                hitbox.setDirection(Direction::right);
                 if (hitbox.getX() + speed <= OXDIMENSION - CENTER_X)
                     // this->ox += speed;
                     hitbox.setX(hitbox.getX() + speed);
@@ -54,7 +54,7 @@ void Player::inOverworldUpdate() {
                 overworldSprite = walkRight->getCurrentFrame();
                 break;
             case 'w':
-                direction = Direction::up;
+                hitbox.setDirection(Direction::up);
                 if (hitbox.getY() - speed >= CENTER_Y)
                     // this->oy -= speed;
                     hitbox.setY(hitbox.getY() - speed);
@@ -63,7 +63,7 @@ void Player::inOverworldUpdate() {
 
                 break;
             case 's':
-                direction = Direction::down;
+                hitbox.setDirection(Direction::down);
                 if (hitbox.getY() + speed <= OYDIMENSION - CENTER_Y)
                     // this->oy += speed;
                     hitbox.setY(hitbox.getY() + speed);
@@ -72,7 +72,7 @@ void Player::inOverworldUpdate() {
                 break;
         }
     } else {
-        switch (direction) {
+        switch (hitbox.getDirection()) {
             case Direction::left:
                 overworldSprite = walkLeft->getCurrentFrame();
                 break;

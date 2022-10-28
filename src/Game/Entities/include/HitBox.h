@@ -3,6 +3,14 @@
 #ifndef HIX_BOX_HEADER
 #define HIX_BOX_HEADER
 
+enum Direction {
+    left,
+    right,
+    up,
+    down, 
+    center
+};
+
 struct HitBox {
 public:
     HitBox(int x, int y, int width, int height);
@@ -18,6 +26,9 @@ public:
     int getWidth() const;    
     int getHeight() const;
 
+    void setDirection(const Direction& direction);
+    Direction getDirection() const;
+
     void update();
     void setSolid(bool isSolid);    
     
@@ -29,14 +40,10 @@ protected:
     int width = 0;
     int height = 0;
 
-    int lastX = 0;
-    int lastY = 0;
-    int lastWidth = 0;
-    int lastHeight = 0;
-
+    Direction direction = Direction::up;
 private:
     volatile bool isSolid = false;
-    volatile bool continueToUpdate = true;
+
 };
 
 #endif

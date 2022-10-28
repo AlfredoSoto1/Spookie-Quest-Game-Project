@@ -41,6 +41,7 @@ Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, i
     standingStillTime = 40;
     timeDirectionCounter = glm::vec2(0.0, 0.0);
     movementDirection = glm::vec2(0.0, 0.0);
+    hitbox.setDirection(Direction::center);
 }
 
 void Enemy::inOverworldUpdate() {
@@ -93,17 +94,22 @@ void Enemy::inOverworldUpdate() {
         if(movementDirection.x < 0) {
             walkLeft->update();
             overworldSprite = walkLeft->getCurrentFrame();
+            hitbox.setDirection(Direction::left);
         } else if(movementDirection.x > 0) {
             walkRight->update();
             overworldSprite = walkRight->getCurrentFrame();
+            hitbox.setDirection(Direction::right);
         } else if(movementDirection.y > 0) {
             walkDown->update();
             overworldSprite = walkDown->getCurrentFrame();
+            hitbox.setDirection(Direction::down);
         } else if(movementDirection.y < 0) {
             walkUp->update();
             overworldSprite = walkUp->getCurrentFrame();
+            hitbox.setDirection(Direction::up);
         }
     }else {
+        hitbox.setDirection(Direction::center);
         if(movementDirection.x < 0) {
             overworldSprite = walkLeft->getCurrentFrame();
         } else if(movementDirection.x > 0) {
