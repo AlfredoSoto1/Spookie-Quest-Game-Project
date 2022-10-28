@@ -3,7 +3,7 @@
 #include "Enemy.h"
 #include "OverworldCamera.h"
 #include "Player.h"
-#include "Rock.h"
+#include "../Entities/Structures/include/Rock.h"
 
 class Area {
 private:
