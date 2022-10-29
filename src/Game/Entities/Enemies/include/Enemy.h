@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Animation.h"
-#include "Entity.h"
+#include "EntityFighter.h"
 
-class Enemy : public Entity {
+class Enemy : public EntityFighter {
    private:
     int speed;
     int movingTime;
@@ -12,6 +12,7 @@ class Enemy : public Entity {
     int linePath = 0;
     int standingStillCounter = 0;
     glm::vec2 timeDirectionCounter;
+    glm::vec2 movementDirection;
 
     bool walking = false;
     int renderX = 1000;
@@ -29,8 +30,7 @@ class Enemy : public Entity {
    public:
     Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy);
     ~Enemy();
-    int getOX() { return ox; };
-    int getOY() { return oy; };
+    // int getOY() { return oy; };
     bool isDead() { return dead; };
     void kill() { this->dead = true; };
     void revive() { this->dead = false; };

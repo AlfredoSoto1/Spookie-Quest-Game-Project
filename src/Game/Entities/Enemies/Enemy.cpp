@@ -1,6 +1,9 @@
 #include "Enemy.h"
 
-Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy) : Entity(ox, oy, 50, 64, 420, 220, 97, 125, health, baseDamage) {
+Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy) : 
+    // EntityFighter(ox, oy, 50, 64, 420, 220, 97, 125, health, baseDamage)
+    EntityFighter(HitBox(ox, oy, 50, 64), HitBox(420, 220, 97, 125), health, baseDamage)
+{
     this->id = id;
     this->entityName = entityName;
     vector<ofImage> downFrames;
@@ -37,6 +40,8 @@ Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, i
     movingTime = 15;
     standingStillTime = 40;
     timeDirectionCounter = glm::vec2(0.0, 0.0);
+    movementDirection = glm::vec2(0.0, 0.0);
+    hitbox.setDirection(Direction::up);
 }
 
 void Enemy::inOverworldUpdate() {
@@ -54,7 +59,8 @@ void Enemy::inOverworldUpdate() {
 
     bool xFinished = false;
     if(timeDirectionCounter.x < movingTime && walking) {
-        this->ox += movementDirection.x * speed;
+        // this->ox += movementDirection.x * speed;
+        hitbox.setX(hitbox.getX() + movementDirection.x * speed);
         timeDirectionCounter.x++;
     }else {
         xFinished = true;
@@ -62,7 +68,8 @@ void Enemy::inOverworldUpdate() {
 
     bool yFinished = false;
     if(timeDirectionCounter.y < movingTime && walking) {
-        this->oy += movementDirection.y * speed;
+        // this->oy += movementDirection.y * speed;
+        hitbox.setY(hitbox.getY() + movementDirection.y * speed);
         timeDirectionCounter.y++;
     } else {
         yFinished = true;
@@ -87,15 +94,19 @@ void Enemy::inOverworldUpdate() {
         if(movementDirection.x < 0) {
             walkLeft->update();
             overworldSprite = walkLeft->getCurrentFrame();
+            hitbox.setDirection(Direction::left);
         } else if(movementDirection.x > 0) {
             walkRight->update();
             overworldSprite = walkRight->getCurrentFrame();
+            hitbox.setDirection(Direction::right);
         } else if(movementDirection.y > 0) {
             walkDown->update();
             overworldSprite = walkDown->getCurrentFrame();
+            hitbox.setDirection(Direction::down);
         } else if(movementDirection.y < 0) {
             walkUp->update();
             overworldSprite = walkUp->getCurrentFrame();
+            hitbox.setDirection(Direction::up);
         }
     }else {
         if(movementDirection.x < 0) {
@@ -116,7 +127,8 @@ void Enemy::inOverworldDraw() {
     // ofDrawBitmapString("rY:" + to_string(renderY), 100 + 125 * ((stoi(id) % 10) - 1), 120);
     // ofDrawBitmapString("ow:" + to_string(ox), 100 + 125 * ((stoi(id) % 10) - 1), 140);
     // ofDrawBitmapString("oy:" + to_string(oy), 100 + 125 * ((stoi(id) % 10) - 1), 160);
-    overworldSprite.draw(renderX, renderY, ow, oh);
+    // overworldSprite.draw(renderX, renderY, ow, oh);
+    overworldSprite.draw(renderX, renderY, hitbox.getWidth(), hitbox.getHeight());
 }
 
 void Enemy::fightingUpdate() {

@@ -3,9 +3,10 @@
 #include "Enemy.h"
 #include "OverworldCamera.h"
 #include "Player.h"
+#include "../Entities/Structures/include/Rock.h"
 
 class Area {
-   private:
+private:
     string name;
     ofImage areaImage;
     ofSoundPlayer areaMusic;
@@ -14,8 +15,11 @@ class Area {
     std::vector<Enemy *> enemies;
     Area *nextArea;
 
-   public:
-    Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Enemy *> enemies);
+public:
+    //--
+    Rock* rock;
+
+    Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Enemy *> enemies, Rock* rock);
     void resetEnemies();
     string getName() { return name; }
     ofImage getImage() { return areaImage; }

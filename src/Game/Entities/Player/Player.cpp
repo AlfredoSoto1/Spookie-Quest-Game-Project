@@ -1,6 +1,8 @@
 #include "Player.h"
 
-Player::Player(int health, int baseDamage) : Entity(INIT_X, INIT_Y, 64, 64, INIT_BATTLE_X, INIT_BATTLE_Y, 192, 192, health, baseDamage) {
+Player::Player(int health, int baseDamage) : 
+    EntityFighter(HitBox(INIT_X, INIT_Y, 64, 64), HitBox(INIT_BATTLE_X, INIT_BATTLE_Y, 192, 192), health, baseDamage)
+{
     vector<ofImage> downFrames;
     vector<ofImage> upFrames;
     vector<ofImage> leftFrames;
@@ -35,38 +37,42 @@ void Player::inOverworldUpdate() {
     if (!pressedKeys.empty()) {
         switch (pressedKeys[0]) {
             case 'a':
-                direction = Direction::left;
-                if (this->ox - speed >= CENTER_X)
-                    this->ox -= speed;
+                hitbox.setDirection(Direction::left);
+                if (hitbox.getX() - speed >= CENTER_X)
+                    // this->ox -= speed;
+                    hitbox.setX(hitbox.getX() - speed);
                 walkLeft->update();
                 overworldSprite = walkLeft->getCurrentFrame();
                 break;
             case 'd':
-                direction = Direction::right;
-                if (this->ox + speed <= OXDIMENSION - CENTER_X)
-                    this->ox += speed;
+                hitbox.setDirection(Direction::right);
+                if (hitbox.getX() + speed <= OXDIMENSION - CENTER_X)
+                    // this->ox += speed;
+                    hitbox.setX(hitbox.getX() + speed);
 
                 walkRight->update();
                 overworldSprite = walkRight->getCurrentFrame();
                 break;
             case 'w':
-                direction = Direction::up;
-                if (this->oy - speed >= CENTER_Y)
-                    this->oy -= speed;
+                hitbox.setDirection(Direction::up);
+                if (hitbox.getY() - speed >= CENTER_Y)
+                    // this->oy -= speed;
+                    hitbox.setY(hitbox.getY() - speed);
                 walkUp->update();
                 overworldSprite = walkUp->getCurrentFrame();
 
                 break;
             case 's':
-                direction = Direction::down;
-                if (this->oy + speed <= OYDIMENSION - CENTER_Y)
-                    this->oy += speed;
+                hitbox.setDirection(Direction::down);
+                if (hitbox.getY() + speed <= OYDIMENSION - CENTER_Y)
+                    // this->oy += speed;
+                    hitbox.setY(hitbox.getY() + speed);
                 walkDown->update();
                 overworldSprite = walkDown->getCurrentFrame();
                 break;
         }
     } else {
-        switch (direction) {
+        switch (hitbox.getDirection()) {
             case Direction::left:
                 overworldSprite = walkLeft->getCurrentFrame();
                 break;
@@ -92,7 +98,7 @@ void Player::inOverworldDraw() {
     // uncomment this to see the coordinates of your player
     // ofDrawBitmapString("ow:" + to_string(ox), 100, 60);
     // ofDrawBitmapString("oy:" + to_string(oy), 100, 80);
-    overworldSprite.draw(CENTER_X, CENTER_Y, ow, oh);
+    overworldSprite.draw(CENTER_X, CENTER_Y, hitbox.getWidth(), hitbox.getHeight());
 }
 
 void Player::keyPressed(int key) {
@@ -110,10 +116,14 @@ void Player::keyReleased(int key) {
 }
 
 void Player::reset() {
-    ox = INIT_X;
-    oy = INIT_Y;
-    fx = INIT_BATTLE_X;
-    fy = INIT_BATTLE_Y;
+    hitbox.setX(INIT_X);
+    hitbox.setY(INIT_Y);
+    fightingHitbox.setX(INIT_BATTLE_X);
+    fightingHitbox.setY(INIT_BATTLE_Y);
+    // ox = INIT_X;
+    // oy = INIT_Y;
+    // fx = INIT_BATTLE_X;
+    // fy = INIT_BATTLE_Y;
     health = 100;
 }
 

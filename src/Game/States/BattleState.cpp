@@ -49,16 +49,16 @@ void BattleState::update() {
     if (choice != Move::none && canInteract) {
         enemyChoice = rand() % 3 + 1;
         if ((choice == Move::rock && enemyChoice == 2) || (choice == Move::paper && enemyChoice == 3) || (choice == Move::scissors && enemyChoice == 1)) {
-            currentPlayerHealth -= enemy->getDmg() * 2.0;
-            currentEnemyHealth -= player->getDmg() / 2.0;
+            currentPlayerHealth -= enemy->getDamage() * 2.0;
+            currentEnemyHealth -= player->getDamage() / 2.0;
             outcome = Outcome::lose;
         } else if ((choice == Move::rock && enemyChoice == 3) || (choice == Move::paper && enemyChoice == 1) || (choice == Move::scissors && enemyChoice == 2)) {
-            currentPlayerHealth -= enemy->getDmg() / 2.0;
-            currentEnemyHealth -= player->getDmg() * 2.0;
+            currentPlayerHealth -= enemy->getDamage() / 2.0;
+            currentEnemyHealth -= player->getDamage() * 2.0;
             outcome = Outcome::win;
         } else {
-            currentPlayerHealth -= enemy->getDmg();
-            currentEnemyHealth -= player->getDmg();
+            currentPlayerHealth -= enemy->getDamage();
+            currentEnemyHealth -= player->getDamage();
             outcome = Outcome::draw;
         }
         resultTimer = ofGetFrameRate();
