@@ -8,7 +8,7 @@
 #define OYDIMENSION 2560 //2560
 
 class OverworldCamera {
-   private:
+private:
     Player *player;
     int cameraX, cameraY;
     int playerW, playerH;
@@ -17,9 +17,10 @@ class OverworldCamera {
     int topCornerY;
     int bottomCornerY;
 
-   public:
+public:
     OverworldCamera(Player *player);
     void update();
+
     int getCameraX() { return cameraX; };
     int getCameraY() { return cameraY; };
     int getDimensionX() { return ofGetWidth(); };
