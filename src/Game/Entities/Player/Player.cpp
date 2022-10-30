@@ -107,7 +107,8 @@ void Player::inOverworldDraw() {
     ox = ofGetWidth() * ox / OXDIMENSION;
     oy = ofGetHeight() * oy / OXDIMENSION;
 
-    overworldSprite.draw(ox, oy, hitbox.getWidth(), hitbox.getHeight());
+    // overworldSprite.draw(ox, oy, hitbox.getWidth(), hitbox.getHeight());
+    overworldSprite.draw(ofGetWidth() / 2 - hitbox.getWidth() / 2, ofGetHeight() / 2 - hitbox.getHeight() / 2, hitbox.getWidth(), hitbox.getHeight());
 }
 
 void Player::keyPressed(int key) {

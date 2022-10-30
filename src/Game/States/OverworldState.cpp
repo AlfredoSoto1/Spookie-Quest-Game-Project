@@ -47,7 +47,13 @@ void OverworldState::update() {
 }
 
 void OverworldState::draw() {
-    overworldImage.drawSubsection(0, 0, camera->getDimensionX(), camera->getDimensionY(), camera->getLeftCornerX(), camera->getTopCornerY());
+    // overworldImage.drawSubsection(0, 0, camera->getDimensionX(), camera->getDimensionY(), camera->getLeftCornerX(), camera->getTopCornerY());
+
+    overworldImage.drawSubsection(
+        0, 0,                                               //position in screen
+        camera->getDimensionX(), camera->getDimensionY(),   //final image scale on screen
+        camera->getLeftCornerX(), camera->getTopCornerY(),  //position in image
+        camera->getLenzWidth(), camera->getLenzHeight());   //scale in image
     player->inOverworldDraw();
 
     ofDrawBitmapString("player position " + ofToString(player->getHitBox().getX()) + ", " + ofToString(player->getHitBox().getY()), 50, 100);

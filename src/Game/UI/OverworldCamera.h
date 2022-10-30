@@ -17,16 +17,25 @@ private:
     int topCornerY;
     int bottomCornerY;
 
+    int lenzWidth = 1280;
+    int lenzHeight = 720;
+
 public:
     OverworldCamera(Player *player);
     void update();
 
     int getCameraX() { return cameraX; };
     int getCameraY() { return cameraY; };
+
     int getDimensionX() { return ofGetWidth(); };
     int getDimensionY() { return ofGetHeight(); };
+
     int getLeftCornerX() { return leftCornerX; };
     int getRightCornerX() { return rightCornerX; };
+
+    int getLenzWidth();
+    int getLenzHeight();
+
     int getTopCornerY() { return topCornerY; };
     int getBottomCornerY() { return bottomCornerY; };
 };
