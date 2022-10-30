@@ -1,10 +1,12 @@
 #pragma once
 
+#ifndef ENTITY_FIGHTER_HEADER
+#define ENTITY_FIGHTER_HEADER
+
 #include "Entity.h"
 
 class EntityFighter : public Entity {
 public:
-    // EntityFighter(int ox, int oy, int ow, int oh, int fx, int fy, int fw, int fh, int health, int baseDamage);
     EntityFighter(const HitBox& hitbox, const HitBox& fightingHitbox, int health, int baseDamage);
     virtual ~EntityFighter();
 
@@ -16,8 +18,9 @@ public:
 
 protected:
     int baseDamage;
-    // int fx, fy, fw, fh; // Fighting coordinates and dimensions
     HitBox fightingHitbox;
 
     ofImage fightingSprite;
 };
+
+#endif

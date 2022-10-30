@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "OverworldCamera.h"
 
 Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy) : 
     // EntityFighter(ox, oy, 50, 64, 420, 220, 97, 125, health, baseDamage)
@@ -121,13 +122,17 @@ void Enemy::inOverworldUpdate() {
     }
 }
 
-void Enemy::inOverworldDraw() {
-    // uncomment these if you want the coordinates of the enemies in the current area
-    // ofDrawBitmapString("rX:" + to_string(renderX), 100 + 125 * ((stoi(id) % 10) - 1), 100);
-    // ofDrawBitmapString("rY:" + to_string(renderY), 100 + 125 * ((stoi(id) % 10) - 1), 120);
-    // ofDrawBitmapString("ow:" + to_string(ox), 100 + 125 * ((stoi(id) % 10) - 1), 140);
-    // ofDrawBitmapString("oy:" + to_string(oy), 100 + 125 * ((stoi(id) % 10) - 1), 160);
-    // overworldSprite.draw(renderX, renderY, ow, oh);
+void Enemy::inOverworldDraw(void* camera) {
+    OverworldCamera* cameraPtr = static_cast<OverworldCamera*>(camera);
+
+    int playerDistanceX = hitbox.getX() - cameraPtr->getCameraX();
+    int playerDistanceY = hitbox.getY() - cameraPtr->getCameraY();
+
+    if(cameraPtr->getLastMovingDirX() == 0)
+        renderX = ofGetWidth()  / 2 + playerDistanceX;
+    if(cameraPtr->getLastMovingDirY() == 0)
+        renderY = ofGetHeight() / 2 + playerDistanceY;
+
     overworldSprite.draw(renderX, renderY, hitbox.getWidth(), hitbox.getHeight());
 }
 

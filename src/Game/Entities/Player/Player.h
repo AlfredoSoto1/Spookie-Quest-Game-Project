@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef PLAYER_HEADER
+#define PLAYER_HEADER
+
 #include "Animation.h"
 #include "EntityFighter.h"
 
@@ -34,8 +37,12 @@ public:
 
     void inOverworldUpdate();
     void fightingUpdate();
-    void inOverworldDraw();
+    
+    void inOverworldDraw(void* camera) override;
+
     void keyPressed(int key);
     void keyReleased(int key);
     void reset();
 };
+
+#endif

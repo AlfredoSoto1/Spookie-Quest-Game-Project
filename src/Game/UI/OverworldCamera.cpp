@@ -32,20 +32,26 @@ void OverworldCamera::update() {
     this->topCornerY    = this->cameraY - lenzHeight / 2;
     this->bottomCornerY = this->cameraY + lenzHeight / 2;
 
+    lastMovingDirX = 0;
     //lenz cant move beyond the area is looking
     if (this->leftCornerX < 0) {
         this->leftCornerX = 0;
         this->rightCornerX = lenzWidth;
+        lastMovingDirX = -1;
     } else if (this->rightCornerX > OXDIMENSION) {
         this->rightCornerX = OXDIMENSION;
         this->leftCornerX = OXDIMENSION - lenzWidth;
+        lastMovingDirX = 1;
     }
 
+    lastMovingDirY = 0;
     if (this->bottomCornerY > OYDIMENSION) {
         this->bottomCornerY = OYDIMENSION;
         this->topCornerY = OYDIMENSION - lenzHeight;
+        lastMovingDirY = 1;
     } else if (this->topCornerY < 0) {
         this->topCornerY = 0;
         this->bottomCornerY = lenzHeight;
+        lastMovingDirY = -1;
     }
 }

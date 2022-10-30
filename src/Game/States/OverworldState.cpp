@@ -50,36 +50,38 @@ void OverworldState::update() {
 void OverworldState::draw() {
     // overworldImage.drawSubsection(0, 0, camera->getDimensionX(), camera->getDimensionY(), camera->getLeftCornerX(), camera->getTopCornerY());
 
+    /*
+        Draw Arena
+    */
     overworldImage.drawSubsection(
         0, 0,                                               //position in screen
-        camera->getDimensionX(), camera->getDimensionY(),   //final image scale on screen
+        ofGetWidth(), ofGetHeight(),                        //final image scale on screen
         camera->getLeftCornerX(), camera->getTopCornerY(),  //position in image
         camera->getLenzWidth(), camera->getLenzHeight());   //scale in image
-    player->inOverworldDraw();
+
+    /*
+        Draw Player
+    */
+    player->inOverworldDraw(camera);
 
     ofDrawBitmapString("player position " + ofToString(player->getHitBox().getX()) + ", " + ofToString(player->getHitBox().getY()), 50, 100);
 
+    /*
+        Draw Enemies
+    */
     for (unsigned int i = 0; i < area->getEnemies().size(); i++) {
         Enemy& enemy = *(area->getEnemies().at(i));
         if (!enemy.isDead()) {
-            HitBox& enemyHitbox = enemy.getHitBox();
-            int playerDistanceX = enemyHitbox.getX() - camera->getCameraX();
-            int playerDistanceY = enemyHitbox.getY() - camera->getCameraY();
-            enemy.setRenderX(camera->getDimensionX() / 2 + playerDistanceX);
-            enemy.setRenderY(camera->getDimensionY() / 2 + playerDistanceY);
-            enemy.inOverworldDraw();
+            enemy.inOverworldDraw(camera);
         }
     }
 
+    /*
+        Draw Entities
+    */
     if(area->rock == nullptr)
         return;
-
-    HitBox& rockHitbox = area->rock->getHitBox();
-    int playerDistanceX = rockHitbox.getX() - camera->getCameraX();
-    int playerDistanceY = rockHitbox.getY() - camera->getCameraY();
-    area->rock->setRenderX(camera->getDimensionX() / 2 + playerDistanceX);
-    area->rock->setRenderY(camera->getDimensionY() / 2 + playerDistanceY);
-    area->rock->inOverworldDraw();
+    area->rock->inOverworldDraw(camera);
 
 }
 

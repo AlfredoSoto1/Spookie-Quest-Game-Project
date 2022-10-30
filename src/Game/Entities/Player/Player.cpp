@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "OverworldCamera.h"
 
 Player::Player(int health, int baseDamage) : 
     EntityFighter(HitBox(INIT_X, INIT_Y, 64, 64), HitBox(INIT_BATTLE_X, INIT_BATTLE_Y, 192, 192), health, baseDamage)
@@ -98,20 +99,33 @@ void Player::fightingUpdate() {
     fighting->update();
 }
 
-void Player::inOverworldDraw() {
+void Player::inOverworldDraw(void* camera) {
+
+    OverworldCamera* cameraPtr = static_cast<OverworldCamera*>(camera);
 
     float xRender = ofGetWidth() / 2 - hitbox.getWidth() / 2;
     float yRender = ofGetHeight() / 2 - hitbox.getHeight() / 2;
 
-    if(hitbox.getX() <= ofGetWidth() / 2) {
+
+    // if(hitbox.getX() <= ofGetWidth() / 2) {
+    //     xRender = hitbox.getX() - hitbox.getWidth()/2;
+    // } else if(hitbox.getX() > OXDIMENSION - ofGetWidth() / 2) {
+    //     xRender = hitbox.getX() - (OXDIMENSION - ofGetWidth() / 2) + ofGetWidth() / 2 - hitbox.getWidth()/2;
+    // }
+    if(cameraPtr->getLastMovingDirX() < 0) {
         xRender = hitbox.getX() - hitbox.getWidth()/2;
-    } else if(hitbox.getX() > OXDIMENSION - ofGetWidth() / 2) {
+    } else if(cameraPtr->getLastMovingDirX() > 0) {
         xRender = hitbox.getX() - (OXDIMENSION - ofGetWidth() / 2) + ofGetWidth() / 2 - hitbox.getWidth()/2;
     }
 
-    if(hitbox.getY() <= ofGetHeight() / 2) {
+    // if(hitbox.getY() <= ofGetHeight() / 2) {
+    //     yRender = hitbox.getY() - hitbox.getHeight()/2;
+    // } else if(hitbox.getY() > OYDIMENSION - ofGetHeight() / 2) {
+    //     yRender = hitbox.getY() - (OYDIMENSION - ofGetHeight() / 2) + ofGetHeight() / 2 - hitbox.getHeight()/2;
+    // }
+    if(cameraPtr->getLastMovingDirY() < 0) {
         yRender = hitbox.getY() - hitbox.getHeight()/2;
-    } else if(hitbox.getY() > OYDIMENSION - ofGetHeight() / 2) {
+    } else if(cameraPtr->getLastMovingDirY() > 0) {
         yRender = hitbox.getY() - (OYDIMENSION - ofGetHeight() / 2) + ofGetHeight() / 2 - hitbox.getHeight()/2;
     }
 
