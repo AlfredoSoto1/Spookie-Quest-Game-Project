@@ -106,6 +106,7 @@ void Player::inOverworldDraw(void* camera) {
     float xRender = ofGetWidth() / 2 - hitbox.getWidth() / 2;
     float yRender = ofGetHeight() / 2 - hitbox.getHeight() / 2;
 
+    //FIXME - it still glitches at borders
 
     if(hitbox.getX() <= ofGetWidth() / 2) {
         xRender = hitbox.getX() - hitbox.getWidth()/2;

@@ -2,7 +2,6 @@
 #include "OverworldCamera.h"
 
 Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy) : 
-    // EntityFighter(ox, oy, 50, 64, 420, 220, 97, 125, health, baseDamage)
     EntityFighter(HitBox(ox, oy, 50, 64), HitBox(420, 220, 97, 125), health, baseDamage)
 {
     this->id = id;
@@ -60,7 +59,6 @@ void Enemy::inOverworldUpdate() {
 
     bool xFinished = false;
     if(timeDirectionCounter.x < movingTime && walking) {
-        // this->ox += movementDirection.x * speed;
         hitbox.setX(hitbox.getX() + movementDirection.x * speed);
         timeDirectionCounter.x++;
     }else {
@@ -69,7 +67,6 @@ void Enemy::inOverworldUpdate() {
 
     bool yFinished = false;
     if(timeDirectionCounter.y < movingTime && walking) {
-        // this->oy += movementDirection.y * speed;
         hitbox.setY(hitbox.getY() + movementDirection.y * speed);
         timeDirectionCounter.y++;
     } else {

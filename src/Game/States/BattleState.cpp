@@ -46,6 +46,10 @@ void BattleState::update() {
     player->fightingUpdate();
     enemy->fightingUpdate();
 
+    //move this into enemy class itself
+    //also player attacks
+    //this is so that every entity has ther unique atack
+
     if (choice != Move::none && canInteract) {
         enemyChoice = rand() % 3 + 1;
         if ((choice == Move::rock && enemyChoice == 2) || (choice == Move::paper && enemyChoice == 3) || (choice == Move::scissors && enemyChoice == 1)) {
