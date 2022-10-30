@@ -2,24 +2,42 @@
 
 BattleState::BattleState(Player *player, Area *area) {
     stage = area->getStage();
+
+    /*
+        Battle Music 
+        change depending of enemy
+    */
     music.load("audio/battle.wav");
     music.setLoop(true);
     music.setVolume(0.25);
+
+    /*
+        Interact sounds
+    */
     buttonChange.load("audio/ui/beep.mp3");
     buttonChange.setVolume(0.5);
     buttonSelect.load("audio/ui/boop.mp3");
     buttonSelect.setVolume(0.5);
-    this->player = player;
-    currentButton = 1;
-    resultTimer = 0;
-    canInteract = true;
-    currentPlayerHealth = PLAYER_MAX_HP = player->getHealth();
+
+    /*
+        Interact images 
+    */
     button1.load("images/ui/buttons/rock.png");
     button2.load("images/ui/buttons/paper.png");
     button3.load("images/ui/buttons/scissors.png");
     result1.load("images/ui/buttons/rock1.png");
     result2.load("images/ui/buttons/paper1.png");
     result3.load("images/ui/buttons/scissors1.png");
+    
+    /*
+        default setup
+    */
+    this->player = player;
+    currentButton = 1;
+    resultTimer = 0;
+    canInteract = true;
+    currentPlayerHealth = PLAYER_MAX_HP = player->getHealth();
+
 }
 
 void BattleState::startBattle(Enemy *enemy) {
@@ -43,13 +61,14 @@ void BattleState::update() {
         }
     }
 
+    //update sprite animation
     player->fightingUpdate();
     enemy->fightingUpdate();
 
     //move this into enemy class itself
     //also player attacks
     //this is so that every entity has ther unique atack
-
+    
     if (choice != Move::none && canInteract) {
         enemyChoice = rand() % 3 + 1;
         if ((choice == Move::rock && enemyChoice == 2) || (choice == Move::paper && enemyChoice == 3) || (choice == Move::scissors && enemyChoice == 1)) {
@@ -79,6 +98,8 @@ void BattleState::draw() {
     enemy->fightingDraw();
 
     // render move buttons
+    player->drawAttackList();
+
     ofSetColor(180, 180, 180);
     if (currentButton == 1)
         ofSetColor(255, 255, 255);
@@ -137,6 +158,10 @@ void BattleState::drawHealthBar() {
 }
 
 void BattleState::drawOutcome() {
+
+    /*
+        Draws outcome after "attacking"
+    */
     if (resultTimer > 1) {
         resultTimer--;
         float posY = 60 * 4;
@@ -203,9 +228,15 @@ void BattleState::drawOutcome() {
 }
 
 void BattleState::keyPressed(int key) {
+
+    /*
+        change type of attack
+        plus add sounds
+    */
     if (canInteract) {
         if (key == OF_KEY_LEFT || key == 'a') {
             buttonChange.play();
+            player->setCurrentAttack(player->getCurrentAttack() - 1);
             if (currentButton == 1)
                 currentButton = 3;
             else
@@ -213,6 +244,7 @@ void BattleState::keyPressed(int key) {
         }
         if (key == OF_KEY_RIGHT || key == 'd') {
             buttonChange.play();
+            player->setCurrentAttack(player->getCurrentAttack() + 1);
             if (currentButton == 3)
                 currentButton = 1;
             else

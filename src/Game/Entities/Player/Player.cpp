@@ -2,7 +2,8 @@
 #include "OverworldCamera.h"
 
 Player::Player(int health, int baseDamage) : 
-    EntityFighter(HitBox(INIT_X, INIT_Y, 64, 64), HitBox(INIT_BATTLE_X, INIT_BATTLE_Y, 192, 192), health, baseDamage)
+    EntityFighter(HitBox(INIT_X, INIT_Y, 64, 64), HitBox(INIT_BATTLE_X, INIT_BATTLE_Y, 192, 192), health, baseDamage),
+    PlayerAttack()
 {
     vector<ofImage> downFrames;
     vector<ofImage> upFrames;
@@ -11,6 +12,9 @@ Player::Player(int health, int baseDamage) :
     vector<ofImage> fightingFrames;
     ofImage temp;
 
+    /*
+        Load fight sprites
+    */
     for (int i = 1; i < 5; i++) {
         temp.load("images/entities/player/downframes/player-ow-front" + std::to_string(i == 3 ? 1 : i) + ".png");
         downFrames.push_back(temp);
@@ -27,12 +31,27 @@ Player::Player(int health, int baseDamage) :
     temp.load("images/entities/player/fightingframes/player-f2.png");
     fightingFrames.push_back(temp);
 
+    /*
+        Load walking sprites
+    */
     walkDown = new Animation(5, downFrames);
     walkUp = new Animation(5, upFrames);
     walkLeft = new Animation(5, leftFrames);
     walkRight = new Animation(5, rightFrames);
     fighting = new Animation(7, fightingFrames);
 
+    //Load health sprite
+    healthBar.load("images/ui/healthbar.png");
+
+    //set attacks
+    addAttack(Attack(10));    
+    addAttack(Attack(10));    
+    addAttack(Attack(10));    
+
+}
+
+ofImage& Player::getHealthBar() {
+    return healthBar;
 }
 
 void Player::inOverworldUpdate() {

@@ -48,8 +48,6 @@ void OverworldState::update() {
 }
 
 void OverworldState::draw() {
-    // overworldImage.drawSubsection(0, 0, camera->getDimensionX(), camera->getDimensionY(), camera->getLeftCornerX(), camera->getTopCornerY());
-
     /*
         Draw Arena
     */
