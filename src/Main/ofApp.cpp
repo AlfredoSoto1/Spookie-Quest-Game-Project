@@ -5,6 +5,8 @@ void ofApp::setup() {
     ofSetEscapeQuitsApp(false);
     ofSetFrameRate(30);
     ofSetWindowTitle("PA2");
+    ofSetWindowPosition(ofGetScreenWidth() / 2 - ofGetWidth() / 2, ofGetScreenHeight() / 2 - ofGetHeight()/2);
+    
     initAreas();
     // Declaration and Initialization of States
     player = new Player(100, 6);
