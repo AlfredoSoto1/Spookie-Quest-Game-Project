@@ -125,13 +125,14 @@ void Enemy::inOverworldUpdate() {
 void Enemy::inOverworldDraw(void* camera) {
     OverworldCamera* cameraPtr = static_cast<OverworldCamera*>(camera);
 
-    int playerDistanceX = hitbox.getX() - cameraPtr->getCameraX();
-    int playerDistanceY = hitbox.getY() - cameraPtr->getCameraY();
+    lastXCam = cameraPtr->getLastMovingDirX() == 0 ? cameraPtr->getCameraX() : lastXCam;
+    lastYCam = cameraPtr->getLastMovingDirY() == 0 ? cameraPtr->getCameraY() : lastYCam;
 
-    if(cameraPtr->getLastMovingDirX() == 0)
-        renderX = ofGetWidth()  / 2 + playerDistanceX;
-    if(cameraPtr->getLastMovingDirY() == 0)
-        renderY = ofGetHeight() / 2 + playerDistanceY;
+    int playerDistanceX = hitbox.getX() - lastXCam;
+    int playerDistanceY = hitbox.getY() - lastYCam;
+
+    renderX = ofGetWidth()  / 2 + playerDistanceX;
+    renderY = ofGetHeight() / 2 + playerDistanceY;
 
     overworldSprite.draw(renderX, renderY, hitbox.getWidth(), hitbox.getHeight());
 }

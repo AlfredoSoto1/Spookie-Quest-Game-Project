@@ -7,7 +7,7 @@
 #include "EntityFighter.h"
 
 class Enemy : public EntityFighter {
-   private:
+private:
     int speed;
     int movingTime;
     int standingStillTime;
@@ -30,7 +30,10 @@ class Enemy : public EntityFighter {
     string entityName;
     ofImage sprite;
 
-   public:
+    int lastXCam = 0;
+    int lastYCam = 0;
+
+public:
     Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy);
     ~Enemy();
     bool isDead() { return dead; };
