@@ -21,8 +21,9 @@ void OverworldState::loadArea(Area *area) {
 }
 
 void OverworldState::update() {
-    player->inOverworldUpdate();
     camera->update();
+
+    player->inOverworldUpdate();
 
     for (unsigned int i = 0; i < area->getEnemies().size(); i++) {
         Enemy& enemy = *(area->getEnemies().at(i));
@@ -61,8 +62,6 @@ void OverworldState::draw() {
     for (unsigned int i = 0; i < area->getEnemies().size(); i++) {
         Enemy& enemy = *(area->getEnemies().at(i));
         if (!enemy.isDead()) {
-            // int playerDistanceX = area->getEnemies().at(i)->getOX() - camera->getPlayerX();
-            // int playerDistanceY = area->getEnemies().at(i)->getOY() - camera->getPlayerY();
             HitBox& enemyHitbox = enemy.getHitBox();
             int playerDistanceX = enemyHitbox.getX() - camera->getCameraX();
             int playerDistanceY = enemyHitbox.getY() - camera->getCameraY();

@@ -99,16 +99,23 @@ void Player::fightingUpdate() {
 }
 
 void Player::inOverworldDraw() {
-    //worldPosition
-    float ox = hitbox.getX() - hitbox.getWidth()/2;
-    float oy = hitbox.getY() - hitbox.getHeight()/2;
 
-    //screen position
-    ox = ofGetWidth() * ox / OXDIMENSION;
-    oy = ofGetHeight() * oy / OXDIMENSION;
+    float xRender = ofGetWidth() / 2 - hitbox.getWidth() / 2;
+    float yRender = ofGetHeight() / 2 - hitbox.getHeight() / 2;
 
-    // overworldSprite.draw(ox, oy, hitbox.getWidth(), hitbox.getHeight());
-    overworldSprite.draw(ofGetWidth() / 2 - hitbox.getWidth() / 2, ofGetHeight() / 2 - hitbox.getHeight() / 2, hitbox.getWidth(), hitbox.getHeight());
+    if(hitbox.getX() <= ofGetWidth() / 2) {
+        xRender = hitbox.getX() - hitbox.getWidth()/2;
+    } else if(hitbox.getX() > OXDIMENSION - ofGetWidth() / 2) {
+        xRender = hitbox.getX() - (OXDIMENSION - ofGetWidth() / 2) + ofGetWidth() / 2 - hitbox.getWidth()/2;
+    }
+
+    if(hitbox.getY() <= ofGetHeight() / 2) {
+        yRender = hitbox.getY() - hitbox.getHeight()/2;
+    } else if(hitbox.getY() > OYDIMENSION - ofGetHeight() / 2) {
+        yRender = hitbox.getY() - (OYDIMENSION - ofGetHeight() / 2) + ofGetHeight() / 2 - hitbox.getHeight()/2;
+    }
+
+    overworldSprite.draw(xRender, yRender, hitbox.getWidth(), hitbox.getHeight());
 }
 
 void Player::keyPressed(int key) {
