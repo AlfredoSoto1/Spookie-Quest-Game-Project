@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "OverworldCamera.h"
 
 Player::Player(int health, int baseDamage) : 
     EntityFighter(HitBox(INIT_X, INIT_Y, 64, 64), HitBox(INIT_BATTLE_X, INIT_BATTLE_Y, 192, 192), health, baseDamage)
@@ -31,6 +32,7 @@ Player::Player(int health, int baseDamage) :
     walkLeft = new Animation(5, leftFrames);
     walkRight = new Animation(5, rightFrames);
     fighting = new Animation(7, fightingFrames);
+
 }
 
 void Player::inOverworldUpdate() {
@@ -38,35 +40,38 @@ void Player::inOverworldUpdate() {
         switch (pressedKeys[0]) {
             case 'a':
                 hitbox.setDirection(Direction::left);
-                if (hitbox.getX() - speed >= CENTER_X)
-                    // this->ox -= speed;
+
+                if (hitbox.getX() - speed > 0)
                     hitbox.setX(hitbox.getX() - speed);
+                else
+                    hitbox.setX(0);
                 walkLeft->update();
                 overworldSprite = walkLeft->getCurrentFrame();
                 break;
             case 'd':
                 hitbox.setDirection(Direction::right);
-                if (hitbox.getX() + speed <= OXDIMENSION - CENTER_X)
-                    // this->ox += speed;
+                if (hitbox.getX() + speed < OXDIMENSION)
                     hitbox.setX(hitbox.getX() + speed);
-
+                else
+                    hitbox.setX(OXDIMENSION);
                 walkRight->update();
                 overworldSprite = walkRight->getCurrentFrame();
                 break;
             case 'w':
                 hitbox.setDirection(Direction::up);
-                if (hitbox.getY() - speed >= CENTER_Y)
-                    // this->oy -= speed;
+                if (hitbox.getY() - speed > 0)
                     hitbox.setY(hitbox.getY() - speed);
+                else
+                    hitbox.setY(0);
                 walkUp->update();
                 overworldSprite = walkUp->getCurrentFrame();
-
                 break;
             case 's':
                 hitbox.setDirection(Direction::down);
-                if (hitbox.getY() + speed <= OYDIMENSION - CENTER_Y)
-                    // this->oy += speed;
+                if (hitbox.getY() + speed < OYDIMENSION)
                     hitbox.setY(hitbox.getY() + speed);
+                else
+                    hitbox.setY(OYDIMENSION);
                 walkDown->update();
                 overworldSprite = walkDown->getCurrentFrame();
                 break;
@@ -94,11 +99,37 @@ void Player::fightingUpdate() {
     fighting->update();
 }
 
-void Player::inOverworldDraw() {
-    // uncomment this to see the coordinates of your player
-    // ofDrawBitmapString("ow:" + to_string(ox), 100, 60);
-    // ofDrawBitmapString("oy:" + to_string(oy), 100, 80);
-    overworldSprite.draw(CENTER_X, CENTER_Y, hitbox.getWidth(), hitbox.getHeight());
+void Player::inOverworldDraw(void* camera) {
+
+    OverworldCamera* cameraPtr = static_cast<OverworldCamera*>(camera);
+
+    float xRender = ofGetWidth() / 2 - hitbox.getWidth() / 2;
+    float yRender = ofGetHeight() / 2 - hitbox.getHeight() / 2;
+
+
+    if(hitbox.getX() <= ofGetWidth() / 2) {
+        xRender = hitbox.getX() - hitbox.getWidth()/2;
+    } else if(hitbox.getX() > OXDIMENSION - ofGetWidth() / 2) {
+        xRender = hitbox.getX() - (OXDIMENSION - ofGetWidth() / 2) + ofGetWidth() / 2 - hitbox.getWidth()/2;
+    }
+    // if(cameraPtr->getLastMovingDirX() < 0) {
+    //     xRender = hitbox.getX() - hitbox.getWidth()/2;
+    // } else if(cameraPtr->getLastMovingDirX() > 0) {
+    //     xRender = hitbox.getX() - (OXDIMENSION - ofGetWidth() / 2) + ofGetWidth() / 2 - hitbox.getWidth()/2;
+    // }
+
+    if(hitbox.getY() <= ofGetHeight() / 2) {
+        yRender = hitbox.getY() - hitbox.getHeight()/2;
+    } else if(hitbox.getY() > OYDIMENSION - ofGetHeight() / 2) {
+        yRender = hitbox.getY() - (OYDIMENSION - ofGetHeight() / 2) + ofGetHeight() / 2 - hitbox.getHeight()/2;
+    }
+    // if(cameraPtr->getLastMovingDirY() < 0) {
+    //     yRender = hitbox.getY() - hitbox.getHeight()/2;
+    // } else if(cameraPtr->getLastMovingDirY() > 0) {
+    //     yRender = hitbox.getY() - (OYDIMENSION - ofGetHeight() / 2) + ofGetHeight() / 2 - hitbox.getHeight()/2;
+    // }
+
+    overworldSprite.draw(xRender, yRender, hitbox.getWidth(), hitbox.getHeight());
 }
 
 void Player::keyPressed(int key) {
@@ -120,10 +151,6 @@ void Player::reset() {
     hitbox.setY(INIT_Y);
     fightingHitbox.setX(INIT_BATTLE_X);
     fightingHitbox.setY(INIT_BATTLE_Y);
-    // ox = INIT_X;
-    // oy = INIT_Y;
-    // fx = INIT_BATTLE_X;
-    // fy = INIT_BATTLE_Y;
     health = 100;
 }
 

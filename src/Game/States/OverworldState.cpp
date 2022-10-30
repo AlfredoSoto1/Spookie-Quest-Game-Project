@@ -12,15 +12,19 @@ void OverworldState::loadArea(Area *area) {
     music = area->getMusic();
     music.setVolume(0.25);
     music.setLoop(true);
-    // player->setOX(area->getEntrancePos().x);
-    // player->setOY(area->getEntrancePos().y);
     HitBox& playerHitbox = player->getHitBox();
-    playerHitbox.setX(area->getEntrancePos().x);
-    playerHitbox.setY(area->getEntrancePos().y);
+    // playerHitbox.setX(area->getEntrancePos().x);
+    // playerHitbox.setY(area->getEntrancePos().y);
+
+    playerHitbox.setX(OXDIMENSION / 2);
+    playerHitbox.setY(OYDIMENSION / 2);
 }
 
 void OverworldState::update() {
+    camera->update();
+
     player->inOverworldUpdate();
+
     for (unsigned int i = 0; i < area->getEnemies().size(); i++) {
         Enemy& enemy = *(area->getEnemies().at(i));
         if (!enemy.isDead()) {
@@ -41,37 +45,44 @@ void OverworldState::update() {
     HitBox& rockHitbox = area->rock->getHitBox();
     
     playerHitbox.collides(rockHitbox);
-
-    camera->update();
 }
 
 void OverworldState::draw() {
-    overworldImage.drawSubsection(0, 0, camera->getDimensionX(), camera->getDimensionY(), camera->getLeftCornerX(), camera->getTopCornerY());
-    player->inOverworldDraw();
+    // overworldImage.drawSubsection(0, 0, camera->getDimensionX(), camera->getDimensionY(), camera->getLeftCornerX(), camera->getTopCornerY());
 
+    /*
+        Draw Arena
+    */
+    overworldImage.drawSubsection(
+        0, 0,                                               //position in screen
+        ofGetWidth(), ofGetHeight(),                        //final image scale on screen
+        camera->getLeftCornerX(), camera->getTopCornerY(),  //position in image
+        camera->getLenzWidth(), camera->getLenzHeight());   //scale in image
+
+    /*
+        Draw Player
+    */
+    player->inOverworldDraw(camera);
+
+    ofDrawBitmapString("player position " + ofToString(player->getHitBox().getX()) + ", " + ofToString(player->getHitBox().getY()), 50, 100);
+
+    /*
+        Draw Enemies
+    */
     for (unsigned int i = 0; i < area->getEnemies().size(); i++) {
         Enemy& enemy = *(area->getEnemies().at(i));
         if (!enemy.isDead()) {
-            // int playerDistanceX = area->getEnemies().at(i)->getOX() - camera->getPlayerX();
-            // int playerDistanceY = area->getEnemies().at(i)->getOY() - camera->getPlayerY();
-            HitBox& enemyHitbox = enemy.getHitBox();
-            int playerDistanceX = enemyHitbox.getX() - camera->getPlayerX();
-            int playerDistanceY = enemyHitbox.getY() - camera->getPlayerY();
-            enemy.setRenderX(camera->getDimensionX() / 2 + playerDistanceX);
-            enemy.setRenderY(camera->getDimensionY() / 2 + playerDistanceY);
-            enemy.inOverworldDraw();
+            enemy.inOverworldDraw(camera);
         }
     }
 
+    /*
+        Draw Entities
+    */
     if(area->rock == nullptr)
         return;
+    area->rock->inOverworldDraw(camera);
 
-    HitBox& rockHitbox = area->rock->getHitBox();
-    int playerDistanceX = rockHitbox.getX() - camera->getPlayerX();
-    int playerDistanceY = rockHitbox.getY() - camera->getPlayerY();
-    area->rock->setRenderX(camera->getDimensionX() / 2 + playerDistanceX);
-    area->rock->setRenderY(camera->getDimensionY() / 2 + playerDistanceY);
-    area->rock->inOverworldDraw();
 }
 
 void OverworldState::keyPressed(int key) {
