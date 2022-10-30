@@ -101,7 +101,7 @@ void Player::fightingUpdate() {
 
 void Player::inOverworldDraw(void* camera) {
 
-    OverworldCamera* cameraPtr = static_cast<OverworldCamera*>(camera);
+    // OverworldCamera* cameraPtr = static_cast<OverworldCamera*>(camera);
 
     float xRender = ofGetWidth() / 2 - hitbox.getWidth() / 2;
     float yRender = ofGetHeight() / 2 - hitbox.getHeight() / 2;
