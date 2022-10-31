@@ -1,4 +1,6 @@
 #include "BattleState.h"
+#include "Attack.h"
+#include "Defense.h"
 
 BattleState::BattleState(Player *player, Area *area) {
     stage = area->getStage();
@@ -69,6 +71,8 @@ void BattleState::update() {
     //also player attacks
     //this is so that every entity has ther unique atack
     
+
+
     if (choice != Move::none && canInteract) {
         enemyChoice = rand() % 3 + 1;
         if ((choice == Move::rock && enemyChoice == 2) || (choice == Move::paper && enemyChoice == 3) || (choice == Move::scissors && enemyChoice == 1)) {

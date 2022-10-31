@@ -17,7 +17,7 @@ int PlayerAttack::getCurrentAttack() {
 void PlayerAttack::setCurrentAttack(int currentAttack) {
     if (currentAttack == -1)
         currentAttack = (int)(attacks.size() - 1);
-    else if(currentAttack == attacks.size())
+    else if(currentAttack == (int)attacks.size())
         currentAttack = 0;
     this->currentAttack = currentAttack;
 }

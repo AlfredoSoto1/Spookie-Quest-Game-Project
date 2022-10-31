@@ -20,3 +20,11 @@ void EntityFighter::setDamage(int baseDamage) {
 void EntityFighter::fightingDraw() {
     fightingSprite.draw(fightingHitbox.getX(), fightingHitbox.getY(), fightingHitbox.getWidth(), fightingHitbox.getHeight());
 }
+
+Attack& EntityFighter::getAttack() {
+    return attack;
+}
+
+void EntityFighter::setAttack(const Attack& attack) {
+    this->attack = attack;
+}

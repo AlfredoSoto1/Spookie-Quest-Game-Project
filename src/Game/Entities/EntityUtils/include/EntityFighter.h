@@ -4,6 +4,7 @@
 #define ENTITY_FIGHTER_HEADER
 
 #include "Entity.h"
+#include "Attack.h"
 
 class EntityFighter : public Entity {
 public:
@@ -16,11 +17,16 @@ public:
     int getDamage();
     void setDamage(int baseDamage);
 
+    Attack& getAttack();
+    void setAttack(const Attack& attack);
+
 protected:
     int baseDamage;
     HitBox fightingHitbox;
 
     ofImage fightingSprite;
+
+    Attack attack;
 };
 
 #endif
