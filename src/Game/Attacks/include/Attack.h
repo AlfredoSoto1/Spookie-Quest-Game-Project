@@ -8,15 +8,19 @@
 class Attack {
 public:
     // Attack(const Animation& attackAnimation, int damage);
-    Attack(int damage);
+    Attack(int damage, int maxAttackTime);
     ~Attack();
 
-protected:
-    
+    int getDamage();
 
+    bool hasDone();
+
+    void reset();
+    void execute();
 private:
     int damage;
-
+    int attackTime;
+    int maxAttackTime;
     // Animation attackAnimation;
 
 };

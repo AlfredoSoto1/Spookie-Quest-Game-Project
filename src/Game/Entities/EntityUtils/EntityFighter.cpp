@@ -1,7 +1,7 @@
 #include "EntityFighter.h"
 
 EntityFighter::EntityFighter(const HitBox& hitBox, const HitBox& fightingHitbox, int health, int baseDamage)
-    : Entity(hitBox, health)
+    : Entity(hitBox, health), MoveAttack()
 {
     this->fightingHitbox = fightingHitbox;
     this->baseDamage = baseDamage;
@@ -9,22 +9,14 @@ EntityFighter::EntityFighter(const HitBox& hitBox, const HitBox& fightingHitbox,
 
 EntityFighter::~EntityFighter(){}
 
-int EntityFighter::getDamage() { 
+int EntityFighter::getBaseDamage() { 
     return baseDamage; 
 }
 
-void EntityFighter::setDamage(int baseDamage) { 
+void EntityFighter::setBaseDamage(int baseDamage) { 
     this->baseDamage = baseDamage; 
 }
 
 void EntityFighter::fightingDraw() {
     fightingSprite.draw(fightingHitbox.getX(), fightingHitbox.getY(), fightingHitbox.getWidth(), fightingHitbox.getHeight());
-}
-
-Attack& EntityFighter::getAttack() {
-    return attack;
-}
-
-void EntityFighter::setAttack(const Attack& attack) {
-    this->attack = attack;
 }

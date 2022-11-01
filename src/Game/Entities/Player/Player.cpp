@@ -2,8 +2,7 @@
 #include "OverworldCamera.h"
 
 Player::Player(int health, int baseDamage) : 
-    EntityFighter(HitBox(INIT_X, INIT_Y, 64, 64), HitBox(INIT_BATTLE_X, INIT_BATTLE_Y, 192, 192), health, baseDamage),
-    PlayerAttack()
+    EntityFighter(HitBox(INIT_X, INIT_Y, 64, 64), HitBox(INIT_BATTLE_X, INIT_BATTLE_Y, 192, 192), health, baseDamage)
 {
     vector<ofImage> downFrames;
     vector<ofImage> upFrames;
@@ -43,15 +42,34 @@ Player::Player(int health, int baseDamage) :
     //Load health sprite
     healthBar.load("images/ui/healthbar.png");
 
+    //load Attack buttons
+    buttonAttack.load("images/ui/buttons/rock.png");
+
     //set attacks
-    addAttack(Attack(10));    
-    addAttack(Attack(10));    
-    addAttack(Attack(10));    
+    addAttack(Attack(10, 60));    
+    addAttack(Attack(20, 60 * 2));    
+    addAttack(Attack(30, 60 * 3));    
 
 }
 
 ofImage& Player::getHealthBar() {
     return healthBar;
+}
+
+void Player::drawAttackList() {
+    /*
+        Draw Button for attacks depending how much the player has
+    */
+    int leftX = ofGetWidth() / 2 - (int)(buttonAttack.getWidth() * attacks.size() / 2);
+    for(unsigned int i = 0; i < attacks.size(); i++) {
+        if(attackChoice == (int)i)
+            ofSetColor(255, 255, 255);
+        else
+            ofSetColor(180, 180, 180);
+        buttonAttack.draw(leftX + i * buttonAttack.getWidth(), ofGetHeight() - buttonAttack.getHeight(), buttonAttack.getWidth(), buttonAttack.getWidth());
+    }
+
+    ofSetColor(255, 255, 255);//go back to full brightness
 }
 
 void Player::inOverworldUpdate() {

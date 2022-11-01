@@ -28,6 +28,8 @@ class BattleState : public State {
         int currentEnemyHealth;
         int resultTimer;
         bool canInteract;
+        bool isAttacking;
+        bool hasTakenLife;
         int PLAYER_MAX_HP;
     public:
         BattleState(Player *player, Area *area);

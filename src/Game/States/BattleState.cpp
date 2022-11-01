@@ -38,6 +38,8 @@ BattleState::BattleState(Player *player, Area *area) {
     currentButton = 1;
     resultTimer = 0;
     canInteract = true;
+    isAttacking = false;
+    hasTakenLife = false;
     currentPlayerHealth = PLAYER_MAX_HP = player->getHealth();
 
 }
@@ -71,26 +73,59 @@ void BattleState::update() {
     //also player attacks
     //this is so that every entity has ther unique atack
     
+    // if (choice != Move::none && canInteract) {
+    //     enemyChoice = rand() % 3 + 1;
+    //     if ((choice == Move::rock && enemyChoice == 2) || (choice == Move::paper && enemyChoice == 3) || (choice == Move::scissors && enemyChoice == 1)) {
+    //         currentPlayerHealth -= enemy->getBaseDamage() * 2.0;
+    //         currentEnemyHealth -= player->getBaseDamage() / 2.0;
+    //         outcome = Outcome::lose;
+    //     } else if ((choice == Move::rock && enemyChoice == 3) || (choice == Move::paper && enemyChoice == 1) || (choice == Move::scissors && enemyChoice == 2)) {
+    //         currentPlayerHealth -= enemy->getBaseDamage() / 2.0;
+    //         currentEnemyHealth -= player->getBaseDamage() * 2.0;
+    //         outcome = Outcome::win;
+    //     } else {
+    //         currentPlayerHealth -= enemy->getBaseDamage();
+    //         currentEnemyHealth -= player->getBaseDamage();
+    //         outcome = Outcome::draw;
+    //     }
+    //     resultTimer = ofGetFrameRate();
+    //     canInteract = false;
+    // }
 
-
-    if (choice != Move::none && canInteract) {
-        enemyChoice = rand() % 3 + 1;
-        if ((choice == Move::rock && enemyChoice == 2) || (choice == Move::paper && enemyChoice == 3) || (choice == Move::scissors && enemyChoice == 1)) {
-            currentPlayerHealth -= enemy->getDamage() * 2.0;
-            currentEnemyHealth -= player->getDamage() / 2.0;
-            outcome = Outcome::lose;
-        } else if ((choice == Move::rock && enemyChoice == 3) || (choice == Move::paper && enemyChoice == 1) || (choice == Move::scissors && enemyChoice == 2)) {
-            currentPlayerHealth -= enemy->getDamage() / 2.0;
-            currentEnemyHealth -= player->getDamage() * 2.0;
-            outcome = Outcome::win;
-        } else {
-            currentPlayerHealth -= enemy->getDamage();
-            currentEnemyHealth -= player->getDamage();
-            outcome = Outcome::draw;
+    if(!isAttacking)
+        return;
+    
+    //Player attacks enemy
+    Attack& playerAttack = player->getAttack(player->getAttackChoice());
+    if(!playerAttack.hasDone()) {
+        if(!hasTakenLife) {
+            currentEnemyHealth -= playerAttack.getDamage();
+            hasTakenLife = true;
         }
-        resultTimer = ofGetFrameRate();
-        canInteract = false;
+        playerAttack.execute();
+    }else {
+        hasTakenLife = false;
     }
+
+    //Enemy Attacks player
+    enemy->setAttackChoice(rand() % enemy->getNumberOfAttacks());
+    Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
+    if(playerAttack.hasDone() && !enemyAttack.hasDone()) {
+        if(!hasTakenLife) {
+            currentPlayerHealth -= enemy->getBaseDamage() * enemyAttack.getDamage();
+            hasTakenLife = true;
+        }
+        enemyAttack.execute();
+    }else {
+        hasTakenLife = false;
+    }
+
+    if(playerAttack.hasDone()) {// && enemyAttack.hasDone()) {
+        isAttacking = false;
+        enemyAttack.reset();
+        playerAttack.reset();
+    }
+    
 }
 
 void BattleState::draw() {
@@ -104,24 +139,25 @@ void BattleState::draw() {
     // render move buttons
     player->drawAttackList();
 
-    ofSetColor(180, 180, 180);
-    if (currentButton == 1)
-        ofSetColor(255, 255, 255);
-    button1.draw(10 * 4, 84 * 4, 192, 192);
+    // ofSetColor(180, 180, 180);
+    // if (currentButton == 1)
+    //     ofSetColor(255, 255, 255);
+    // button1.draw(10 * 4, 84 * 4, 192, 192);
 
-    ofSetColor(180, 180, 180);
-    if (currentButton == 2)
-        ofSetColor(255, 255, 255);
-    button2.draw(56 * 4, 84 * 4, 192, 192);
+    // ofSetColor(180, 180, 180);
+    // if (currentButton == 2)
+    //     ofSetColor(255, 255, 255);
+    // button2.draw(56 * 4, 84 * 4, 192, 192);
 
-    ofSetColor(180, 180, 180);
-    if (currentButton == 3)
-        ofSetColor(255, 255, 255);
-    button3.draw(102 * 4, 84 * 4, 192, 192);
+    // ofSetColor(180, 180, 180);
+    // if (currentButton == 3)
+    //     ofSetColor(255, 255, 255);
+    // button3.draw(102 * 4, 84 * 4, 192, 192);
 
-    ofSetColor(255, 255, 255);
+    // ofSetColor(255, 255, 255);
 
-    drawOutcome();
+
+    // drawOutcome();
     drawHealthBar();
 
     ofSetColor(255, 255, 255);
@@ -240,33 +276,34 @@ void BattleState::keyPressed(int key) {
     if (canInteract) {
         if (key == OF_KEY_LEFT || key == 'a') {
             buttonChange.play();
-            player->setCurrentAttack(player->getCurrentAttack() - 1);
-            if (currentButton == 1)
-                currentButton = 3;
-            else
-                currentButton--;
+            player->setAttackChoice(player->getAttackChoice() - 1);
+            // if (currentButton == 1)
+            //     currentButton = 3;
+            // else
+            //     currentButton--;
         }
         if (key == OF_KEY_RIGHT || key == 'd') {
             buttonChange.play();
-            player->setCurrentAttack(player->getCurrentAttack() + 1);
-            if (currentButton == 3)
-                currentButton = 1;
-            else
-                currentButton++;
+            player->setAttackChoice(player->getAttackChoice() + 1);
+            // if (currentButton == 3)
+            //     currentButton = 1;
+            // else
+            //     currentButton++;
         }
         if (key == OF_KEY_RETURN) {
             buttonSelect.play();
-            switch (currentButton) {
-                case 2:
-                    choice = Move::paper;
-                    break;
-                case 3:
-                    choice = Move::scissors;
-                    break;
-                default:
-                    choice = Move::rock;
-                    break;
-            }
+            isAttacking = true;
+            // switch (currentButton) {
+            //     case 2:
+            //         choice = Move::paper;
+            //         break;
+            //     case 3:
+            //         choice = Move::scissors;
+            //         break;
+            //     default:
+            //         choice = Move::rock;
+            //         break;
+            // }
         }
     }
 }

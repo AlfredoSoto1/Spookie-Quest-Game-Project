@@ -4,9 +4,9 @@
 #define ENTITY_FIGHTER_HEADER
 
 #include "Entity.h"
-#include "Attack.h"
+#include "MoveAttack.h"
 
-class EntityFighter : public Entity {
+class EntityFighter : public Entity, public MoveAttack {
 public:
     EntityFighter(const HitBox& hitbox, const HitBox& fightingHitbox, int health, int baseDamage);
     virtual ~EntityFighter();
@@ -14,19 +14,13 @@ public:
     virtual void fightingUpdate() = 0;
     virtual void fightingDraw();
 
-    int getDamage();
-    void setDamage(int baseDamage);
-
-    Attack& getAttack();
-    void setAttack(const Attack& attack);
+    int getBaseDamage();
+    void setBaseDamage(int baseDamage);
 
 protected:
     int baseDamage;
     HitBox fightingHitbox;
-
     ofImage fightingSprite;
-
-    Attack attack;
 };
 
 #endif

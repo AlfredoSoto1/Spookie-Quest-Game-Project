@@ -42,6 +42,8 @@ Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, i
     timeDirectionCounter = glm::vec2(0.0, 0.0);
     movementDirection = glm::vec2(0.0, 0.0);
     hitbox.setDirection(Direction::up);
+
+    addAttack(Attack(10, 60));
 }
 
 void Enemy::inOverworldUpdate() {

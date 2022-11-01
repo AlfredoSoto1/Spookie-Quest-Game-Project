@@ -5,7 +5,6 @@
 
 #include "Animation.h"
 #include "EntityFighter.h"
-#include "PlayerAttack.h"
 
 #define INIT_X 100
 #define INIT_Y 100
@@ -16,7 +15,7 @@
 #define OXDIMENSION 2688
 #define OYDIMENSION 2560
 
-class Player : public EntityFighter, public PlayerAttack {
+class Player : public EntityFighter {
 private:
     int speed = 8;
     bool walking = false;
@@ -28,12 +27,15 @@ private:
     vector<char> pressedKeys;
 
     ofImage healthBar;
+    ofImage buttonAttack;
 
 public:
     Player(int health, int baseDamage);
     ~Player();
 
     ofImage& getHealthBar();
+
+    void drawAttackList();
 
     void inOverworldUpdate();
     void fightingUpdate();
