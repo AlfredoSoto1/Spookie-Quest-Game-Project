@@ -99,11 +99,12 @@ void BattleState::draw() {
     player->fightingDraw();
     enemy->fightingDraw();
 
+    //draw healthBar from both enemy and player
     int centerXEnemy = enemy->getFightingHitBox().getX() + enemy->getFightingHitBox().getWidth() / 2 - 192 / 2;
     int centerXPlayer = player->getFightingHitBox().getX() + player->getFightingHitBox().getWidth() / 2 - 192 / 2;
 
-    enemy->getHealthBar().drawHealthBar(centerXEnemy, 64, 192, 192, currentEnemyHealth, enemy->getHealth());
-    player->getHealthBar().drawHealthBar(centerXPlayer, 64, 192, 192, currentPlayerHealth, PLAYER_MAX_HP);
+    enemy->drawHealthBar(centerXEnemy, 64, 192, 25, currentEnemyHealth, enemy->getHealth());
+    player->drawHealthBar(centerXPlayer, 64, 192, 25, currentPlayerHealth, PLAYER_MAX_HP);
 
     // drawOutcome();
 
