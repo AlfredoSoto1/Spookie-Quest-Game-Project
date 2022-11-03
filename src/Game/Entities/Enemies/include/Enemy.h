@@ -5,7 +5,6 @@
 
 #include "Animation.h"
 #include "EntityFighter.h"
-#include "HealthBar.h"
 
 class Enemy : public EntityFighter {
 public:
@@ -48,8 +47,6 @@ private:
 
     int lastXCam = 0;
     int lastYCam = 0;
-
-    HealthBar healthBar;
 };
 
 #endif

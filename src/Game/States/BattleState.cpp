@@ -106,82 +106,10 @@ void BattleState::draw() {
     enemy->drawHealthBar(centerXEnemy, 64, 192, 25, currentEnemyHealth, enemy->getHealth());
     player->drawHealthBar(centerXPlayer, 64, 192, 25, currentPlayerHealth, PLAYER_MAX_HP);
 
-    // drawOutcome();
-
     // render move buttons
     player->drawAttackList();
 
     ofSetColor(255, 255, 255);
-}
-
-void BattleState::drawOutcome() {
-
-    /*
-        Draws outcome after "attacking"
-    */
-    if (resultTimer > 1) {
-        resultTimer--;
-        float posY = 60 * 4;
-        float pposX = 64 * 4;
-        float eposX = 80 * 4;
-        float dim = 64;
-
-        switch (outcome) {
-            case Outcome::win:
-                ofSetColor(100, 255, 100);
-                if (choice == Move::rock)
-                    result1.draw(pposX, posY, dim, dim);
-                if (choice == Move::paper)
-                    result2.draw(pposX, posY, dim, dim);
-                if (choice == Move::scissors)
-                    result3.draw(pposX, posY, dim, dim);
-                ofSetColor(255, 100, 100);
-                if (enemyChoice == 1)
-                    result1.draw(eposX, posY, dim, dim);
-                if (enemyChoice == 2)
-                    result2.draw(eposX, posY, dim, dim);
-                if (enemyChoice == 3)
-                    result3.draw(eposX, posY, dim, dim);
-                break;
-            case Outcome::lose:
-                ofSetColor(255, 100, 100);
-                if (choice == Move::rock)
-                    result1.draw(pposX, posY, dim, dim);
-                if (choice == Move::paper)
-                    result2.draw(pposX, posY, dim, dim);
-                if (choice == Move::scissors)
-                    result3.draw(pposX, posY, dim, dim);
-                ofSetColor(100, 255, 100);
-                if (enemyChoice == 1)
-                    result1.draw(eposX, posY, dim, dim);
-                if (enemyChoice == 2)
-                    result2.draw(eposX, posY, dim, dim);
-                if (enemyChoice == 3)
-                    result3.draw(eposX, posY, dim, dim);
-                break;
-            case Outcome::draw:
-                ofSetColor(200, 200, 100);
-                if (choice == Move::rock)
-                    result1.draw(pposX, posY, dim, dim);
-                if (choice == Move::paper)
-                    result2.draw(pposX, posY, dim, dim);
-                if (choice == Move::scissors)
-                    result3.draw(pposX, posY, dim, dim);
-                if (enemyChoice == 1)
-                    result1.draw(eposX, posY, dim, dim);
-                if (enemyChoice == 2)
-                    result2.draw(eposX, posY, dim, dim);
-                if (enemyChoice == 3)
-                    result3.draw(eposX, posY, dim, dim);
-                break;
-        }
-        ofSetColor(255, 255, 255);
-    }
-    if (resultTimer == 1) {
-        canInteract = true;
-        choice = Move::none;
-        resultTimer--;
-    }
 }
 
 void BattleState::keyPressed(int key) {

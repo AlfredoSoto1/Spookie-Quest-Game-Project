@@ -1,6 +1,6 @@
 #include "Defense.h"
 
-Defense::Defense() {
+Defense::Defense(int defensePoint, int maxCooldDown) {
 
 }
 

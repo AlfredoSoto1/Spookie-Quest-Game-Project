@@ -4,6 +4,7 @@
 #define MOVE_ATTACK_HEADER
 
 #include "Attack.h"
+#include "Defenses.h"
 
 class MoveAttack {
 public:
@@ -17,9 +18,13 @@ public:
     Attack& getAttack(int choice);
     void addAttack(const Attack& attack);
 
+    Defenses& getDefenses();
+    void addDefenses(const Defenses& defenses);
+
 protected:
     int attackChoice;
     vector<Attack> attacks;
+    vector<Defense> defenses;
 };
 
 #endif
