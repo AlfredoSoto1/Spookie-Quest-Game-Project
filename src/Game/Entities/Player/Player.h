@@ -33,8 +33,6 @@ public:
     Player(int health, int baseDamage);
     ~Player();
 
-    ofImage& getHealthBar();
-
     void drawAttackList();
 
     void inOverworldUpdate();

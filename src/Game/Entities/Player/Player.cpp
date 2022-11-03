@@ -2,7 +2,7 @@
 #include "OverworldCamera.h"
 
 Player::Player(int health, int baseDamage) : 
-    EntityFighter(HitBox(INIT_X, INIT_Y, 64, 64), HitBox(INIT_BATTLE_X, INIT_BATTLE_Y, 192, 192), health, baseDamage)
+    EntityFighter(HitBox(0, 0, 64, 64), HitBox(64, 64, 192, 192), health, baseDamage)
 {
     vector<ofImage> downFrames;
     vector<ofImage> upFrames;
@@ -39,21 +39,14 @@ Player::Player(int health, int baseDamage) :
     walkRight = new Animation(5, rightFrames);
     fighting = new Animation(7, fightingFrames);
 
-    //Load health sprite
-    healthBar.load("images/ui/healthbar.png");
-
     //load Attack buttons
     buttonAttack.load("images/ui/buttons/rock.png");
 
     //set attacks
-    addAttack(Attack(10, 60));    
-    addAttack(Attack(20, 60 * 2));    
-    addAttack(Attack(30, 60 * 3));    
+    addAttack(Attack(5, 60));    
+    addAttack(Attack(5, 60 * 2));    
+    addAttack(Attack(5, 60 * 3));    
 
-}
-
-ofImage& Player::getHealthBar() {
-    return healthBar;
 }
 
 void Player::drawAttackList() {
@@ -73,6 +66,7 @@ void Player::drawAttackList() {
 }
 
 void Player::inOverworldUpdate() {
+
     if (!pressedKeys.empty()) {
         switch (pressedKeys[0]) {
             case 'a':
@@ -134,6 +128,12 @@ void Player::inOverworldUpdate() {
 void Player::fightingUpdate() {
     fightingSprite = fighting->getCurrentFrame();
     fighting->update();
+
+    int xpos = ofGetWidth() * (1.0 / 4.0) - fightingHitbox.getWidth()  / 2;
+    int ypos = ofGetHeight() * (1.0 / 2.0) - fightingHitbox.getHeight() / 2;
+
+    fightingHitbox.setX(xpos);
+    fightingHitbox.setY(ypos);
 }
 
 void Player::inOverworldDraw(void* camera) {
@@ -185,10 +185,10 @@ void Player::keyReleased(int key) {
 }
 
 void Player::reset() {
-    hitbox.setX(INIT_X);
-    hitbox.setY(INIT_Y);
-    fightingHitbox.setX(INIT_BATTLE_X);
-    fightingHitbox.setY(INIT_BATTLE_Y);
+    hitbox.setX(0);
+    hitbox.setY(0);
+    fightingHitbox.setX(64);
+    fightingHitbox.setY(64);
     health = 100;
 }
 

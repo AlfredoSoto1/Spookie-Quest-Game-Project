@@ -6,10 +6,11 @@
     
 // }
 
-Attack::Attack(int damage, int maxAttackTime) :
-    damage(damage), maxAttackTime(maxAttackTime), attackTime(maxAttackTime)
+Attack::Attack(int damage, int coolDown) :
+    damage(damage), maxCoolDown(coolDown)
 {
-
+    this->coolDown = 0;
+    this->hasAttacked = false;
 }
 
 Attack::~Attack() {
@@ -20,16 +21,21 @@ int Attack::getDamage() {
     return damage;
 }
 
-bool Attack::hasDone() {
-    return attackTime == 0;
+bool Attack::provokeAttack(int* health, int baseDamage) {
+    if(!hasAttacked) {
+        (*health) -= damage * baseDamage;
+        hasAttacked = true;
+    }
+    coolDown++;
+
+    return hasAttacked;
+}
+
+bool Attack::isOnCoolDown() {
+    return coolDown < maxCoolDown;
 }
 
 void Attack::reset() {
-    attackTime = maxAttackTime;
-}
-
-void Attack::execute() {
-    attackTime--;
-    if(attackTime < 0)
-        attackTime = 0;
+    hasAttacked = false;
+    coolDown = 0;
 }

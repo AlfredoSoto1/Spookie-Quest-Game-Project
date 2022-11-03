@@ -30,6 +30,11 @@ BattleState::BattleState(Player *player, Area *area) {
     result1.load("images/ui/buttons/rock1.png");
     result2.load("images/ui/buttons/paper1.png");
     result3.load("images/ui/buttons/scissors1.png");
+
+    /*
+        Health bar
+    */
+   healthbar.load("images/ui/healthbar.png");
     
     /*
         default setup
@@ -39,7 +44,7 @@ BattleState::BattleState(Player *player, Area *area) {
     resultTimer = 0;
     canInteract = true;
     isAttacking = false;
-    hasTakenLife = false;
+    enemyHasChosenAttack = false;
     currentPlayerHealth = PLAYER_MAX_HP = player->getHealth();
 
 }
@@ -69,63 +74,27 @@ void BattleState::update() {
     player->fightingUpdate();
     enemy->fightingUpdate();
 
-    //move this into enemy class itself
-    //also player attacks
-    //this is so that every entity has ther unique atack
-    
-    // if (choice != Move::none && canInteract) {
-    //     enemyChoice = rand() % 3 + 1;
-    //     if ((choice == Move::rock && enemyChoice == 2) || (choice == Move::paper && enemyChoice == 3) || (choice == Move::scissors && enemyChoice == 1)) {
-    //         currentPlayerHealth -= enemy->getBaseDamage() * 2.0;
-    //         currentEnemyHealth -= player->getBaseDamage() / 2.0;
-    //         outcome = Outcome::lose;
-    //     } else if ((choice == Move::rock && enemyChoice == 3) || (choice == Move::paper && enemyChoice == 1) || (choice == Move::scissors && enemyChoice == 2)) {
-    //         currentPlayerHealth -= enemy->getBaseDamage() / 2.0;
-    //         currentEnemyHealth -= player->getBaseDamage() * 2.0;
-    //         outcome = Outcome::win;
-    //     } else {
-    //         currentPlayerHealth -= enemy->getBaseDamage();
-    //         currentEnemyHealth -= player->getBaseDamage();
-    //         outcome = Outcome::draw;
-    //     }
-    //     resultTimer = ofGetFrameRate();
-    //     canInteract = false;
-    // }
+    if(isAttacking) {
+        Attack& playerAttack = player->getAttack(player->getAttackChoice());
+        playerAttack.provokeAttack(&currentEnemyHealth, 1);
 
-    if(!isAttacking)
-        return;
-    
-    //Player attacks enemy
-    Attack& playerAttack = player->getAttack(player->getAttackChoice());
-    if(!playerAttack.hasDone()) {
-        if(!hasTakenLife) {
-            currentEnemyHealth -= playerAttack.getDamage();
-            hasTakenLife = true;
+        if(!enemyHasChosenAttack) {
+            enemy->setAttackChoice(rand() % enemy->getNumberOfAttacks());
+            enemyHasChosenAttack = true;
         }
-        playerAttack.execute();
-    }else {
-        hasTakenLife = false;
-    }
-
-    //Enemy Attacks player
-    enemy->setAttackChoice(rand() % enemy->getNumberOfAttacks());
-    Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
-    if(playerAttack.hasDone() && !enemyAttack.hasDone()) {
-        if(!hasTakenLife) {
-            currentPlayerHealth -= enemy->getBaseDamage() * enemyAttack.getDamage();
-            hasTakenLife = true;
+        Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
+        if(!playerAttack.isOnCoolDown()) {
+            enemyAttack.provokeAttack(&currentPlayerHealth, enemy->getBaseDamage());
         }
-        enemyAttack.execute();
-    }else {
-        hasTakenLife = false;
-    }
 
-    if(playerAttack.hasDone()) {// && enemyAttack.hasDone()) {
-        isAttacking = false;
-        enemyAttack.reset();
-        playerAttack.reset();
+        if(!enemyAttack.isOnCoolDown() && !playerAttack.isOnCoolDown()) {
+            enemyAttack.reset();
+            playerAttack.reset();
+            canInteract = true;
+            isAttacking = false;
+            enemyHasChosenAttack = false;
+        }
     }
-    
 }
 
 void BattleState::draw() {
@@ -136,36 +105,26 @@ void BattleState::draw() {
     player->fightingDraw();
     enemy->fightingDraw();
 
+    int centerXEnemy = enemy->getFightingHitBox().getX() + enemy->getFightingHitBox().getWidth() / 2 - 192 / 2;
+    int centerXPlayer = player->getFightingHitBox().getX() + player->getFightingHitBox().getWidth() / 2 - 192 / 2;
+
+    enemy->getHealthBar().drawHealthBar(centerXEnemy, 64, 192, 192, currentEnemyHealth, enemy->getHealth());
+    player->getHealthBar().drawHealthBar(centerXPlayer, 64, 192, 192, currentPlayerHealth, PLAYER_MAX_HP);
+
     // render move buttons
     player->drawAttackList();
 
-    // ofSetColor(180, 180, 180);
-    // if (currentButton == 1)
-    //     ofSetColor(255, 255, 255);
-    // button1.draw(10 * 4, 84 * 4, 192, 192);
-
-    // ofSetColor(180, 180, 180);
-    // if (currentButton == 2)
-    //     ofSetColor(255, 255, 255);
-    // button2.draw(56 * 4, 84 * 4, 192, 192);
-
-    // ofSetColor(180, 180, 180);
-    // if (currentButton == 3)
-    //     ofSetColor(255, 255, 255);
-    // button3.draw(102 * 4, 84 * 4, 192, 192);
-
-    // ofSetColor(255, 255, 255);
-
-
     // drawOutcome();
-    drawHealthBar();
+    // drawHealthBar();
 
     ofSetColor(255, 255, 255);
 }
 
 void BattleState::drawHealthBar() {
-    ofImage healthbar;
-    healthbar.load("images/ui/healthbar.png");
+    /*
+        Draw player and enemy health bar
+    */
+
     healthbar.draw(64, 64, 192, 192);
     healthbar.draw(384, 64, 192, 192);
 
@@ -268,7 +227,6 @@ void BattleState::drawOutcome() {
 }
 
 void BattleState::keyPressed(int key) {
-
     /*
         change type of attack
         plus add sounds
@@ -277,33 +235,15 @@ void BattleState::keyPressed(int key) {
         if (key == OF_KEY_LEFT || key == 'a') {
             buttonChange.play();
             player->setAttackChoice(player->getAttackChoice() - 1);
-            // if (currentButton == 1)
-            //     currentButton = 3;
-            // else
-            //     currentButton--;
         }
         if (key == OF_KEY_RIGHT || key == 'd') {
             buttonChange.play();
             player->setAttackChoice(player->getAttackChoice() + 1);
-            // if (currentButton == 3)
-            //     currentButton = 1;
-            // else
-            //     currentButton++;
         }
         if (key == OF_KEY_RETURN) {
             buttonSelect.play();
             isAttacking = true;
-            // switch (currentButton) {
-            //     case 2:
-            //         choice = Move::paper;
-            //         break;
-            //     case 3:
-            //         choice = Move::scissors;
-            //         break;
-            //     default:
-            //         choice = Move::rock;
-            //         break;
-            // }
+            canInteract = false;
         }
     }
 }

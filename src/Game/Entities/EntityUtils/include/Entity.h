@@ -5,6 +5,7 @@
 
 #include "ofMain.h"
 #include "HitBox.h"
+#include "HealthBar.h"
 
 class Entity {
 public:
@@ -14,8 +15,10 @@ public:
     virtual void inOverworldDraw(void* camera);
 
     HitBox& getHitBox();
-    int getHealth() { return health; };
-    void setHealth(int health) { this->health = health; };
+    HealthBar& getHealthBar();
+
+    int getHealth();
+    void setHealth(int health);
 
 protected:
     int health;
@@ -23,6 +26,7 @@ protected:
     glm::vec2 velocity;
 
     HitBox hitbox;
+    HealthBar healthBar;
 };
 
 #endif

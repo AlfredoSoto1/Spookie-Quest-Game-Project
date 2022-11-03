@@ -8,19 +8,24 @@
 class Attack {
 public:
     // Attack(const Animation& attackAnimation, int damage);
-    Attack(int damage, int maxAttackTime);
+    Attack(int damage, int maxCoolDown);
     ~Attack();
 
     int getDamage();
 
-    bool hasDone();
+    bool provokeAttack(int* health, int baseDamage);
+
+    bool isOnCoolDown();
 
     void reset();
-    void execute();
+
 private:
     int damage;
-    int attackTime;
-    int maxAttackTime;
+    int coolDown;
+    int maxCoolDown;
+
+    bool hasAttacked;
+
     // Animation attackAnimation;
 
 };

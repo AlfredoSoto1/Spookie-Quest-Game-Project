@@ -17,6 +17,10 @@ void EntityFighter::setBaseDamage(int baseDamage) {
     this->baseDamage = baseDamage; 
 }
 
+HitBox& EntityFighter::getFightingHitBox() {
+    return fightingHitbox;
+} 
+
 void EntityFighter::fightingDraw() {
     fightingSprite.draw(fightingHitbox.getX(), fightingHitbox.getY(), fightingHitbox.getWidth(), fightingHitbox.getHeight());
 }

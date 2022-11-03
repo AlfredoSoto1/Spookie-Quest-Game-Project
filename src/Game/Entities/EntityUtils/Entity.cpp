@@ -11,6 +11,18 @@ void Entity::inOverworldDraw(void* camera) {
     overworldSprite.draw(hitbox.getX(), hitbox.getY(), hitbox.getWidth(), hitbox.getHeight());
 }
 
-HitBox& Entity::getHitBox(){
+int Entity::getHealth() {
+    return health;
+}
+
+void Entity::setHealth(int health) {
+    this->health = health;
+}
+
+HealthBar& Entity::getHealthBar() {
+    return healthBar;
+}
+
+HitBox& Entity::getHitBox() {
     return hitbox;
 }

@@ -5,8 +5,24 @@
 
 #include "Animation.h"
 #include "EntityFighter.h"
+#include "HealthBar.h"
 
 class Enemy : public EntityFighter {
+public:
+    Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy);
+    ~Enemy();
+    bool isDead();
+    void kill();
+    void revive();
+    
+    string getId();
+    ofImage getSprite();
+
+    void inOverworldUpdate();
+    void fightingUpdate();
+    void inOverworldDraw(void* camera) override;
+    void reset();
+
 private:
     int speed;
     int movingTime;
@@ -33,18 +49,7 @@ private:
     int lastXCam = 0;
     int lastYCam = 0;
 
-public:
-    Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy);
-    ~Enemy();
-    bool isDead() { return dead; };
-    void kill() { this->dead = true; };
-    void revive() { this->dead = false; };
-    void inOverworldUpdate();
-    void fightingUpdate();
-    void inOverworldDraw(void* camera) override;
-    void reset();
-    string getId() { return id; };
-    ofImage getSprite() { return overworldSprite; };
+    HealthBar healthBar;
 };
 
 #endif

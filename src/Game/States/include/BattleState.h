@@ -23,14 +23,17 @@ class BattleState : public State {
         ofImage result1;
         ofImage result2;
         ofImage result3;
+        ofImage healthbar;
         int currentButton;
         int currentPlayerHealth;
         int currentEnemyHealth;
         int resultTimer;
         bool canInteract;
         bool isAttacking;
-        bool hasTakenLife;
+        bool enemyHasChosenAttack;
         int PLAYER_MAX_HP;
+
+        
     public:
         BattleState(Player *player, Area *area);
         void update();

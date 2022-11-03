@@ -17,6 +17,8 @@ public:
     int getBaseDamage();
     void setBaseDamage(int baseDamage);
 
+    HitBox& getFightingHitBox();
+
 protected:
     int baseDamage;
     HitBox fightingHitbox;
