@@ -32,11 +32,6 @@ BattleState::BattleState(Player *player, Area *area) {
     result3.load("images/ui/buttons/scissors1.png");
 
     /*
-        Health bar
-    */
-   healthbar.load("images/ui/healthbar.png");
-    
-    /*
         default setup
     */
     this->player = player;
@@ -46,7 +41,6 @@ BattleState::BattleState(Player *player, Area *area) {
     isAttacking = false;
     enemyHasChosenAttack = false;
     currentPlayerHealth = PLAYER_MAX_HP = player->getHealth();
-
 }
 
 void BattleState::startBattle(Enemy *enemy) {
@@ -111,49 +105,12 @@ void BattleState::draw() {
     enemy->getHealthBar().drawHealthBar(centerXEnemy, 64, 192, 192, currentEnemyHealth, enemy->getHealth());
     player->getHealthBar().drawHealthBar(centerXPlayer, 64, 192, 192, currentPlayerHealth, PLAYER_MAX_HP);
 
+    // drawOutcome();
+
     // render move buttons
     player->drawAttackList();
 
-    // drawOutcome();
-    // drawHealthBar();
-
     ofSetColor(255, 255, 255);
-}
-
-void BattleState::drawHealthBar() {
-    /*
-        Draw player and enemy health bar
-    */
-
-    healthbar.draw(64, 64, 192, 192);
-    healthbar.draw(384, 64, 192, 192);
-
-    for (int i = 0; i < 3; i++) {
-        double playerHealthRatio = (double)currentPlayerHealth / (double)PLAYER_MAX_HP;
-        double enemyHealthRatio = (double)currentEnemyHealth / (double)enemy->getHealth();
-        if (playerHealthRatio < 0)
-            playerHealthRatio = 0;
-        else if (playerHealthRatio < 0.33)
-            ofSetColor(200 - i * 20, 60 - i * 20, 60 - i * 20);
-        else if (playerHealthRatio < 0.66)
-            ofSetColor(180 - i * 20, 200 - i * 20, 60 - i * 20);
-        else
-            ofSetColor(60 - i * 20, 180 - i * 20, 80 - i * 20);
-
-        ofDrawRectangle(108, 152 + i * 4, (int)(36 * playerHealthRatio) * 4, 4);
-
-        if (enemyHealthRatio < 0)
-            enemyHealthRatio = 0;
-        else if (enemyHealthRatio < 0.33)
-            ofSetColor(200 - i * 20, 60 - i * 20, 60 - i * 20);
-        else if (enemyHealthRatio < 0.66)
-            ofSetColor(180 - i * 20, 200 - i * 20, 60 - i * 20);
-        else
-            ofSetColor(60 - i * 20, 180 - i * 20, 80 - i * 20);
-
-        ofDrawRectangle(428, 152 + i * 4, (int)(36 * enemyHealthRatio) * 4, 4);
-    }
-    ofFill();
 }
 
 void BattleState::drawOutcome() {

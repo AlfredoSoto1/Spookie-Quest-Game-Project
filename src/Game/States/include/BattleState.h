@@ -23,7 +23,6 @@ class BattleState : public State {
         ofImage result1;
         ofImage result2;
         ofImage result3;
-        ofImage healthbar;
         int currentButton;
         int currentPlayerHealth;
         int currentEnemyHealth;
@@ -32,7 +31,6 @@ class BattleState : public State {
         bool isAttacking;
         bool enemyHasChosenAttack;
         int PLAYER_MAX_HP;
-
         
     public:
         BattleState(Player *player, Area *area);
