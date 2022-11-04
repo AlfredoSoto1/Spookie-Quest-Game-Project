@@ -17,6 +17,10 @@ Attack::~Attack() {
     
 }
 
+AttackType Attack::getAttackType() {
+    return attackType;
+}
+
 int Attack::getDamage() {
     return damage;
 }

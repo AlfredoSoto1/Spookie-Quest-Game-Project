@@ -27,10 +27,3 @@ Attack& MoveAttack::getAttack(int choice) {
 void MoveAttack::addAttack(const Attack& attack) {
     this->attacks.push_back(attack);
 }
-
-Defense& MoveAttack::getDefenses(int choice) {
-    return defenses[choice];
-}
-void MoveAttack::addDefenses(const Defense& defense) {
-    defenses.push_back(defense);
-}

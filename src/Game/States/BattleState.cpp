@@ -69,6 +69,10 @@ void BattleState::update() {
     enemy->fightingUpdate();
 
     if(isAttacking) {
+
+        //TODO
+        //add defenses
+        
         Attack& playerAttack = player->getAttack(player->getAttackChoice());
         playerAttack.provokeAttack(&currentEnemyHealth, 1);
 

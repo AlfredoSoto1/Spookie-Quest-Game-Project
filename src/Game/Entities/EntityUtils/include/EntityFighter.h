@@ -5,8 +5,9 @@
 
 #include "Entity.h"
 #include "MoveAttack.h"
+#include "MoveDefense.h"
 
-class EntityFighter : public Entity, public MoveAttack {
+class EntityFighter : public Entity, public MoveAttack, public MoveDefense {
 public:
     EntityFighter(const HitBox& hitbox, const HitBox& fightingHitbox, int health, int baseDamage);
     virtual ~EntityFighter();
