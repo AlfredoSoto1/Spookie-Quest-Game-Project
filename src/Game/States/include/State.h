@@ -3,12 +3,7 @@
 #include "ofMain.h"
 
 class State {
-   protected:
-    string nextState;
-    ofSoundPlayer music;
-    bool finished = false;
-
-   public:
+public:
     State() {}
     virtual void reset() = 0;
     virtual void update() = 0;
@@ -34,4 +29,8 @@ class State {
         if (!music.isLoaded()) return;
         music.isPlaying() ? music.stop() : music.play();
     }
+protected:
+    string nextState;
+    ofSoundPlayer music;
+    bool finished = false;
 };

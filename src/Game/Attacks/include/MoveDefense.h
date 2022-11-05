@@ -7,6 +7,8 @@
 
 class MoveDefense {
 public:
+    MoveDefense();
+    
     int getNumberOfDefenses();
     int getDefenseChoice();
 

@@ -5,19 +5,19 @@
 
 #include "Animation.h"
 
-enum DefenseType {
-    sword,
-    magic,
-    fire,
-    sonicBeam
-};
+// enum DefenseType {
+//     sword
+//     // magic,
+//     // fire,
+//     // sonicBeam
+// };
 
 class Defense {
 public:
     Defense(int defensePoint, int maxCoolDown);
     ~Defense();
 
-    DefenseType getDefenseType();
+    // DefenseType getDefenseType();
 
     int getDefensePoint();
     bool isOnCoolDown();
@@ -30,7 +30,7 @@ private:
 
     bool hasDefended;
 
-    DefenseType defenseType;
+    // DefenseType defenseType;
 };
 
 #endif

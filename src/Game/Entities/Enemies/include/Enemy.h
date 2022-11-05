@@ -8,13 +8,12 @@
 
 class Enemy : public EntityFighter {
 public:
-    Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy);
+    Enemy(const string& name, int health, int baseDamage, int ox, int oy);
     ~Enemy();
     bool isDead();
     void kill();
     void revive();
     
-    string getId();
     ofImage getSprite();
 
     void inOverworldUpdate();
@@ -27,26 +26,25 @@ private:
     int movingTime;
     int standingStillTime;
 
+    int renderX = 1000;
+    int renderY = 1000;
+    int lastXCam = 0;
+    int lastYCam = 0;
     int linePath = 0;
     int standingStillCounter = 0;
+    
     glm::vec2 timeDirectionCounter;
     glm::vec2 movementDirection;
 
     bool walking = false;
-    int renderX = 1000;
-    int renderY = 1000;
+    bool dead = false;
+    
     Animation *walkUp;
     Animation *walkDown;
     Animation *walkLeft;
     Animation *walkRight;
     Animation *fighting;
-    string id;
-    bool dead = false;
-    string entityName;
     ofImage sprite;
-
-    int lastXCam = 0;
-    int lastYCam = 0;
 };
 
 #endif

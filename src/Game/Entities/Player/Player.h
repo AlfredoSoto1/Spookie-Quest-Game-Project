@@ -30,7 +30,7 @@ private:
     ofImage buttonAttack;
 
 public:
-    Player(int health, int baseDamage);
+    Player(const string& playerName, int health, int baseDamage);
     ~Player();
 
     void drawAttackList();

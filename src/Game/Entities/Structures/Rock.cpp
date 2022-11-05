@@ -1,8 +1,8 @@
 #include "Rock.h"
 #include "OverworldCamera.h"
 
-Rock::Rock(int ox, int oy, int resistance) : 
-    Entity(HitBox(ox, oy, 50, 50), resistance) 
+Rock::Rock(const string& name, int ox, int oy, int resistance) : 
+    Entity(name, HitBox(ox, oy, 50, 50), resistance) 
 {
     hitbox.setSolid(true);
     overworldSprite.load("images/entities/inmovable/rock.png");

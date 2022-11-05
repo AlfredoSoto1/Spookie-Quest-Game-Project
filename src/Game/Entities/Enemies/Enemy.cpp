@@ -1,11 +1,9 @@
 #include "Enemy.h"
 #include "OverworldCamera.h"
 
-Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy) : 
-    EntityFighter(HitBox(ox, oy, 50, 64), HitBox(420, 220, 97, 125), health, baseDamage)
+Enemy::Enemy(const string& name, int health, int baseDamage, int ox, int oy) : 
+    EntityFighter(name, HitBox(ox, oy, 50, 64), HitBox(420, 220, 97, 125), health, baseDamage)
 {
-    this->id = id;
-    this->entityName = entityName;
     vector<ofImage> downFrames;
     vector<ofImage> upFrames;
     vector<ofImage> leftFrames;
@@ -58,9 +56,6 @@ void Enemy::revive() {
     this->dead = false;
 }
 
-string Enemy::getId() { 
-    return id;
-}
 ofImage Enemy::getSprite() {
     return overworldSprite; 
 }

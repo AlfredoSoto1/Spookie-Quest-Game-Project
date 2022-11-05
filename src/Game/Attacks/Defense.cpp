@@ -11,9 +11,9 @@ Defense::~Defense() {
     
 }
 
-DefenseType Defense::getDefenseType() {
-    return defenseType;
-}
+// DefenseType Defense::getDefenseType() {
+//     return defenseType;
+// }
 
 int Defense::getDefensePoint() {
     return defensePoint;

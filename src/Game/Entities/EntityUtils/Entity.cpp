@@ -1,8 +1,12 @@
 #include "Entity.h"
 
-Entity::Entity(const HitBox& hitbox, int health) {
+unsigned int Entity::universalId = 0;
+
+Entity::Entity(const string& name, const HitBox& hitbox, int health) {
+    this->name = name;
     this->hitbox = hitbox;
     this->health = health;
+    this->id = universalId++;
 }
 
 Entity::~Entity(){}
@@ -30,12 +34,24 @@ void Entity::drawHealthBar(int x, int y, int width, int height, int health, int 
     ofSetColor(255, 255, 255);
 }
 
+int Entity::getId() {
+    return id;
+}
+
 int Entity::getHealth() {
     return health;
 }
 
 void Entity::setHealth(int health) {
     this->health = health;
+}
+
+void Entity::setName(const string& name) {
+    this->name = name;
+}
+
+string& Entity::getName() {
+    return name;
 }
 
 HitBox& Entity::getHitBox() {

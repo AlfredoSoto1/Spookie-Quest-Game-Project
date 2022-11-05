@@ -43,6 +43,18 @@ BattleState::BattleState(Player *player, Area *area) {
     currentPlayerHealth = PLAYER_MAX_HP = player->getHealth();
 }
 
+Enemy* BattleState::getEnemy() {
+    return enemy;
+}
+
+void BattleState::setEnemy(Enemy *enemy) {
+    this->enemy = enemy;
+}
+
+void BattleState::setStage(ofImage stage) {
+    this->stage = stage;
+}
+
 void BattleState::startBattle(Enemy *enemy) {
     this->enemy = enemy;
     currentEnemyHealth = enemy->getHealth();
@@ -110,7 +122,7 @@ void BattleState::draw() {
     enemy->drawHealthBar(centerXEnemy, 64, 192, 25, currentEnemyHealth, enemy->getHealth());
     player->drawHealthBar(centerXPlayer, 64, 192, 25, currentPlayerHealth, PLAYER_MAX_HP);
 
-    // render move buttons
+    // render attack buttons
     player->drawAttackList();
 
     ofSetColor(255, 255, 255);

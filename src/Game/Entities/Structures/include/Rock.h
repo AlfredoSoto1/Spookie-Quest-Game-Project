@@ -7,7 +7,7 @@
 
 class Rock : public Entity {
 public:
-    Rock(int ox, int oy, int resistance);
+    Rock(const string& entityName, int ox, int oy, int resistance);
     virtual ~Rock();
 
     void inOverworldDraw(void* camera) override;

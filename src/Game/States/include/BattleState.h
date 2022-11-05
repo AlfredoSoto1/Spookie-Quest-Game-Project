@@ -8,12 +8,17 @@
 class BattleState : public State {
 public:
     BattleState(Player *player, Area *area);
+
+    Enemy* getEnemy();
+    
+    void setEnemy(Enemy *enemy);
+    void setStage(ofImage stage);
+    
     void update();
     void draw();
+    
     void startBattle(Enemy *enemy);
-    void setEnemy(Enemy *enemy) {this-> enemy = enemy;};
-    Enemy* getEnemy() {return enemy;};
-    void setStage(ofImage stage) {this-> stage = stage;};
+    
     void keyPressed(int key);
     void reset();
 

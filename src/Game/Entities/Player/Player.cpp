@@ -1,8 +1,8 @@
 #include "Player.h"
 #include "OverworldCamera.h"
 
-Player::Player(int health, int baseDamage) : 
-    EntityFighter(HitBox(0, 0, 64, 64), HitBox(64, 64, 192, 192), health, baseDamage)
+Player::Player(const string& playerName, int health, int baseDamage) : 
+    EntityFighter(playerName, HitBox(0, 0, 64, 64), HitBox(64, 64, 192, 192), health, baseDamage)
 {
     vector<ofImage> downFrames;
     vector<ofImage> upFrames;

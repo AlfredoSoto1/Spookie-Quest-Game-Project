@@ -6,29 +6,35 @@
 #include "../Entities/Structures/include/Rock.h"
 
 class Area {
+public:
+    Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Entity*> entitiesInArea);
+    
+    int getRemainingEnemies();
+    int getRemainingEntities();
+    
+    string getName();
+    ofImage getImage();
+    ofImage getStage();
+    ofSoundPlayer getMusic();
+    ofPoint getEntrancePos();
+    vector<Entity*> getEntities();
+    
+    Area *getNextArea();
+   
+    void setName(string name);
+    void setEntities(std::vector<Entity*> entitiesInArea);
+
+    void resetEnemies();
+    void clearAllEntities();
+
 private:
     string name;
     ofImage areaImage;
-    ofSoundPlayer areaMusic;
     ofImage areaStage;
-    ofPoint entrancePosition;
-    std::vector<Enemy *> enemies;
+    ofSoundPlayer areaMusic;
+
     Area *nextArea;
-
-public:
-    //--
-    Rock* rock;
-
-    Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Enemy *> enemies, Rock* rock);
-    void resetEnemies();
-    string getName() { return name; }
-    ofImage getImage() { return areaImage; }
-    ofSoundPlayer getMusic() { return areaMusic; }
-    ofImage getStage() { return areaStage; }
-    ofPoint getEntrancePos() { return entrancePosition; }
-    vector<Enemy *> getEnemies() { return enemies; }
-    int getRemainingEnemies();
-    Area *getNextArea() { return nextArea; }
-    void setName(string name) { this->name = name; }
-    void setEnemies(std::vector<Enemy *> enemies) { this->enemies = enemies; }
+    ofPoint entrancePosition;
+    
+    std::vector<Entity*> entitiesInArea;
 };

@@ -1,7 +1,7 @@
 #include "EntityFighter.h"
 
-EntityFighter::EntityFighter(const HitBox& hitBox, const HitBox& fightingHitbox, int health, int baseDamage)
-    : Entity(hitBox, health), MoveAttack()
+EntityFighter::EntityFighter(const string& name, const HitBox& hitBox, const HitBox& fightingHitbox, int health, int baseDamage)
+    : Entity(name, hitBox, health), MoveAttack()
 {
     this->fightingHitbox = fightingHitbox;
     this->baseDamage = baseDamage;
