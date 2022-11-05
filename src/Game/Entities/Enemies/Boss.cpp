@@ -1,27 +1,15 @@
-// #include "Boss.h"
-// #include "OverworldCamera.h"
+#include "Boss.h"
+#include "OverworldCamera.h"
 
-// Boss::Boss(const string& name, int health, int baseDamage, int ox, int oy)
-//     :   EntityFighter(name, HitBox(ox, oy, 50, 64), HitBox(420, 220, 97, 125), health, baseDamage)
-// {
+Boss::Boss(const string& name, int health, int baseDamage, int ox, int oy)
+    :   Enemy(name, health, baseDamage, ox, oy)
+{
 
-// }
+}
 
-// bool Boss::isDead() { 
-//     return dead; 
-// }
-
-// void Boss::kill() {
-//     this->dead = true;
-// }
-
-// void Boss::revive() {
-//     this->dead = false;
-// }
-
-// ofImage Boss::getSprite() {
-//     return overworldSprite; 
-// }
+Boss::~Boss() {
+    
+}
 
 // void Boss::inOverworldUpdate() {
 

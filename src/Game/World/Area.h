@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Enemy.h"
-#include "OverworldCamera.h"
+#include "Boss.h"
 #include "Player.h"
-#include "../Entities/Structures/include/Rock.h"
+#include "Rock.h"
+#include "OverworldCamera.h"
 
 class Area {
 public:
@@ -11,6 +12,7 @@ public:
     
     int getRemainingEnemies();
     int getRemainingEntities();
+    int getDeadEnemies();
     
     string getName();
     ofImage getImage();
@@ -23,6 +25,8 @@ public:
    
     void setName(string name);
     void setEntities(std::vector<Entity*> entitiesInArea);
+
+    void increaseDeadEnemyCount();
 
     void resetEnemies();
     void clearAllEntities();
@@ -37,4 +41,6 @@ private:
     ofPoint entrancePosition;
     
     std::vector<Entity*> entitiesInArea;
+
+    int deadEnemies;
 };

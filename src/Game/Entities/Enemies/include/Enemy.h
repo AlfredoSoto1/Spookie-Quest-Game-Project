@@ -9,17 +9,18 @@
 class Enemy : public EntityFighter {
 public:
     Enemy(const string& name, int health, int baseDamage, int ox, int oy);
-    ~Enemy();
+    virtual ~Enemy();
     bool isDead();
     void kill();
     void revive();
     
     ofImage getSprite();
 
-    void inOverworldUpdate();
-    void fightingUpdate();
-    void inOverworldDraw(void* camera) override;
     void reset();
+
+    virtual void inOverworldUpdate();
+    virtual void fightingUpdate();
+    virtual void inOverworldDraw(void* camera) override;
 
 private:
     int speed;

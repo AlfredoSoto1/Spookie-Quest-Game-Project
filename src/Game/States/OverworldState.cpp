@@ -31,8 +31,8 @@ void OverworldState::loadArea(Area* area) {
     HitBox& playerHitbox = player->getHitBox();
 
     //set Player position
-    playerHitbox.setX(OXDIMENSION / 2);
-    playerHitbox.setY(OYDIMENSION / 2);
+    playerHitbox.setX(area->getEntrancePos().x);
+    playerHitbox.setY(area->getEntrancePos().x);
 }
 
 void OverworldState::update() {
@@ -47,7 +47,9 @@ void OverworldState::update() {
         //Update enemies
         Enemy* enemy = dynamic_cast<Enemy*>(entity);
         if(enemy != nullptr) {
-            if (!enemy->isDead()) {
+            Boss* boss = dynamic_cast<Boss*>(enemy);
+
+            if (!enemy->isDead() && boss == nullptr) {
                 enemy->inOverworldUpdate();
                 if (playerHitbox.collides(enemy->getHitBox())) {
                     setEnemy(enemy);
@@ -55,6 +57,8 @@ void OverworldState::update() {
                     setFinished(true);
                     break;
                 }
+            }else if(boss != nullptr) {
+                
             }
         }
         //update other entities here
@@ -95,8 +99,11 @@ void OverworldState::draw() {
         //Update enemies
         Enemy* enemy = dynamic_cast<Enemy*>(entity);
         if(enemy != nullptr) {
-            if (!enemy->isDead()) {
+            Boss* boss = dynamic_cast<Boss*>(enemy);
+            if (!enemy->isDead() && boss == nullptr) {
                 enemy->inOverworldDraw(camera);
+            }else if(boss != nullptr) {
+                boss->inOverworldDraw(camera);
             }
         }
         Rock* rock = dynamic_cast<Rock*>(entity);

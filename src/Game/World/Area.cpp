@@ -8,6 +8,7 @@ Area::Area(string name, Area *nextArea, string areaImagePath, string areaMusicPa
     areaStage.load(areaStagePath);
     this->entrancePosition = entrancePosition;
     this->entitiesInArea = entitiesInArea;
+    this->deadEnemies = deadEnemies;
 }
 
 string Area::getName() {
@@ -44,6 +45,10 @@ void Area::setEntities(std::vector<Entity*> entitiesInArea) {
     this->entitiesInArea = entitiesInArea;
 }
 
+void Area::increaseDeadEnemyCount() {
+    deadEnemies++;
+}
+
 void Area::resetEnemies() {
     for (unsigned int i = 0; i < entitiesInArea.size(); i++) {
         Enemy* enemy = dynamic_cast<Enemy*>(entitiesInArea.at(i));
@@ -64,10 +69,17 @@ int Area::getRemainingEnemies() {
     return count;
 }
 
+int Area::getDeadEnemies() {
+    return deadEnemies;
+}
+
 int Area::getRemainingEntities() {
     return entitiesInArea.size();
 }
 
 void Area::clearAllEntities() {
-    
+    for(Entity* entity : entitiesInArea) {
+        delete entity;
+    }
+    entitiesInArea.clear();
 }

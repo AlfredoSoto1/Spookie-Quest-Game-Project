@@ -22,12 +22,6 @@ void ofApp::setup() {
 
 //--------------------------------------------------------------
 void ofApp::initAreas() {
-    /**
-     * @brief
-     * each area is 672 pixels wide and 640 pixels high,
-     * with 10 and 8 pixels of space between the player and the edge of the map respectively
-     * each in-game pixel is 4 * 1 screen pixel
-     */
 
     vector<Entity*> enemies2;
     ofPoint entrancePosition2(4 * 110, 4 * 116);
@@ -50,9 +44,13 @@ void ofApp::initAreas() {
     Enemy *area1Enemy1 = new Enemy("enemy1", 20, 4, 4 * 480, 4 * 432);
     Enemy *area1Enemy2 = new Enemy("enemy1", 20, 4, 4 * 225, 4 * 178);
     Enemy *area1Enemy3 = new Enemy("enemy1", 20, 4, 4 * 420, 4 * 178);
+
     enemies1.push_back(area1Enemy1);
     enemies1.push_back(area1Enemy2);
     enemies1.push_back(area1Enemy3);
+    
+    Boss* bossLevel1 = new Boss("Boss-1", 20, 4, 1280, 720);
+    enemies1.push_back(bossLevel1);
 
     Rock* rock = new Rock("rock-1", 4 * 480, 4 * 470, 1);
     enemies1.push_back(rock);
