@@ -49,6 +49,11 @@ void OverworldState::draw() {
 
 void OverworldState::keyPressed(int key) {
     player->keyPressed(key);
+
+    if(key == OF_KEY_ESC) {
+        setNextState("Pause");
+        setFinished(true);
+    }
 }
 
 void OverworldState::keyReleased(int key) {

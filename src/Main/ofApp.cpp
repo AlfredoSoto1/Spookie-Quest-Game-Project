@@ -13,6 +13,7 @@ void ofApp::setup() {
     battleState = new BattleState(player, currentArea);
     winState = new WinState();
     endGameState = new EndGameState();
+    pauseState = new PauseState();
 
     // Initial State
     currentState = titleState;
@@ -74,6 +75,8 @@ void ofApp::update() {
         } else if (currentState->getNextState() == "Battle") {
             battleState->startBattle(overworldState->getEnemy());
             currentState = battleState;
+        } else if(currentState->getNextState() == "Pause") {
+            currentState = pauseState;
         } else if (currentState->getNextState() == "Win") {
             overworldState->getEnemy()->kill();
             if (currentArea->getRemainingEnemies() == 0) {
