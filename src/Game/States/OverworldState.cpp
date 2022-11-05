@@ -49,6 +49,11 @@ void OverworldState::update() {
         if(enemy != nullptr) {
             Boss* boss = dynamic_cast<Boss*>(enemy);
 
+/*
+
+    Make spawn boss when all enemies die and when you press 'b'
+
+*/
             if (!enemy->isDead() && boss == nullptr) {
                 enemy->inOverworldUpdate();
                 if (playerHitbox.collides(enemy->getHitBox())) {
@@ -58,7 +63,7 @@ void OverworldState::update() {
                     break;
                 }
             }else if(boss != nullptr) {
-                
+
             }
         }
         //update other entities here
