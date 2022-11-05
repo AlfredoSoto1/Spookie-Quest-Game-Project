@@ -101,6 +101,52 @@ void ofApp::update() {
         currentState->toggleMusic();
         currentState->reset();
     }
+
+/*
+    Change states to be enums
+*/
+
+    if(!currentState->hasFinished())
+        return;
+    currentState->toggleMusic();
+
+    if (currentState->getNextState() == "Title") {
+        //reset everything before going back to title
+        endGameState->setWin(false);
+        area1->resetEnemies();
+        area2->resetEnemies();
+        currentArea = area1;
+        battleState->reset();
+        battleState->setStage(currentArea->getStage());
+        overworldState->loadArea(currentArea);
+        currentState = titleState;
+    } else if (currentState->getNextState() == "Overworld") {
+        currentState = overworldState;
+    } else if (currentState->getNextState() == "Battle") {
+        battleState->startBattle(overworldState->getEnemyToBattle());
+        currentState = battleState;
+    } else if (currentState->getNextState() == "Win") {
+        
+        overworldState->getEnemyToBattle()->kill();
+        if (currentArea->getRemainingEnemies() == 0) {
+            if (currentArea->getNextArea() == NULL) {
+                endGameState->setWin(true);
+                currentState = endGameState;
+            } else {
+                currentArea = currentArea->getNextArea();
+                overworldState->loadArea(currentArea);
+                battleState->setStage(currentArea->getStage());
+                currentState = winState;
+            }
+        } else {
+            currentState = winState;
+        }
+    } else if (currentState->getNextState() == "End"){
+        currentState = endGameState;
+        player->reset();
+    }
+    currentState->toggleMusic();
+    currentState->reset();
 }
 
 //--------------------------------------------------------------

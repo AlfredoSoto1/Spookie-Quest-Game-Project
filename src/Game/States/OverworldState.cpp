@@ -47,14 +47,7 @@ void OverworldState::update() {
         //Update enemies
         Enemy* enemy = dynamic_cast<Enemy*>(entity);
         if(enemy != nullptr) {
-            Boss* boss = dynamic_cast<Boss*>(enemy);
-
-/*
-
-    Make spawn boss when all enemies die and when you press 'b'
-
-*/
-            if (!enemy->isDead() && boss == nullptr) {
+            if (!enemy->isDead()) {
                 enemy->inOverworldUpdate();
                 if (playerHitbox.collides(enemy->getHitBox())) {
                     setEnemy(enemy);
@@ -62,8 +55,6 @@ void OverworldState::update() {
                     setFinished(true);
                     break;
                 }
-            }else if(boss != nullptr) {
-
             }
         }
         //update other entities here
@@ -104,11 +95,8 @@ void OverworldState::draw() {
         //Update enemies
         Enemy* enemy = dynamic_cast<Enemy*>(entity);
         if(enemy != nullptr) {
-            Boss* boss = dynamic_cast<Boss*>(enemy);
-            if (!enemy->isDead() && boss == nullptr) {
+            if (!enemy->isDead()) {
                 enemy->inOverworldDraw(camera);
-            }else if(boss != nullptr) {
-                boss->inOverworldDraw(camera);
             }
         }
         Rock* rock = dynamic_cast<Rock*>(entity);
