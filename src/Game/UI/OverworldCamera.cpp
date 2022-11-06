@@ -10,11 +10,11 @@ OverworldCamera::OverworldCamera(Player *player) {
     update();
 }
 
-int OverworldCamera::getLenzWidth() {
+double OverworldCamera::getLenzWidth() {
     return lenzWidth;
 }
 
-int OverworldCamera::getLenzHeight() {
+double OverworldCamera::getLenzHeight() {
     return lenzHeight;
 }
 

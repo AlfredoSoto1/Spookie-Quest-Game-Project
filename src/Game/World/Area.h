@@ -4,7 +4,6 @@
 #include "Boss.h"
 #include "Player.h"
 #include "Rock.h"
-#include "OverworldCamera.h"
 
 class Area {
 public:

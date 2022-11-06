@@ -74,7 +74,6 @@ bool HitBox::collides(const HitBox& hitbox) {
 
     //if its not a solid, then check if it has collided
     if(!(xCollision && yCollision)){
-        ofSetColor(ofColor::white);
         return false;
     }
 

@@ -3,12 +3,11 @@
 #ifndef OVERWORLD_CAMERA_HEADER
 #define OVERWORLD_CAMERA_HEADER
 
-#include "EntityManager.h"
+//Area image resolution
+#define OXDIMENSION 2688
+#define OYDIMENSION 2560
 
-// #define DIMENSIONX 640
-// #define DIMENSIONY 480
-#define OXDIMENSION 2688 //2688
-#define OYDIMENSION 2560 //2560
+#include "Player.h"
 
 class OverworldCamera {
 private:
@@ -22,8 +21,8 @@ private:
 
     //this values should be larger or equal to
     //window scale
-    int lenzWidth = 1280;
-    int lenzHeight = 720;
+    double lenzWidth = 1280.0;
+    double lenzHeight = 720.0;
 
     int lastMovingDirX = 0;
     int lastMovingDirY = 0;
@@ -42,8 +41,8 @@ public:
     int getLeftCornerX() { return leftCornerX; };
     int getRightCornerX() { return rightCornerX; };
 
-    int getLenzWidth();
-    int getLenzHeight();
+    double getLenzWidth();
+    double getLenzHeight();
 
     int getTopCornerY() { return topCornerY; };
     int getBottomCornerY() { return bottomCornerY; };

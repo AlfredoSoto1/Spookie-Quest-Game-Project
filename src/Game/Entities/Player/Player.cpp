@@ -140,22 +140,28 @@ void Player::inOverworldDraw(void* camera) {
 
     OverworldCamera* cameraPtr = static_cast<OverworldCamera*>(camera);
 
-    float xRender = ofGetWidth() / 2 - hitbox.getWidth() / 2;
-    float yRender = ofGetHeight() / 2 - hitbox.getHeight() / 2;
+    double xAspectDif = ofGetWidth() / 1280.0;
+    double yAspectDif = ofGetHeight() / 720.0;
+
+    int aspectWidth = hitbox.getWidth() * xAspectDif;
+    int aspectHeight = hitbox.getHeight() * yAspectDif;
+    
+    float xRender = ofGetWidth() / 2 - aspectWidth / 2;
+    float yRender = ofGetHeight() / 2 - aspectHeight / 2;
 
     if(hitbox.getX() < cameraPtr->getLenzWidth() / 2) {
-        xRender = hitbox.getX() - hitbox.getWidth() / 2;
+        xRender = hitbox.getX() - aspectWidth / 2;
     } else if(hitbox.getX() > OXDIMENSION - cameraPtr->getLenzWidth() / 2) {
-        xRender = hitbox.getX() - (OXDIMENSION - cameraPtr->getLenzWidth() / 2) + cameraPtr->getLenzWidth() / 2 - hitbox.getWidth()/2;
+        xRender = hitbox.getX() - (OXDIMENSION - cameraPtr->getLenzWidth() / 2) + ofGetWidth() / 2 - aspectWidth/2;
     }
 
     if(hitbox.getY() < cameraPtr->getLenzHeight() / 2) {
-        yRender = hitbox.getY() - hitbox.getHeight()/2;
+        yRender = hitbox.getY() - aspectHeight/2;
     } else if(hitbox.getY() > OYDIMENSION - cameraPtr->getLenzHeight() / 2) {
-        yRender = hitbox.getY() - (OYDIMENSION - cameraPtr->getLenzHeight() / 2) + cameraPtr->getLenzHeight() / 2 - hitbox.getHeight()/2;
+        yRender = hitbox.getY() - (OYDIMENSION - cameraPtr->getLenzHeight() / 2) + ofGetHeight() / 2 - aspectHeight/2;
     }
 
-    overworldSprite.draw(xRender, yRender, hitbox.getWidth(), hitbox.getHeight());
+    overworldSprite.draw(xRender, yRender, aspectWidth, aspectHeight);
 }
 
 void Player::keyPressed(int key) {
