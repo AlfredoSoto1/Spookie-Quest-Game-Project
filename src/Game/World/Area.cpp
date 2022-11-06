@@ -8,7 +8,6 @@ Area::Area(string name, Area *nextArea, string areaImagePath, string areaMusicPa
     areaStage.load(areaStagePath);
     this->entrancePosition = entrancePosition;
     this->entitiesInArea = entitiesInArea;
-    this->defeatedBoss = false;
     this->bossFightActivated = false;
 }
 
@@ -31,10 +30,6 @@ bool Area::inBossFight() {
     return bossFightActivated;
 }
 
-bool Area::hasDefeatedBoss() {
-    return defeatedBoss;
-}
-
 int Area::getRemainingEntities() {
     return entitiesInArea.size();
 }
@@ -48,10 +43,6 @@ void Area::setEntities(std::vector<Entity*> entitiesInArea) {
 
 void Area::setInBossFight(bool bossFightActivated) {
     this->bossFightActivated = bossFightActivated;
-}
-
-void Area::setDefeatedBoss(bool defeatedBoss) {
-    this->defeatedBoss = defeatedBoss;
 }
 
 void Area::resetEnemies() {

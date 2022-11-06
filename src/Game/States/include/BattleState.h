@@ -34,13 +34,21 @@ private:
     ofImage result1;
     ofImage result2;
     ofImage result3;
+    
     int enemyChoice = 0;
     int currentButton;
+    
+    int PLAYER_MAX_HP;
+    int ENEMY_MAX_HP;
+    int bossPhases = 1;
     int currentPlayerHealth;
     int currentEnemyHealth;
     int resultTimer;
+
     bool canInteract;
     bool isAttacking;
     bool enemyHasChosenAttack;
-    int PLAYER_MAX_HP;
+    bool needsToReHeal;
+
+    void reHeal();
 };

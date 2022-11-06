@@ -16,6 +16,11 @@ void Entity::inOverworldDraw(void* camera) {
 }
 
 void Entity::drawHealthBar(int x, int y, int width, int height, int health, int maxHealth) {
+
+    //gray background bar
+    ofSetColor(ofColor::gray);
+    ofDrawRectangle(x, y, width, height);
+
     double ratio = (double)health / maxHealth;
     float barGradient = 3.0;
     for (int i = 0; i < barGradient; i++) {

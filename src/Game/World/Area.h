@@ -11,7 +11,6 @@ public:
     Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Entity*> entitiesInArea);
     
     bool inBossFight();
-    bool hasDefeatedBoss();
     
     int getRemainingEnemies();
     int getRemainingEntities();
@@ -43,6 +42,5 @@ private:
     
     std::vector<Entity*> entitiesInArea;
 
-    bool defeatedBoss;
     bool bossFightActivated;
 };

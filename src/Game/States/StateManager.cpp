@@ -146,7 +146,7 @@ void StateManager::initAreas() {
     // enemies1.push_back(area1Enemy2);
     // enemies1.push_back(area1Enemy3);
     
-    Boss* bossLevel1 = new Boss("Boss-1", 20, 4, 1280, 720);
+    Boss* bossLevel1 = new Boss("Boss-1", 20, 4, 2, 1280, 720);
     enemies1.push_back(bossLevel1);
 
     Rock* rock = new Rock("rock-1", 4 * 480, 4 * 470, 1);

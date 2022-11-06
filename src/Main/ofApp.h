@@ -3,11 +3,6 @@
 #include "ofMain.h"
 #include "StateManager.h"
 #include "Player.h"
-// #include "TitleState.h"
-// #include "OverworldState.h"
-// #include "BattleState.h"
-// #include "WinState.h"
-// #include "EndGameState.h"
 
 class ofApp : public ofBaseApp{
 public:
@@ -29,16 +24,6 @@ public:
 	void gotMessage(ofMessage msg);
 private:
 	
-	StateManager* stateManager;
-
-	// Area *area1;
-	// Area *area2;
-	// Area *currentArea;
-	// State *currentState;
-	// TitleState *titleState;
-	// OverworldState *overworldState;
-	// BattleState *battleState;
-	// WinState *winState;
-	// EndGameState *endGameState;
 	Player *player;
+	StateManager* stateManager;
 };

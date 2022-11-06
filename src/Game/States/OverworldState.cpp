@@ -57,7 +57,6 @@ void OverworldState::update() {
                 enemy->inOverworldUpdate();
                 if (playerHitbox.collides(enemy->getHitBox())) {
                     setEnemy(enemy);
-                    // setNextState("Battle");
                     setNextState(CurrentState::BATTLE);
                     setFinished(true);
                     break;
@@ -100,16 +99,21 @@ void OverworldState::draw() {
 
     for(Entity* entity : area->getEntities()) {
         //draw enemies
-
         Enemy* enemy = dynamic_cast<Enemy*>(entity);
         if(enemy != nullptr) {
+            Boss* boss = dynamic_cast<Boss*>(enemy);
+            if(boss != nullptr)
+                if(!area->inBossFight())
+                    continue;
             if (!enemy->isDead()) {
                 enemy->inOverworldDraw(camera);
             }
+            continue;
         }
         Rock* rock = dynamic_cast<Rock*>(entity);
         if(rock != nullptr) { 
             rock->inOverworldDraw(camera);
+            continue;
         }
     }
 }
@@ -130,6 +134,5 @@ void OverworldState::reset() {
     player->keyReleased('s');
     player->keyReleased('d');
     setFinished(false);
-    // setNextState("");
     setNextState(CurrentState::NONE);
 }
