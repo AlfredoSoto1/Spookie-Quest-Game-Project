@@ -137,7 +137,7 @@ void StateManager::initAreas() {
 
     
     vector<Entity*> enemies1;
-    ofPoint entrancePosition1(4 * 414, 4 * 566);
+    ofPoint entrancePosition1(1000, 1000);
     Enemy *area1Enemy1 = new Enemy("enemy1", 20, 4, 4 * 480, 4 * 432);
     // Enemy *area1Enemy2 = new Enemy("enemy1", 20, 4, 4 * 225, 4 * 178);
     // Enemy *area1Enemy3 = new Enemy("enemy1", 20, 4, 4 * 420, 4 * 178);

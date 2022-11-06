@@ -138,34 +138,22 @@ void Player::fightingUpdate() {
 
 void Player::inOverworldDraw(void* camera) {
 
-    // OverworldCamera* cameraPtr = static_cast<OverworldCamera*>(camera);
+    OverworldCamera* cameraPtr = static_cast<OverworldCamera*>(camera);
 
     float xRender = ofGetWidth() / 2 - hitbox.getWidth() / 2;
     float yRender = ofGetHeight() / 2 - hitbox.getHeight() / 2;
 
-    //FIXME - it still glitches at borders
-
-    if(hitbox.getX() <= ofGetWidth() / 2) {
-        xRender = hitbox.getX() - hitbox.getWidth()/2;
-    } else if(hitbox.getX() > OXDIMENSION - ofGetWidth() / 2) {
-        xRender = hitbox.getX() - (OXDIMENSION - ofGetWidth() / 2) + ofGetWidth() / 2 - hitbox.getWidth()/2;
+    if(hitbox.getX() < cameraPtr->getLenzWidth() / 2) {
+        xRender = hitbox.getX() - hitbox.getWidth() / 2;
+    } else if(hitbox.getX() > OXDIMENSION - cameraPtr->getLenzWidth() / 2) {
+        xRender = hitbox.getX() - (OXDIMENSION - cameraPtr->getLenzWidth() / 2) + cameraPtr->getLenzWidth() / 2 - hitbox.getWidth()/2;
     }
-    // if(cameraPtr->getLastMovingDirX() < 0) {
-    //     xRender = hitbox.getX() - hitbox.getWidth()/2;
-    // } else if(cameraPtr->getLastMovingDirX() > 0) {
-    //     xRender = hitbox.getX() - (OXDIMENSION - ofGetWidth() / 2) + ofGetWidth() / 2 - hitbox.getWidth()/2;
-    // }
 
-    if(hitbox.getY() <= ofGetHeight() / 2) {
+    if(hitbox.getY() < cameraPtr->getLenzHeight() / 2) {
         yRender = hitbox.getY() - hitbox.getHeight()/2;
-    } else if(hitbox.getY() > OYDIMENSION - ofGetHeight() / 2) {
-        yRender = hitbox.getY() - (OYDIMENSION - ofGetHeight() / 2) + ofGetHeight() / 2 - hitbox.getHeight()/2;
+    } else if(hitbox.getY() > OYDIMENSION - cameraPtr->getLenzHeight() / 2) {
+        yRender = hitbox.getY() - (OYDIMENSION - cameraPtr->getLenzHeight() / 2) + cameraPtr->getLenzHeight() / 2 - hitbox.getHeight()/2;
     }
-    // if(cameraPtr->getLastMovingDirY() < 0) {
-    //     yRender = hitbox.getY() - hitbox.getHeight()/2;
-    // } else if(cameraPtr->getLastMovingDirY() > 0) {
-    //     yRender = hitbox.getY() - (OYDIMENSION - ofGetHeight() / 2) + ofGetHeight() / 2 - hitbox.getHeight()/2;
-    // }
 
     overworldSprite.draw(xRender, yRender, hitbox.getWidth(), hitbox.getHeight());
 }
