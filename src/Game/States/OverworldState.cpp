@@ -45,8 +45,14 @@ void OverworldState::update() {
     
     for(Entity* entity : area->getEntities()) {
         //Update enemies
+
         Enemy* enemy = dynamic_cast<Enemy*>(entity);
         if(enemy != nullptr) {
+            Boss* boss = dynamic_cast<Boss*>(enemy);
+            if(boss != nullptr)
+                if(!area->inBossFight())
+                    continue;
+
             if (!enemy->isDead()) {
                 enemy->inOverworldUpdate();
                 if (playerHitbox.collides(enemy->getHitBox())) {
@@ -57,6 +63,7 @@ void OverworldState::update() {
                     break;
                 }
             }
+            continue;
         }
         //update other entities here
         //change this to inmovable/structure entity
@@ -65,6 +72,7 @@ void OverworldState::update() {
             rock->inOverworldUpdate();
             HitBox& rockHitbox = rock->getHitBox();
             playerHitbox.collides(rockHitbox);
+            continue;
         }
     }
 }

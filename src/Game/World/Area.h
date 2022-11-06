@@ -21,8 +21,6 @@ public:
     void setDefeatedBoss(bool defeatedBoss);
     void setInBossFight(bool bossFightActivated);
 
-    void increaseDeadEnemyCount();
-
     void resetEnemies();
     void clearAllEntities();
 

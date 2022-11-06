@@ -9,6 +9,7 @@ Area::Area(string name, Area *nextArea, string areaImagePath, string areaMusicPa
     this->entrancePosition = entrancePosition;
     this->entitiesInArea = entitiesInArea;
     this->defeatedBoss = false;
+    this->bossFightActivated = false;
 }
 
 int Area::getRemainingEnemies() {
