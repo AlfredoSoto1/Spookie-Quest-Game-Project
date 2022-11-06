@@ -64,12 +64,14 @@ void BattleState::startBattle(Enemy *enemy) {
 void BattleState::update() {
     if (canInteract) {
         if (currentPlayerHealth <= 0) {
-            setNextState("End");
+            // setNextState("End");
+            setNextState(CurrentState::END);
             setFinished(true);
             player->setHealth(currentPlayerHealth);
             return;
         } else if (currentEnemyHealth <= 0) {
-            setNextState("Win");
+            // setNextState("Win");
+            setNextState(CurrentState::WIN);
             setFinished(true);
             player->setHealth(currentPlayerHealth);
             return;
@@ -152,6 +154,7 @@ void BattleState::keyPressed(int key) {
 
 void BattleState::reset() {
     setFinished(false);
-    setNextState("");
+    // setNextState("");
+    setNextState(CurrentState::NONE);
     currentPlayerHealth = player->getHealth();
 }

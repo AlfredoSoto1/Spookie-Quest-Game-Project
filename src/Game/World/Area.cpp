@@ -8,7 +8,64 @@ Area::Area(string name, Area *nextArea, string areaImagePath, string areaMusicPa
     areaStage.load(areaStagePath);
     this->entrancePosition = entrancePosition;
     this->entitiesInArea = entitiesInArea;
-    this->deadEnemies = deadEnemies;
+    this->defeatedBoss = false;
+}
+
+int Area::getRemainingEnemies() {
+    int count = 0;
+    for (unsigned int i = 0; i < entitiesInArea.size(); i++) {
+        Enemy* enemy = dynamic_cast<Enemy*>(entitiesInArea.at(i));
+        if(enemy != nullptr) {
+            Boss* boss = dynamic_cast<Boss*>(enemy);
+            if(boss != nullptr)
+                continue;
+            if (!enemy->isDead())
+                count++;
+        }
+    }
+    return count;
+}
+
+bool Area::inBossFight() {
+    return bossFightActivated;
+}
+
+bool Area::hasDefeatedBoss() {
+    return defeatedBoss;
+}
+
+int Area::getRemainingEntities() {
+    return entitiesInArea.size();
+}
+
+void Area::setName(string name) {
+    this->name = name;
+}
+void Area::setEntities(std::vector<Entity*> entitiesInArea) {
+    this->entitiesInArea = entitiesInArea;
+}
+
+void Area::setInBossFight(bool bossFightActivated) {
+    this->bossFightActivated = bossFightActivated;
+}
+
+void Area::setDefeatedBoss(bool defeatedBoss) {
+    this->defeatedBoss = defeatedBoss;
+}
+
+void Area::resetEnemies() {
+    for (unsigned int i = 0; i < entitiesInArea.size(); i++) {
+        Enemy* enemy = dynamic_cast<Enemy*>(entitiesInArea.at(i));
+        if(enemy != nullptr)
+            enemy->revive();
+    }
+}
+
+void Area::clearAllEntities() {
+    for(Entity* entity : entitiesInArea) {
+        delete entity;
+    }
+    entitiesInArea.clear();
 }
 
 string Area::getName() {
@@ -38,48 +95,3 @@ Area *Area::getNextArea() {
     return nextArea;
 }
 
-void Area::setName(string name) {
-    this->name = name;
-}
-void Area::setEntities(std::vector<Entity*> entitiesInArea) {
-    this->entitiesInArea = entitiesInArea;
-}
-
-void Area::increaseDeadEnemyCount() {
-    deadEnemies++;
-}
-
-void Area::resetEnemies() {
-    for (unsigned int i = 0; i < entitiesInArea.size(); i++) {
-        Enemy* enemy = dynamic_cast<Enemy*>(entitiesInArea.at(i));
-        if(enemy != nullptr)
-            enemy->revive();
-    }
-}
-
-int Area::getRemainingEnemies() {
-    int count = 0;
-    for (unsigned int i = 0; i < entitiesInArea.size(); i++) {
-        Enemy* enemy = dynamic_cast<Enemy*>(entitiesInArea.at(i));
-        if(enemy != nullptr) {
-            if (!enemy->isDead())
-                count++;
-        }
-    }
-    return count;
-}
-
-int Area::getDeadEnemies() {
-    return deadEnemies;
-}
-
-int Area::getRemainingEntities() {
-    return entitiesInArea.size();
-}
-
-void Area::clearAllEntities() {
-    for(Entity* entity : entitiesInArea) {
-        delete entity;
-    }
-    entitiesInArea.clear();
-}

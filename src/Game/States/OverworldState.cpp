@@ -32,7 +32,7 @@ void OverworldState::loadArea(Area* area) {
 
     //set Player position
     playerHitbox.setX(area->getEntrancePos().x);
-    playerHitbox.setY(area->getEntrancePos().x);
+    playerHitbox.setY(area->getEntrancePos().y);
 }
 
 void OverworldState::update() {
@@ -51,7 +51,8 @@ void OverworldState::update() {
                 enemy->inOverworldUpdate();
                 if (playerHitbox.collides(enemy->getHitBox())) {
                     setEnemy(enemy);
-                    setNextState("Battle");
+                    // setNextState("Battle");
+                    setNextState(CurrentState::BATTLE);
                     setFinished(true);
                     break;
                 }
@@ -65,8 +66,6 @@ void OverworldState::update() {
             HitBox& rockHitbox = rock->getHitBox();
             playerHitbox.collides(rockHitbox);
         }
-
-        //do else after here
     }
 }
 
@@ -92,7 +91,8 @@ void OverworldState::draw() {
     */
 
     for(Entity* entity : area->getEntities()) {
-        //Update enemies
+        //draw enemies
+
         Enemy* enemy = dynamic_cast<Enemy*>(entity);
         if(enemy != nullptr) {
             if (!enemy->isDead()) {
@@ -108,6 +108,8 @@ void OverworldState::draw() {
 
 void OverworldState::keyPressed(int key) {
     player->keyPressed(key);
+    if(key == 'b')
+        area->setInBossFight(true);
 }
 
 void OverworldState::keyReleased(int key) {
@@ -120,5 +122,6 @@ void OverworldState::reset() {
     player->keyReleased('s');
     player->keyReleased('d');
     setFinished(false);
-    setNextState("");
+    // setNextState("");
+    setNextState(CurrentState::NONE);
 }

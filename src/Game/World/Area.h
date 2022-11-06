@@ -10,10 +10,22 @@ class Area {
 public:
     Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Entity*> entitiesInArea);
     
+    bool inBossFight();
+    bool hasDefeatedBoss();
+    
     int getRemainingEnemies();
     int getRemainingEntities();
-    int getDeadEnemies();
     
+    void setName(string name);
+    void setEntities(std::vector<Entity*> entitiesInArea);
+    void setDefeatedBoss(bool defeatedBoss);
+    void setInBossFight(bool bossFightActivated);
+
+    void increaseDeadEnemyCount();
+
+    void resetEnemies();
+    void clearAllEntities();
+
     string getName();
     ofImage getImage();
     ofImage getStage();
@@ -22,15 +34,6 @@ public:
     vector<Entity*> getEntities();
     
     Area *getNextArea();
-   
-    void setName(string name);
-    void setEntities(std::vector<Entity*> entitiesInArea);
-
-    void increaseDeadEnemyCount();
-
-    void resetEnemies();
-    void clearAllEntities();
-
 private:
     string name;
     ofImage areaImage;
@@ -42,5 +45,6 @@ private:
     
     std::vector<Entity*> entitiesInArea;
 
-    int deadEnemies;
+    bool defeatedBoss;
+    bool bossFightActivated;
 };
