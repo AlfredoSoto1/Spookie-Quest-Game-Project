@@ -1,34 +1,46 @@
 #pragma once
 
 #include "Enemy.h"
-#include "OverworldCamera.h"
+#include "Boss.h"
 #include "Player.h"
-#include "../Entities/Structures/include/Rock.h"
+#include "Rock.h"
+#include "OverworldCamera.h"
 
 class Area {
+public:
+    Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Entity*> entitiesInArea);
+    
+    bool inBossFight();
+    
+    int getRemainingEnemies();
+    int getRemainingEntities();
+    
+    void setName(string name);
+    void setEntities(std::vector<Entity*> entitiesInArea);
+    void setDefeatedBoss(bool defeatedBoss);
+    void setInBossFight(bool bossFightActivated);
+
+    void resetEnemies();
+    void clearAllEntities();
+
+    string getName();
+    ofImage getImage();
+    ofImage getStage();
+    ofSoundPlayer getMusic();
+    ofPoint getEntrancePos();
+    vector<Entity*> getEntities();
+    
+    Area *getNextArea();
 private:
     string name;
     ofImage areaImage;
-    ofSoundPlayer areaMusic;
     ofImage areaStage;
-    ofPoint entrancePosition;
-    std::vector<Enemy *> enemies;
+    ofSoundPlayer areaMusic;
+
     Area *nextArea;
+    ofPoint entrancePosition;
+    
+    std::vector<Entity*> entitiesInArea;
 
-public:
-    //--
-    Rock* rock;
-
-    Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Enemy *> enemies, Rock* rock);
-    void resetEnemies();
-    string getName() { return name; }
-    ofImage getImage() { return areaImage; }
-    ofSoundPlayer getMusic() { return areaMusic; }
-    ofImage getStage() { return areaStage; }
-    ofPoint getEntrancePos() { return entrancePosition; }
-    vector<Enemy *> getEnemies() { return enemies; }
-    int getRemainingEnemies();
-    Area *getNextArea() { return nextArea; }
-    void setName(string name) { this->name = name; }
-    void setEnemies(std::vector<Enemy *> enemies) { this->enemies = enemies; }
+    bool bossFightActivated;
 };

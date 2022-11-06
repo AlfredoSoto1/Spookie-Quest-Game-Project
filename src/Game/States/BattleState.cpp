@@ -1,72 +1,135 @@
 #include "BattleState.h"
+#include "Attack.h"
+#include "Defense.h"
 
 BattleState::BattleState(Player *player, Area *area) {
     stage = area->getStage();
+
+    /*
+        Battle Music 
+        change depending of enemy
+    */
     music.load("audio/battle.wav");
     music.setLoop(true);
     music.setVolume(0.25);
+
+    /*
+        Interact sounds
+    */
     buttonChange.load("audio/ui/beep.mp3");
     buttonChange.setVolume(0.5);
     buttonSelect.load("audio/ui/boop.mp3");
     buttonSelect.setVolume(0.5);
-    this->player = player;
-    currentButton = 1;
-    resultTimer = 0;
-    canInteract = true;
-    currentPlayerHealth = PLAYER_MAX_HP = player->getHealth();
+
+    /*
+        Interact images 
+    */
     button1.load("images/ui/buttons/rock.png");
     button2.load("images/ui/buttons/paper.png");
     button3.load("images/ui/buttons/scissors.png");
     result1.load("images/ui/buttons/rock1.png");
     result2.load("images/ui/buttons/paper1.png");
     result3.load("images/ui/buttons/scissors1.png");
+
+    /*
+        default setup
+    */
+    this->player = player;
+    currentButton = 1;
+    resultTimer = 0;
+    canInteract = true;
+    isAttacking = false;
+    needsToReHeal = false;
+    enemyHasChosenAttack = false;
+    currentPlayerHealth = PLAYER_MAX_HP = player->getHealth();
+}
+
+Enemy* BattleState::getEnemy() {
+    return enemy;
+}
+
+void BattleState::setEnemy(Enemy *enemy) {
+    this->enemy = enemy;
+    ENEMY_MAX_HP = enemy->getHealth();
+    Boss* boss = dynamic_cast<Boss*>(enemy);
+    if(boss != nullptr)
+        bossPhases = boss->getPhases();
+}
+
+void BattleState::setStage(ofImage stage) {
+    this->stage = stage;
 }
 
 void BattleState::startBattle(Enemy *enemy) {
     this->enemy = enemy;
     currentEnemyHealth = enemy->getHealth();
     currentPlayerHealth = player->getHealth();
+    ENEMY_MAX_HP = enemy->getHealth();
+    Boss* boss = dynamic_cast<Boss*>(enemy);
+    if(boss != nullptr)
+        bossPhases = boss->getPhases();
+}
+
+void BattleState::reHeal() {
+    if(currentEnemyHealth > ENEMY_MAX_HP) {
+        currentEnemyHealth = ENEMY_MAX_HP;
+        needsToReHeal = false;
+    } else if(needsToReHeal) {
+        currentEnemyHealth += 1;
+    }
 }
 
 void BattleState::update() {
     if (canInteract) {
         if (currentPlayerHealth <= 0) {
-            setNextState("End");
+            setNextState(CurrentState::END);
             setFinished(true);
             player->setHealth(currentPlayerHealth);
             return;
         } else if (currentEnemyHealth <= 0) {
-            setNextState("Win");
+            if(bossPhases > 1) {
+                bossPhases--;
+                needsToReHeal = true;
+                currentEnemyHealth = 1;
+                return;
+            }
+            setNextState(CurrentState::WIN);
             setFinished(true);
             player->setHealth(currentPlayerHealth);
             return;
         }
     }
 
+    reHeal();
+
+    //update sprite animation
     player->fightingUpdate();
     enemy->fightingUpdate();
 
-    //move this into enemy class itself
-    //also player attacks
-    //this is so that every entity has ther unique atack
+    if(isAttacking) {
 
-    if (choice != Move::none && canInteract) {
-        enemyChoice = rand() % 3 + 1;
-        if ((choice == Move::rock && enemyChoice == 2) || (choice == Move::paper && enemyChoice == 3) || (choice == Move::scissors && enemyChoice == 1)) {
-            currentPlayerHealth -= enemy->getDamage() * 2.0;
-            currentEnemyHealth -= player->getDamage() / 2.0;
-            outcome = Outcome::lose;
-        } else if ((choice == Move::rock && enemyChoice == 3) || (choice == Move::paper && enemyChoice == 1) || (choice == Move::scissors && enemyChoice == 2)) {
-            currentPlayerHealth -= enemy->getDamage() / 2.0;
-            currentEnemyHealth -= player->getDamage() * 2.0;
-            outcome = Outcome::win;
-        } else {
-            currentPlayerHealth -= enemy->getDamage();
-            currentEnemyHealth -= player->getDamage();
-            outcome = Outcome::draw;
+        //TODO
+        //add defenses
+        
+        Attack& playerAttack = player->getAttack(player->getAttackChoice());
+        playerAttack.provokeAttack(&currentEnemyHealth, 1);
+
+        if(!enemyHasChosenAttack) {
+            enemy->setAttackChoice(rand() % enemy->getNumberOfAttacks());
+            enemyHasChosenAttack = true;
         }
-        resultTimer = ofGetFrameRate();
-        canInteract = false;
+        Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
+        if(!playerAttack.isOnCoolDown()) {
+            enemyAttack.provokeAttack(&currentPlayerHealth, enemy->getBaseDamage());
+        }
+
+        if(!enemyAttack.isOnCoolDown() && !playerAttack.isOnCoolDown()) {
+            enemyAttack.reset();
+            playerAttack.reset();
+            canInteract = true;
+            isAttacking = false;
+            enemyHasChosenAttack = false;
+        }
     }
 }
 
@@ -78,165 +141,44 @@ void BattleState::draw() {
     player->fightingDraw();
     enemy->fightingDraw();
 
-    // render move buttons
-    ofSetColor(180, 180, 180);
-    if (currentButton == 1)
-        ofSetColor(255, 255, 255);
-    button1.draw(10 * 4, 84 * 4, 192, 192);
+    //draw healthBar from both enemy and player
+    int healthBarWidth = 256;
+    int centerXEnemy = enemy->getFightingHitBox().getX() + enemy->getFightingHitBox().getWidth() / 2 - healthBarWidth / 2;
+    int centerXPlayer = player->getFightingHitBox().getX() + player->getFightingHitBox().getWidth() / 2 - healthBarWidth / 2;
 
-    ofSetColor(180, 180, 180);
-    if (currentButton == 2)
-        ofSetColor(255, 255, 255);
-    button2.draw(56 * 4, 84 * 4, 192, 192);
+    enemy->drawHealthBar(centerXEnemy, 64, healthBarWidth, 25, currentEnemyHealth, enemy->getHealth());
+    player->drawHealthBar(centerXPlayer, 64, healthBarWidth, 25, currentPlayerHealth, PLAYER_MAX_HP);
 
-    ofSetColor(180, 180, 180);
-    if (currentButton == 3)
-        ofSetColor(255, 255, 255);
-    button3.draw(102 * 4, 84 * 4, 192, 192);
+    // render attack buttons
+    player->drawAttackList();
 
     ofSetColor(255, 255, 255);
-
-    drawOutcome();
-    drawHealthBar();
-
-    ofSetColor(255, 255, 255);
-}
-
-void BattleState::drawHealthBar() {
-    ofImage healthbar;
-    healthbar.load("images/ui/healthbar.png");
-    healthbar.draw(64, 64, 192, 192);
-    healthbar.draw(384, 64, 192, 192);
-
-    for (int i = 0; i < 3; i++) {
-        double playerHealthRatio = (double)currentPlayerHealth / (double)PLAYER_MAX_HP;
-        double enemyHealthRatio = (double)currentEnemyHealth / (double)enemy->getHealth();
-        if (playerHealthRatio < 0)
-            playerHealthRatio = 0;
-        else if (playerHealthRatio < 0.33)
-            ofSetColor(200 - i * 20, 60 - i * 20, 60 - i * 20);
-        else if (playerHealthRatio < 0.66)
-            ofSetColor(180 - i * 20, 200 - i * 20, 60 - i * 20);
-        else
-            ofSetColor(60 - i * 20, 180 - i * 20, 80 - i * 20);
-
-        ofDrawRectangle(108, 152 + i * 4, (int)(36 * playerHealthRatio) * 4, 4);
-
-        if (enemyHealthRatio < 0)
-            enemyHealthRatio = 0;
-        else if (enemyHealthRatio < 0.33)
-            ofSetColor(200 - i * 20, 60 - i * 20, 60 - i * 20);
-        else if (enemyHealthRatio < 0.66)
-            ofSetColor(180 - i * 20, 200 - i * 20, 60 - i * 20);
-        else
-            ofSetColor(60 - i * 20, 180 - i * 20, 80 - i * 20);
-
-        ofDrawRectangle(428, 152 + i * 4, (int)(36 * enemyHealthRatio) * 4, 4);
-    }
-    ofFill();
-}
-
-void BattleState::drawOutcome() {
-    if (resultTimer > 1) {
-        resultTimer--;
-        float posY = 60 * 4;
-        float pposX = 64 * 4;
-        float eposX = 80 * 4;
-        float dim = 64;
-
-        switch (outcome) {
-            case Outcome::win:
-                ofSetColor(100, 255, 100);
-                if (choice == Move::rock)
-                    result1.draw(pposX, posY, dim, dim);
-                if (choice == Move::paper)
-                    result2.draw(pposX, posY, dim, dim);
-                if (choice == Move::scissors)
-                    result3.draw(pposX, posY, dim, dim);
-                ofSetColor(255, 100, 100);
-                if (enemyChoice == 1)
-                    result1.draw(eposX, posY, dim, dim);
-                if (enemyChoice == 2)
-                    result2.draw(eposX, posY, dim, dim);
-                if (enemyChoice == 3)
-                    result3.draw(eposX, posY, dim, dim);
-                break;
-            case Outcome::lose:
-                ofSetColor(255, 100, 100);
-                if (choice == Move::rock)
-                    result1.draw(pposX, posY, dim, dim);
-                if (choice == Move::paper)
-                    result2.draw(pposX, posY, dim, dim);
-                if (choice == Move::scissors)
-                    result3.draw(pposX, posY, dim, dim);
-                ofSetColor(100, 255, 100);
-                if (enemyChoice == 1)
-                    result1.draw(eposX, posY, dim, dim);
-                if (enemyChoice == 2)
-                    result2.draw(eposX, posY, dim, dim);
-                if (enemyChoice == 3)
-                    result3.draw(eposX, posY, dim, dim);
-                break;
-            case Outcome::draw:
-                ofSetColor(200, 200, 100);
-                if (choice == Move::rock)
-                    result1.draw(pposX, posY, dim, dim);
-                if (choice == Move::paper)
-                    result2.draw(pposX, posY, dim, dim);
-                if (choice == Move::scissors)
-                    result3.draw(pposX, posY, dim, dim);
-                if (enemyChoice == 1)
-                    result1.draw(eposX, posY, dim, dim);
-                if (enemyChoice == 2)
-                    result2.draw(eposX, posY, dim, dim);
-                if (enemyChoice == 3)
-                    result3.draw(eposX, posY, dim, dim);
-                break;
-        }
-        ofSetColor(255, 255, 255);
-    }
-    if (resultTimer == 1) {
-        canInteract = true;
-        choice = Move::none;
-        resultTimer--;
-    }
 }
 
 void BattleState::keyPressed(int key) {
+    /*
+        change type of attack
+        plus add sounds
+    */
     if (canInteract) {
         if (key == OF_KEY_LEFT || key == 'a') {
             buttonChange.play();
-            if (currentButton == 1)
-                currentButton = 3;
-            else
-                currentButton--;
+            player->setAttackChoice(player->getAttackChoice() - 1);
         }
         if (key == OF_KEY_RIGHT || key == 'd') {
             buttonChange.play();
-            if (currentButton == 3)
-                currentButton = 1;
-            else
-                currentButton++;
+            player->setAttackChoice(player->getAttackChoice() + 1);
         }
         if (key == OF_KEY_RETURN) {
             buttonSelect.play();
-            switch (currentButton) {
-                case 2:
-                    choice = Move::paper;
-                    break;
-                case 3:
-                    choice = Move::scissors;
-                    break;
-                default:
-                    choice = Move::rock;
-                    break;
-            }
+            isAttacking = true;
+            canInteract = false;
         }
     }
 }
 
 void BattleState::reset() {
     setFinished(false);
-    setNextState("");
+    setNextState(CurrentState::NONE);
     currentPlayerHealth = player->getHealth();
 }

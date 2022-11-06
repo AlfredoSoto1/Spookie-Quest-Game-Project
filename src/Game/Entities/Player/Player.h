@@ -12,9 +12,6 @@
 #define INIT_BATTLE_X 64
 #define INIT_BATTLE_Y 164
 
-// #define CENTER_X 288
-// #define CENTER_Y 208
-
 #define OXDIMENSION 2688
 #define OYDIMENSION 2560
 
@@ -29,11 +26,14 @@ private:
     Animation *fighting;
     vector<char> pressedKeys;
 
+    ofImage healthBar;
+    ofImage buttonAttack;
+
 public:
-    Player(int health, int baseDamage);
+    Player(const string& playerName, int health, int baseDamage);
     ~Player();
 
-    int getSpeed() { return speed; }
+    void drawAttackList();
 
     void inOverworldUpdate();
     void fightingUpdate();

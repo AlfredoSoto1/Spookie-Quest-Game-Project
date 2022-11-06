@@ -8,21 +8,33 @@
 
 class Entity {
 public:
-    Entity(const HitBox& hitbox, int health);
+    Entity(const string& name, const HitBox& hitbox, int health);
     virtual ~Entity();
     virtual void inOverworldUpdate() = 0;
     virtual void inOverworldDraw(void* camera);
+    virtual void drawHealthBar(int x, int y, int width, int height, int health, int maxHealth);
 
+    int getId();
+    int getHealth();
+    
+    string& getName();
     HitBox& getHitBox();
-    int getHealth() { return health; };
-    void setHealth(int health) { this->health = health; };
+
+    void setHealth(int health);
+    void setName(const string& name);
 
 protected:
+    static unsigned int universalId;
+
+    int id;
     int health;
-    ofImage overworldSprite;
-    glm::vec2 velocity;
+
+    string name;
 
     HitBox hitbox;
+    glm::vec2 velocity;
+    ofImage overworldSprite;
+
 };
 
 #endif

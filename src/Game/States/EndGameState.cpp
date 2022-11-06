@@ -17,11 +17,13 @@ void EndGameState::draw() {
 }
 
 void EndGameState::keyPressed(int key) {
-    setNextState("Title");
+    // setNextState("Title");
+    setNextState(CurrentState::TITLE);
     setFinished(true);
 }
 
 void EndGameState::reset() {
     setFinished(false);
-    setNextState("");
+    // setNextState("");
+    setNextState(CurrentState::NONE);
 }

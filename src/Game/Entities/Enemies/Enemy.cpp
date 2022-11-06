@@ -1,11 +1,9 @@
 #include "Enemy.h"
 #include "OverworldCamera.h"
 
-Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, int oy) : 
-    EntityFighter(HitBox(ox, oy, 50, 64), HitBox(420, 220, 97, 125), health, baseDamage)
+Enemy::Enemy(const string& name, int health, int baseDamage, int ox, int oy) : 
+    EntityFighter(name, HitBox(ox, oy, 50, 64), HitBox(420, 220, 97, 125), health, baseDamage)
 {
-    this->id = id;
-    this->entityName = entityName;
     vector<ofImage> downFrames;
     vector<ofImage> upFrames;
     vector<ofImage> leftFrames;
@@ -42,6 +40,24 @@ Enemy::Enemy(string id, int health, int baseDamage, string entityName, int ox, i
     timeDirectionCounter = glm::vec2(0.0, 0.0);
     movementDirection = glm::vec2(0.0, 0.0);
     hitbox.setDirection(Direction::up);
+
+    addAttack(Attack(5, 60));
+}
+
+bool Enemy::isDead() { 
+    return dead; 
+}
+
+void Enemy::kill() {
+    this->dead = true;
+}
+
+void Enemy::revive() {
+    this->dead = false;
+}
+
+ofImage Enemy::getSprite() {
+    return overworldSprite; 
 }
 
 void Enemy::inOverworldUpdate() {
@@ -137,6 +153,12 @@ void Enemy::inOverworldDraw(void* camera) {
 void Enemy::fightingUpdate() {
     fightingSprite = fighting->getCurrentFrame();
     fighting->update();
+
+    int xpos = ofGetWidth() * (3.0 / 4.0) - fightingHitbox.getWidth()  / 2;
+    int ypos = ofGetHeight() * (1.0 / 2.0) - fightingHitbox.getHeight() / 2;
+
+    fightingHitbox.setX(xpos);
+    fightingHitbox.setY(ypos);
 }
 
 void Enemy::reset() {

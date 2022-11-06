@@ -12,11 +12,13 @@ void WinState::draw() {
 }
 
 void WinState::keyPressed(int key) {
-    setNextState("Overworld");
+    // setNextState("Overworld");
+    setNextState(CurrentState::OVERWORLD);
     setFinished(true);
 }
 
 void WinState::reset() {
     setFinished(false);
-    setNextState("");
+    // setNextState("");
+    setNextState(CurrentState::NONE);
 }

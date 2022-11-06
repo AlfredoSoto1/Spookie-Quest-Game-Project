@@ -20,4 +20,5 @@
         "string": "cpp",
         "new": "cpp"
     },
+    "editor.fontFamily": "Consolas, 'Courier New', monospace",
 }
