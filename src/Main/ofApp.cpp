@@ -15,8 +15,11 @@ void ofApp::setup() {
     endGameState = new EndGameState();
     pauseState = new PauseState();
 
+    pauseState->font.load("paladins.ttf", 30);
     // Initial State
     currentState = titleState;
+
+
 }
 
 //--------------------------------------------------------------

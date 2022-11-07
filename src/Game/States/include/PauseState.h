@@ -11,7 +11,9 @@ private:
 public:
     PauseState();
     void update();
+    ofTrueTypeFont font;
     void draw();
     void keyPressed(int key);
     void reset();
+
 };

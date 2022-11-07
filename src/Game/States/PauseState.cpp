@@ -5,13 +5,17 @@ PauseState::PauseState() {
 
 }
 
+
+
 void PauseState::update() {
 
 }
 
+
+
 void PauseState::draw() {
-    ofSetColor(ofColor::red);
-    ofDrawRectangle(0,0,100, 100);
+    ofSetBackgroundColor(ofColor::black); 
+    font.drawString("PAUSED",(ofGetWidth() - font.stringWidth("PAUSED"))/2, 100);
     ofSetColor(ofColor::white);
 }
 
@@ -26,3 +30,5 @@ void PauseState::reset() {
     setNextState("");
     setFinished(false);
 }
+
+
