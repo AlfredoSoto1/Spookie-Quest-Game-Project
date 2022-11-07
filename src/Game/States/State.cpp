@@ -8,13 +8,13 @@ int State::getNextState() {
     return nextState;
 }
 
-int State::getPastState() {
-    return pastState;
+CurrentState State::getCurrentState() {
+    return currentState;
 }
 
-// string State::getNextState() {
-//     return nextState;
-// }
+State* State::getPastState() {
+    return pastRef;
+}
 
 void State::setFinished(bool finished) {
     this->finished = finished;
@@ -24,8 +24,12 @@ void State::setNextState(int nextState) {
     this->nextState = nextState;
 }
 
-void State::setPastState(int pastState) {
-    this->pastState = pastState;
+void State::setCurrentState(CurrentState currentState) {
+    this->currentState = currentState;
+}
+
+void State::setPastState(State* pastRef) {
+    this->pastRef = pastRef;
 }
 
 // void State::setNextState(string nextState) {

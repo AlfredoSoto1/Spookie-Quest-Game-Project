@@ -12,9 +12,6 @@ enum CurrentState {
 
     NONE
 };
-
-
-
 class State {
 public:
     State() {}
@@ -40,22 +37,23 @@ public:
     void setFinished(bool finished);
     // void setNextState(string nextState);
     void setNextState(int nextState);
+    void setCurrentState(CurrentState currentState);
 
-    void setPastState(int pastState);
+    void setPastState(State* pastRef);
     
     bool hasFinished();
     
     int getNextState();
+    CurrentState getCurrentState();
 
-    int getPastState();
-    // string getNextState();
+    State* getPastState();
 
     void toggleMusic();
 protected:
     int nextState;
+    CurrentState currentState;
 
-    int pastState;
-    // string nextState;
+    State* pastRef;
     ofSoundPlayer music;
     bool finished = false;
 };

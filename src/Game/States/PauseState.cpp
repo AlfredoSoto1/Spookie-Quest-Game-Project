@@ -2,16 +2,12 @@
 #include "ofMain.h"
 
 PauseState::PauseState() {
-
+    this->setCurrentState(CurrentState::PAUSED);
 }
-
-
 
 void PauseState::update() {
 
 }
-
-
 
 void PauseState::draw() {
     ofSetBackgroundColor(ofColor::black); 
@@ -20,16 +16,13 @@ void PauseState::draw() {
 
 void PauseState::keyPressed(int key) {
     if(key == OF_KEY_ESC) {
-
-        setNextState(getPastState());
-        setPastState(CurrentState::NONE);
+        State* lastState = getPastState();
+        setNextState(lastState->getCurrentState());
         setFinished(true);
-        
     }
 }
 
 void PauseState::reset() {
     setNextState(CurrentState::NONE);
-    setPastState(CurrentState::NONE);
     setFinished(false);
 }

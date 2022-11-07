@@ -1,6 +1,7 @@
 #include "WinState.h"
 
 WinState::WinState() {
+    this->setCurrentState(CurrentState::WIN);
     screen.load("images/ui/winscreen.png");
 }
 
@@ -21,5 +22,4 @@ void WinState::reset() {
     setFinished(false);
     // setNextState("");
     setNextState(CurrentState::NONE);
-    setPastState(CurrentState::NONE);
 }
