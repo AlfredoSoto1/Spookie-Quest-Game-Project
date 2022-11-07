@@ -100,13 +100,6 @@ void OverworldState::draw() {
     */
     player->inOverworldDraw(camera);
 
-    ofDrawBitmapString("player position " + ofToString(player->getHitBox().getX()) + ", " + ofToString(player->getHitBox().getY()), 50, 100);
-    ofDrawBitmapString("player health: " + ofToString(player->getHealth()), 50, 50);
-    ofDrawBitmapString("enemies dead: " + ofToString(enemyDead.size()), 50, 200);
-    
-
-    
-
     /*
         Draw Entities
     */
@@ -130,6 +123,10 @@ void OverworldState::draw() {
             continue;
         }
     }
+
+    ofDrawBitmapString("player position " + ofToString(player->getHitBox().getX()) + ", " + ofToString(player->getHitBox().getY()), 50, 100);
+    ofDrawBitmapString("player health: " + ofToString(player->getHealth()), 50, 50);
+    ofDrawBitmapString("enemies dead: " + ofToString(enemyDead.size()), 50, 200);
 }
 
 void OverworldState::keyPressed(int key) {
