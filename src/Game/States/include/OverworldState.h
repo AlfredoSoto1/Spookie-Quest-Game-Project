@@ -30,5 +30,6 @@ private:
     Player *player;
     Enemy *enemyToBattle;
     ofImage overworldImage;
+    ofImage overworldEffectImage;
     OverworldCamera *camera;
 };

@@ -1,11 +1,12 @@
 #include "Area.h"
 
-Area::Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Entity*> entitiesInArea) {
+Area::Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, string areaImageAmbiance, ofPoint entrancePosition, vector<Entity*> entitiesInArea) {
     this->name = name;
     this->nextArea = nextArea;
     areaImage.load(areaImagePath);
     areaMusic.load(areaMusicPath);
     areaStage.load(areaStagePath);
+    areaAmbiance.load(areaImageAmbiance);
     this->entrancePosition = entrancePosition;
     this->entitiesInArea = entitiesInArea;
     this->bossFightActivated = false;
@@ -65,6 +66,10 @@ string Area::getName() {
 }
 ofImage Area::getImage() {
     return areaImage;
+}
+
+ofImage Area::getAmbianceImage() {
+    return areaAmbiance;
 }
 
 ofImage Area::getStage() {

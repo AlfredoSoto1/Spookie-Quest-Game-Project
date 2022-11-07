@@ -130,7 +130,7 @@ void StateMaster::initAreas() {
     entities.push_back(area2Enemy4);
     entities.push_back(area2Enemy5);
     entities.push_back(area2Enemy6);
-    Area* area2 = new Area("Area2", NULL, "images/areas/area2.png", "audio/ice.wav", "images/stages/stage2.png", entrancePosition, entities);
+    Area* area2 = new Area("Area2", NULL, "images/areas/area2.png", "audio/ice.wav", "images/stages/stage2.png", "images/areas/darkness.png", entrancePosition, entities);
     generatedAreas.push_back(area2);
 
     ///-----------------------------------------------------------------------
@@ -143,7 +143,7 @@ void StateMaster::initAreas() {
     Boss* bossLevel2 = new Boss("Boss-1", 20, 4, 2, 1280, 720);
     entities1.push_back(bossLevel2);
 
-    Area* cave = new Area("cave", area2, "images/areas/area3.png", "audio/forest.wav", "images/stages/stage1.png", entrancePosition, entities1);
+    Area* cave = new Area("cave", area2, "images/areas/area3.png", "audio/forest.wav", "images/stages/stage1.png", "images/areas/darkness.png", entrancePosition, entities1);
     generatedAreas.push_back(cave);
 
     //------------------------------------------------------------------------
@@ -192,7 +192,7 @@ void StateMaster::initAreas() {
         entities2.push_back(tree);
     }
 
-    Area* area1 = new Area("wild-life", cave, "images/areas/area1.png", "audio/forest.wav", "images/stages/stage1.png", entrancePosition, entities2);
+    Area* area1 = new Area("wild-life", cave, "images/areas/area1.png", "audio/forest.wav", "images/stages/stage1.png", "images/areas/darkness.png", entrancePosition, entities2);
     generatedAreas.push_back(area1);
 
     this->currentArea = area1;

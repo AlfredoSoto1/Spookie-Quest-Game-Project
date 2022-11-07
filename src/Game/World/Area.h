@@ -7,7 +7,7 @@
 
 class Area {
 public:
-    Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Entity*> entitiesInArea);
+    Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, string areaImageAmbiance, ofPoint entrancePosition, vector<Entity*> entitiesInArea);
     
     bool inBossFight();
     
@@ -25,6 +25,7 @@ public:
     string getName();
     ofImage getImage();
     ofImage getStage();
+    ofImage getAmbianceImage();
     ofSoundPlayer getMusic();
     ofPoint getEntrancePos();
     vector<Entity*> getEntities();
@@ -32,6 +33,7 @@ public:
     Area *getNextArea();
 private:
     string name;
+    ofImage areaAmbiance;
     ofImage areaImage;
     ofImage areaStage;
     ofSoundPlayer areaMusic;

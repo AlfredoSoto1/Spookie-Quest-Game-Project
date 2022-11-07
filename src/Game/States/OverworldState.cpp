@@ -25,6 +25,7 @@ Area* OverworldState::getArea() {
 void OverworldState::loadArea(Area* area) {
     this->area = area;
     overworldImage = area->getImage();
+    overworldEffectImage = area->getAmbianceImage();
     music = area->getMusic();
     music.setVolume(0.25);
     music.setLoop(true);
@@ -116,6 +117,8 @@ void OverworldState::draw() {
             continue;
         }
     }
+
+    overworldEffectImage.draw(0,0, ofGetWidth(), ofGetHeight());
 }
 
 void OverworldState::keyPressed(int key) {
