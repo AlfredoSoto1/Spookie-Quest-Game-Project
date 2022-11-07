@@ -26,4 +26,5 @@ void EndGameState::reset() {
     setFinished(false);
     // setNextState("");
     setNextState(CurrentState::NONE);
+    setPastState(CurrentState::NONE);
 }

@@ -174,11 +174,17 @@ void BattleState::keyPressed(int key) {
             isAttacking = true;
             canInteract = false;
         }
+        if(key == OF_KEY_ESC) {
+            setPastState(CurrentState::BATTLE);
+            setNextState(CurrentState::PAUSED);
+            setFinished(true);
+        }
     }
 }
 
 void BattleState::reset() {
     setFinished(false);
     setNextState(CurrentState::NONE);
+    setPastState(CurrentState::NONE);
     currentPlayerHealth = player->getHealth();
 }

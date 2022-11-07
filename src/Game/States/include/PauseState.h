@@ -4,9 +4,11 @@
 #include "Area.h"
 #include "Player.h"
 
+
 class PauseState : public State {
 private:
     ofImage background;
+    
 
 public:
     PauseState();

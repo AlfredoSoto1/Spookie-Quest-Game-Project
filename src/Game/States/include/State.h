@@ -13,6 +13,8 @@ enum CurrentState {
     NONE
 };
 
+
+
 class State {
 public:
     State() {}
@@ -38,15 +40,21 @@ public:
     void setFinished(bool finished);
     // void setNextState(string nextState);
     void setNextState(int nextState);
+
+    void setPastState(int pastState);
     
     bool hasFinished();
     
     int getNextState();
+
+    int getPastState();
     // string getNextState();
 
     void toggleMusic();
 protected:
     int nextState;
+
+    int pastState;
     // string nextState;
     ofSoundPlayer music;
     bool finished = false;

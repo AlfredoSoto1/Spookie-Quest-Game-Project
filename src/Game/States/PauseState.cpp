@@ -20,12 +20,16 @@ void PauseState::draw() {
 
 void PauseState::keyPressed(int key) {
     if(key == OF_KEY_ESC) {
-        setNextState(CurrentState::OVERWORLD);
+
+        setNextState(getPastState());
+        setPastState(CurrentState::NONE);
         setFinished(true);
+        
     }
 }
 
 void PauseState::reset() {
     setNextState(CurrentState::NONE);
+    setPastState(CurrentState::NONE);
     setFinished(false);
 }
