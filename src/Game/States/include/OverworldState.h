@@ -27,8 +27,10 @@ public:
 
 private:
     Area *area;
+    std::vector<Enemy*> enemyDead;
     Player *player;
     Enemy *enemyToBattle;
     ofImage overworldImage;
     OverworldCamera *camera;
+    
 };

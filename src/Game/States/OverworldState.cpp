@@ -43,6 +43,7 @@ void OverworldState::update() {
     //player Hitbox
     HitBox& playerHitbox = player->getHitBox();
     
+
     for(Entity* entity : area->getEntities()) {
         //Update enemies
 
@@ -62,6 +63,14 @@ void OverworldState::update() {
                     break;
                 }
             }
+            else if(enemy->isDead()){
+                std::vector<Enemy*>::iterator it = std::find(enemyDead.begin(), enemyDead.end(), enemy);
+                if(it == enemyDead.end()){
+                    enemyDead.push_back(enemy);
+                    break;
+                }
+                }
+
             continue;
         }
         //update other entities here
@@ -93,6 +102,10 @@ void OverworldState::draw() {
 
     ofDrawBitmapString("player position " + ofToString(player->getHitBox().getX()) + ", " + ofToString(player->getHitBox().getY()), 50, 100);
     ofDrawBitmapString("player health: " + ofToString(player->getHealth()), 50, 50);
+    ofDrawBitmapString("enemies dead: " + ofToString(enemyDead.size()), 50, 200);
+    
+
+    
 
     /*
         Draw Entities
@@ -126,6 +139,12 @@ void OverworldState::keyPressed(int key) {
     else if(key == 'h'){
         player->setHealth(100);
         
+    }
+    else if(key == 'r'){
+        for(int i = 0; i < enemyDead.size(); i++){
+            enemyDead[i]->revive();
+            enemyDead.erase(enemyDead.begin() + i);
+        }
     }
 }
 
