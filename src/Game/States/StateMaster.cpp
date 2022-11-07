@@ -51,15 +51,13 @@ void StateMaster::update() {
             The new state will be the overworld
         */
         currentState = overworldState;
-
-    } 
-    else if (currentState->getNextState() == CurrentState::PAUSED) {
+       } else if (currentState->getNextState() == CurrentState::PAUSED) {
         /*
             The new state will be the overworld
         */
-        currentState = pauseState;
+        currentState = pauseState;}
 
-    }else if (currentState->getNextState() == CurrentState::BATTLE) {
+    else if (currentState->getNextState() == CurrentState::BATTLE) {
         /*
             The new state will be Battle, this being called after overworld state
         */
@@ -118,6 +116,8 @@ void StateMaster::createStates() {
     this->battleState = new BattleState(this->player, this->currentArea);
     this->winState = new WinState();
     this->endGameState = new EndGameState();
+    this->pauseState = new PauseState();
+    
 
     this->currentState = this->titleState;
 }
