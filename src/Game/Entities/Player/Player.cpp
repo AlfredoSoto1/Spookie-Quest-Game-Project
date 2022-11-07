@@ -151,15 +151,31 @@ void Player::inOverworldDraw(void* camera) {
     float yRender = ofGetHeight() / 2 - aspectHeight / 2;
 
     if(hitbox.getX() < cameraPtr->getLenzWidth() / 2) {
-        xRender = hitbox.getRenderX() - aspectWidth / 2;
+        // xRender = hitbox.getRenderX() - aspectWidth / 2;
+        float leftCorner = cameraPtr->getLenzWidth() / 2;
+        float leftCornerDif = leftCorner - hitbox.getRenderX();
+        float ratio = leftCornerDif / (cameraPtr->getLenzWidth() / 2);
+        xRender = ofGetWidth() / 2 - aspectWidth/2 - ratio * ofGetWidth() / 2;
     } else if(hitbox.getX() > OXDIMENSION - cameraPtr->getLenzWidth() / 2) {
         // xRender = hitbox.getRenderX() - (OXDIMENSION - cameraPtr->getLenzWidth() / 2) + ofGetWidth() / 2 - aspectWidth/2;
+        float rightCorner = OXDIMENSION - cameraPtr->getLenzWidth() / 2;
+        float rightCornerDif = hitbox.getRenderX() - rightCorner;
+        float ratio = rightCornerDif / (cameraPtr->getLenzWidth() / 2);
+        xRender = ofGetWidth() / 2 - aspectWidth/2 + ratio * ofGetWidth() / 2;
     }
 
     if(hitbox.getY() < cameraPtr->getLenzHeight() / 2) {
-        yRender = hitbox.getRenderY() - aspectHeight/2;
+        // yRender = hitbox.getRenderY() - aspectHeight/2;
+        float topCorner = cameraPtr->getLenzHeight() / 2;
+        float topCornerDif = topCorner - hitbox.getRenderY();
+        float ratio = topCornerDif / (cameraPtr->getLenzHeight() / 2);
+        yRender = ofGetHeight() / 2 - aspectHeight/2 - ratio * ofGetHeight() / 2;
     } else if(hitbox.getY() > OYDIMENSION - cameraPtr->getLenzHeight() / 2) {
-        yRender = hitbox.getRenderY() - (OYDIMENSION - cameraPtr->getLenzHeight() / 2) + ofGetHeight() / 2 - aspectHeight/2;
+        // yRender = hitbox.getRenderY() - (OYDIMENSION - cameraPtr->getLenzHeight() / 2) + ofGetHeight() / 2 - aspectHeight/2;
+        float downCorner = OYDIMENSION - cameraPtr->getLenzHeight() / 2;
+        float downCornerDif = hitbox.getRenderY() - downCorner;
+        float ratio = downCornerDif / (cameraPtr->getLenzHeight() / 2);
+        yRender = ofGetHeight() / 2 - aspectHeight/2 + ratio * ofGetHeight() / 2;
     }
 
     overworldSprite.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);

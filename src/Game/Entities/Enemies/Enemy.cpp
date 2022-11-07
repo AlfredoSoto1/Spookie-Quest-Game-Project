@@ -141,9 +141,6 @@ void Enemy::inOverworldDraw(void* camera) {
     double xAspectDif = ofGetWidth() / 1280.0;
     double yAspectDif = ofGetHeight() / 720.0;
 
-    // lastXCam = cameraPtr->getLastMovingDirX() == 0 ? cameraPtr->getCameraX() : lastXCam;
-    // lastYCam = cameraPtr->getLastMovingDirY() == 0 ? cameraPtr->getCameraY() : lastYCam;
-
     int playerDistanceX = (hitbox.getRenderX() - cameraPtr->getCameraX()) * xAspectDif;
     int playerDistanceY = (hitbox.getRenderY() - cameraPtr->getCameraY()) * yAspectDif;
 

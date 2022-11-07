@@ -29,8 +29,6 @@ private:
 
     int renderX = 1000;
     int renderY = 1000;
-    int lastXCam = 0;
-    int lastYCam = 0;
     int linePath = 0;
     int standingStillCounter = 0;
     

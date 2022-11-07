@@ -117,7 +117,7 @@ void StateMaster::createStates() {
 
 void StateMaster::initAreas() {
     vector<Entity*> enemies2;
-    ofPoint entrancePosition2(4 * 110, 4 * 116);
+    ofPoint entrancePosition1(1000, 1000);
     Enemy *area2Enemy1 = new Enemy("enemy2", 30, 6, 4 * 120, 4 * 342);
     Enemy *area2Enemy2 = new Enemy("enemy2", 30, 6, 4 * 254, 4 * 130);
     Enemy *area2Enemy3 = new Enemy("enemy2", 30, 6, 4 * 542, 4 * 124);
@@ -130,9 +130,35 @@ void StateMaster::initAreas() {
     enemies2.push_back(area2Enemy4);
     enemies2.push_back(area2Enemy5);
     enemies2.push_back(area2Enemy6);
-    Area* area2 = new Area("Area2", NULL, "images/areas/area2.png", "audio/ice.wav", "images/stages/stage2.png", entrancePosition2, enemies2);
+    Area* area2 = new Area("Area2", NULL, "images/areas/area2.png", "audio/ice.wav", "images/stages/stage2.png", entrancePosition1, enemies2);
     generatedAreas.push_back(area2);
 
+    ///-----------------------------------------------------------------------
+
+    vector<Entity*> entities;
+    Enemy *monster = new Enemy("monster", 20, 4, 4 * 480, 4 * 432);
+
+    entities.push_back(monster);
+    
+    Boss* bossLevel2 = new Boss("Boss-1", 20, 4, 2, 1280, 720);
+    entities.push_back(bossLevel2);
+
+    int xLoc = 1500;
+    int yLoc = 1500;
+    int radius = 800;
+    for(int i = 0; i < 5; i ++) {
+        Structure* str = new Structure("spruce", "images/entities/inmovable/rock.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
+        str->getHitBox().setWidth(25);
+        str->getHitBox().setHeight(100);
+        str->getHitBox().setRenderWidth(80);
+        str->getHitBox().setRenderHeight(170);
+        entities.push_back(str);
+    }
+
+    Area* cave = new Area("cave", area2, "images/areas/area1.png", "audio/forest.wav", "images/stages/stage1.png", entrancePosition1, entities);
+    generatedAreas.push_back(cave);
+
+    //------------------------------------------------------------------------
     
     vector<Entity*> entities;
     ofPoint entrancePosition1(1000, 1000);
@@ -183,8 +209,7 @@ void StateMaster::initAreas() {
         entities.push_back(tree);
     }
 
-    Area* area1 = new Area("Area1", area2, "images/areas/area1.png", "audio/forest.wav", "images/stages/stage1.png", entrancePosition1, entities);
-    
+    Area* area1 = new Area("wild-life", cave, "images/areas/area1.png", "audio/forest.wav", "images/stages/stage1.png", entrancePosition1, entities);
     generatedAreas.push_back(area1);
 
     this->currentArea = area1;

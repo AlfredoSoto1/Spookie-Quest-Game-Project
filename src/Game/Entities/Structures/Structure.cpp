@@ -21,10 +21,8 @@ void Structure::inOverworldDraw(void* camera) {
     int playerDistanceX = (hitbox.getRenderX() - cameraPtr->getCameraX()) * xAspectDif;
     int playerDistanceY = (hitbox.getRenderY() - cameraPtr->getCameraY()) * yAspectDif;
 
-    if(cameraPtr->getLastMovingDirX() == 0)
-        renderX = ofGetWidth() / 2 + playerDistanceX;
-    if(cameraPtr->getLastMovingDirY() == 0)
-        renderY = ofGetHeight() / 2 + playerDistanceY;
+    renderX = ofGetWidth() / 2 + playerDistanceX;
+    renderY = ofGetHeight() / 2 + playerDistanceY;
 
     overworldSprite.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
     overworldSprite.draw(renderX, renderY, hitbox.getRenderWidth() * xAspectDif, hitbox.getRenderHeight() * yAspectDif);
