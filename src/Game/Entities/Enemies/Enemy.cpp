@@ -150,6 +150,7 @@ void Enemy::inOverworldDraw(void* camera) {
     renderX = ofGetWidth()  / 2 + playerDistanceX;
     renderY = ofGetHeight() / 2 + playerDistanceY;
 
+    overworldSprite.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
     overworldSprite.draw(renderX, renderY, hitbox.getWidth() * xAspectDif, hitbox.getHeight() * yAspectDif);
 }
 

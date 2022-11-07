@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef STATE_MANAGER_HEADER
-#define STATE_MANAGER_HEADER
+#ifndef STATE_MASTER_HEADER
+#define STATE_MASTER_HEADER
 
 #include "State.h"
 #include "TitleState.h"
@@ -10,10 +10,10 @@
 #include "WinState.h"
 #include "EndGameState.h"
 
-class StateManager {
+class StateMaster {
 public:
-    StateManager(Player* player);
-    virtual ~StateManager();
+    StateMaster(Player* player);
+    virtual ~StateMaster();
 
     State& getCurrentState();
 

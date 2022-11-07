@@ -5,10 +5,10 @@
 
 #include "Entity.h"
 
-class Rock : public Entity {
+class Structure : public Entity {
 public:
-    Rock(const string& entityName, int ox, int oy, int resistance);
-    virtual ~Rock();
+    Structure(const string& entityName, const string& path, int ox, int oy, int resistance);
+    virtual ~Structure();
 
     void inOverworldDraw(void* camera) override;
     void inOverworldUpdate();

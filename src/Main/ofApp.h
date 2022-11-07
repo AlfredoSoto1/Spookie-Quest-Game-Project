@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "StateManager.h"
+#include "StateMaster.h"
 #include "Player.h"
 
 class ofApp : public ofBaseApp{
@@ -25,5 +25,5 @@ public:
 private:
 	
 	Player *player;
-	StateManager* stateManager;
+	StateMaster* stateMaster;
 };

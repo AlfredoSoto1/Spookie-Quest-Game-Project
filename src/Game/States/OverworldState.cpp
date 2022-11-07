@@ -66,7 +66,7 @@ void OverworldState::update() {
         }
         //update other entities here
         //change this to inmovable/structure entity
-        Rock* rock = dynamic_cast<Rock*>(entity);
+        Structure* rock = dynamic_cast<Structure*>(entity);
         if(rock != nullptr) { 
             rock->inOverworldUpdate();
             HitBox& rockHitbox = rock->getHitBox();
@@ -110,9 +110,9 @@ void OverworldState::draw() {
             }
             continue;
         }
-        Rock* rock = dynamic_cast<Rock*>(entity);
-        if(rock != nullptr) { 
-            rock->inOverworldDraw(camera);
+        Structure* structure = dynamic_cast<Structure*>(entity);
+        if(structure != nullptr) { 
+            structure->inOverworldDraw(camera);
             continue;
         }
     }

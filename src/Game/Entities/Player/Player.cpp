@@ -59,6 +59,7 @@ void Player::drawAttackList() {
             ofSetColor(255, 255, 255);
         else
             ofSetColor(180, 180, 180);
+        buttonAttack.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
         buttonAttack.draw(leftX + i * buttonAttack.getWidth(), ofGetHeight() - buttonAttack.getHeight(), buttonAttack.getWidth(), buttonAttack.getWidth());
     }
 
@@ -161,6 +162,7 @@ void Player::inOverworldDraw(void* camera) {
         yRender = hitbox.getY() - (OYDIMENSION - cameraPtr->getLenzHeight() / 2) + ofGetHeight() / 2 - aspectHeight/2;
     }
 
+    overworldSprite.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
     overworldSprite.draw(xRender, yRender, aspectWidth, aspectHeight);
 }
 

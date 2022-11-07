@@ -3,7 +3,7 @@
 #include "Enemy.h"
 #include "Boss.h"
 #include "Player.h"
-#include "Rock.h"
+#include "Structure.h"
 
 class Area {
 public:
