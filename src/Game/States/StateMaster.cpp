@@ -116,65 +116,48 @@ void StateMaster::createStates() {
 }
 
 void StateMaster::initAreas() {
-    vector<Entity*> enemies2;
-    ofPoint entrancePosition1(1000, 1000);
+    vector<Entity*> entities;
+    ofPoint entrancePosition(1000, 1000);
     Enemy *area2Enemy1 = new Enemy("enemy2", 30, 6, 4 * 120, 4 * 342);
     Enemy *area2Enemy2 = new Enemy("enemy2", 30, 6, 4 * 254, 4 * 130);
     Enemy *area2Enemy3 = new Enemy("enemy2", 30, 6, 4 * 542, 4 * 124);
     Enemy *area2Enemy4 = new Enemy("enemy2", 30, 6, 4 * 532, 4 * 368);
     Enemy *area2Enemy5 = new Enemy("enemy2", 30, 6, 4 * 266, 4 * 312);
     Enemy *area2Enemy6 = new Enemy("enemy2", 30, 6, 4 * 194, 4 * 532);
-    enemies2.push_back(area2Enemy1);
-    enemies2.push_back(area2Enemy2);
-    enemies2.push_back(area2Enemy3);
-    enemies2.push_back(area2Enemy4);
-    enemies2.push_back(area2Enemy5);
-    enemies2.push_back(area2Enemy6);
-    Area* area2 = new Area("Area2", NULL, "images/areas/area2.png", "audio/ice.wav", "images/stages/stage2.png", entrancePosition1, enemies2);
+    entities.push_back(area2Enemy1);
+    entities.push_back(area2Enemy2);
+    entities.push_back(area2Enemy3);
+    entities.push_back(area2Enemy4);
+    entities.push_back(area2Enemy5);
+    entities.push_back(area2Enemy6);
+    Area* area2 = new Area("Area2", NULL, "images/areas/area2.png", "audio/ice.wav", "images/stages/stage2.png", entrancePosition, entities);
     generatedAreas.push_back(area2);
 
     ///-----------------------------------------------------------------------
 
-    vector<Entity*> entities;
+    vector<Entity*> entities1;
     Enemy *monster = new Enemy("monster", 20, 4, 4 * 480, 4 * 432);
 
-    entities.push_back(monster);
+    entities1.push_back(monster);
     
     Boss* bossLevel2 = new Boss("Boss-1", 20, 4, 2, 1280, 720);
-    entities.push_back(bossLevel2);
+    entities1.push_back(bossLevel2);
 
-    int xLoc = 1500;
-    int yLoc = 1500;
-    int radius = 800;
-    for(int i = 0; i < 5; i ++) {
-        Structure* str = new Structure("spruce", "images/entities/inmovable/rock.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
-        str->getHitBox().setWidth(25);
-        str->getHitBox().setHeight(100);
-        str->getHitBox().setRenderWidth(80);
-        str->getHitBox().setRenderHeight(170);
-        entities.push_back(str);
-    }
-
-    Area* cave = new Area("cave", area2, "images/areas/area1.png", "audio/forest.wav", "images/stages/stage1.png", entrancePosition1, entities);
+    Area* cave = new Area("cave", area2, "images/areas/area1.png", "audio/forest.wav", "images/stages/stage1.png", entrancePosition, entities1);
     generatedAreas.push_back(cave);
 
     //------------------------------------------------------------------------
     
-    vector<Entity*> entities;
-    ofPoint entrancePosition1(1000, 1000);
-    Enemy *area1Enemy1 = new Enemy("enemy1", 20, 4, 4 * 480, 4 * 432);
-    // Enemy *area1Enemy2 = new Enemy("enemy1", 20, 4, 4 * 225, 4 * 178);
-    // Enemy *area1Enemy3 = new Enemy("enemy1", 20, 4, 4 * 420, 4 * 178);
+    vector<Entity*> entities2;
+    Enemy *enemy1 = new Enemy("enemy1", 20, 4, 4 * 480, 4 * 432);
 
-    entities.push_back(area1Enemy1);
-    // entities.push_back(area1Enemy2);
-    // entities.push_back(area1Enemy3);
+    entities2.push_back(enemy1);
     
     Boss* bossLevel1 = new Boss("Boss-1", 20, 4, 2, 1280, 720);
     entities.push_back(bossLevel1);
 
     Structure* structure = new Structure("rock-1", "images/entities/inmovable/rock.png", 4 * 480, 4 * 470, 1);
-    entities.push_back(structure);
+    entities2.push_back(structure);
 
     int xLoc = 1500;
     int yLoc = 1500;
@@ -185,31 +168,31 @@ void StateMaster::initAreas() {
         tree->getHitBox().setHeight(100);
         tree->getHitBox().setRenderWidth(80);
         tree->getHitBox().setRenderHeight(170);
-        entities.push_back(tree);
+        entities2.push_back(tree);
 
         tree = new Structure("oak", "images/entities/inmovable/tree.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
         tree->getHitBox().setWidth(40);
         tree->getHitBox().setHeight(100);
         tree->getHitBox().setRenderWidth(170);
         tree->getHitBox().setRenderHeight(170);
-        entities.push_back(tree);
+        entities2.push_back(tree);
 
         tree = new Structure("cutted tree", "images/entities/inmovable/cutted_tree.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
         tree->getHitBox().setWidth(50);
         tree->getHitBox().setHeight(50);
         tree->getHitBox().setRenderWidth(67);
         tree->getHitBox().setRenderHeight(100);
-        entities.push_back(tree);
+        entities2.push_back(tree);
 
         tree = new Structure("dead tree", "images/entities/inmovable/dead_tree.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
         tree->getHitBox().setWidth(50);
         tree->getHitBox().setHeight(50);
         tree->getHitBox().setRenderWidth(100);
         tree->getHitBox().setRenderHeight(200);
-        entities.push_back(tree);
+        entities2.push_back(tree);
     }
 
-    Area* area1 = new Area("wild-life", cave, "images/areas/area1.png", "audio/forest.wav", "images/stages/stage1.png", entrancePosition1, entities);
+    Area* area1 = new Area("wild-life", cave, "images/areas/area1.png", "audio/forest.wav", "images/stages/stage1.png", entrancePosition, entities2);
     generatedAreas.push_back(area1);
 
     this->currentArea = area1;
