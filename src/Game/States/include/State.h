@@ -8,6 +8,7 @@ enum CurrentState {
     BATTLE,
     WIN,
     END,
+    PAUSED,
 
     NONE
 };

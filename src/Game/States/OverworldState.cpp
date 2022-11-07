@@ -122,6 +122,10 @@ void OverworldState::keyPressed(int key) {
     player->keyPressed(key);
     if(key == 'b')
         area->setInBossFight(true);
+    else if(key == OF_KEY_ESC) {
+        setNextState(CurrentState::PAUSED);
+        setFinished(true);
+    }
 }
 
 void OverworldState::keyReleased(int key) {

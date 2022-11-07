@@ -52,7 +52,14 @@ void StateMaster::update() {
         */
         currentState = overworldState;
 
-    } else if (currentState->getNextState() == CurrentState::BATTLE) {
+    } 
+    else if (currentState->getNextState() == CurrentState::PAUSED) {
+        /*
+            The new state will be the overworld
+        */
+        currentState = pauseState;
+
+    }else if (currentState->getNextState() == CurrentState::BATTLE) {
         /*
             The new state will be Battle, this being called after overworld state
         */

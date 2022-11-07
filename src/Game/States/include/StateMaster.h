@@ -9,6 +9,7 @@
 #include "BattleState.h"
 #include "WinState.h"
 #include "EndGameState.h"
+#include "PauseState.h"
 
 class StateMaster {
 public:
@@ -31,6 +32,7 @@ private:
 	BattleState *battleState;
 	EndGameState *endGameState;
 	OverworldState *overworldState;
+    PauseState *pauseState;
 
     void initAreas();
     void createStates();
