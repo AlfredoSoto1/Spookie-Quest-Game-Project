@@ -143,7 +143,7 @@ void StateMaster::initAreas() {
     Boss* bossLevel2 = new Boss("Boss-1", 20, 4, 2, 1280, 720);
     entities1.push_back(bossLevel2);
 
-    Area* cave = new Area("cave", area2, "images/areas/area1.png", "audio/forest.wav", "images/stages/stage1.png", entrancePosition, entities1);
+    Area* cave = new Area("cave", area2, "images/areas/area3.png", "audio/forest.wav", "images/stages/stage1.png", entrancePosition, entities1);
     generatedAreas.push_back(cave);
 
     //------------------------------------------------------------------------
@@ -154,7 +154,7 @@ void StateMaster::initAreas() {
     entities2.push_back(enemy1);
     
     Boss* bossLevel1 = new Boss("Boss-1", 20, 4, 2, 1280, 720);
-    entities.push_back(bossLevel1);
+    entities2.push_back(bossLevel1);
 
     Structure* structure = new Structure("rock-1", "images/entities/inmovable/rock.png", 4 * 480, 4 * 470, 1);
     entities2.push_back(structure);
