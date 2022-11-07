@@ -141,25 +141,25 @@ void Enemy::inOverworldDraw(void* camera) {
     double xAspectDif = ofGetWidth() / 1280.0;
     double yAspectDif = ofGetHeight() / 720.0;
 
-    lastXCam = cameraPtr->getLastMovingDirX() == 0 ? cameraPtr->getCameraX() : lastXCam;
-    lastYCam = cameraPtr->getLastMovingDirY() == 0 ? cameraPtr->getCameraY() : lastYCam;
+    // lastXCam = cameraPtr->getLastMovingDirX() == 0 ? cameraPtr->getCameraX() : lastXCam;
+    // lastYCam = cameraPtr->getLastMovingDirY() == 0 ? cameraPtr->getCameraY() : lastYCam;
 
-    int playerDistanceX = (hitbox.getX() - lastXCam) * xAspectDif;
-    int playerDistanceY = (hitbox.getY() - lastYCam) * yAspectDif;
+    int playerDistanceX = (hitbox.getRenderX() - cameraPtr->getCameraX()) * xAspectDif;
+    int playerDistanceY = (hitbox.getRenderY() - cameraPtr->getCameraY()) * yAspectDif;
 
     renderX = ofGetWidth()  / 2 + playerDistanceX;
     renderY = ofGetHeight() / 2 + playerDistanceY;
 
     overworldSprite.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
-    overworldSprite.draw(renderX, renderY, hitbox.getWidth() * xAspectDif, hitbox.getHeight() * yAspectDif);
+    overworldSprite.draw(renderX, renderY, hitbox.getRenderWidth() * xAspectDif, hitbox.getRenderHeight() * yAspectDif);
 }
 
 void Enemy::fightingUpdate() {
     fightingSprite = fighting->getCurrentFrame();
     fighting->update();
 
-    int xpos = ofGetWidth() * (3.0 / 4.0) - fightingHitbox.getWidth()  / 2;
-    int ypos = ofGetHeight() * (1.0 / 2.0) - fightingHitbox.getHeight() / 2;
+    int xpos = ofGetWidth() * (3.0 / 4.0) - fightingHitbox.getRenderWidth()  / 2;
+    int ypos = ofGetHeight() * (1.0 / 2.0) - fightingHitbox.getRenderHeight() / 2;
 
     fightingHitbox.setX(xpos);
     fightingHitbox.setY(ypos);

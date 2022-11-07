@@ -23,5 +23,5 @@ HitBox& EntityFighter::getFightingHitBox() {
 
 void EntityFighter::fightingDraw() {
     fightingSprite.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
-    fightingSprite.draw(fightingHitbox.getX(), fightingHitbox.getY(), fightingHitbox.getWidth(), fightingHitbox.getHeight());
+    fightingSprite.draw(fightingHitbox.getRenderX(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
 }

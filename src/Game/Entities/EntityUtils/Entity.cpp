@@ -12,7 +12,7 @@ Entity::Entity(const string& name, const HitBox& hitbox, int health) {
 Entity::~Entity(){}
 
 void Entity::inOverworldDraw(void* camera) {
-    overworldSprite.draw(hitbox.getX(), hitbox.getY(), hitbox.getWidth(), hitbox.getHeight());
+    overworldSprite.draw(hitbox.getRenderX(), hitbox.getRenderY(), hitbox.getRenderWidth(), hitbox.getRenderHeight());
 }
 
 void Entity::drawHealthBar(int x, int y, int width, int height, int health, int maxHealth) {

@@ -130,8 +130,8 @@ void Player::fightingUpdate() {
     fightingSprite = fighting->getCurrentFrame();
     fighting->update();
 
-    int xpos = ofGetWidth() * (1.0 / 4.0) - fightingHitbox.getWidth()  / 2;
-    int ypos = ofGetHeight() * (1.0 / 2.0) - fightingHitbox.getHeight() / 2;
+    int xpos = ofGetWidth() * (1.0 / 4.0) - fightingHitbox.getRenderWidth()  / 2;
+    int ypos = ofGetHeight() * (1.0 / 2.0) - fightingHitbox.getRenderHeight() / 2;
 
     fightingHitbox.setX(xpos);
     fightingHitbox.setY(ypos);
@@ -144,22 +144,22 @@ void Player::inOverworldDraw(void* camera) {
     double xAspectDif = ofGetWidth() / 1280.0;
     double yAspectDif = ofGetHeight() / 720.0;
 
-    int aspectWidth = hitbox.getWidth() * xAspectDif;
-    int aspectHeight = hitbox.getHeight() * yAspectDif;
+    int aspectWidth = hitbox.getRenderWidth() * xAspectDif;
+    int aspectHeight = hitbox.getRenderHeight() * yAspectDif;
     
     float xRender = ofGetWidth() / 2 - aspectWidth / 2;
     float yRender = ofGetHeight() / 2 - aspectHeight / 2;
 
     if(hitbox.getX() < cameraPtr->getLenzWidth() / 2) {
-        xRender = hitbox.getX() - aspectWidth / 2;
+        xRender = hitbox.getRenderX() - aspectWidth / 2;
     } else if(hitbox.getX() > OXDIMENSION - cameraPtr->getLenzWidth() / 2) {
-        xRender = hitbox.getX() - (OXDIMENSION - cameraPtr->getLenzWidth() / 2) + ofGetWidth() / 2 - aspectWidth/2;
+        // xRender = hitbox.getRenderX() - (OXDIMENSION - cameraPtr->getLenzWidth() / 2) + ofGetWidth() / 2 - aspectWidth/2;
     }
 
     if(hitbox.getY() < cameraPtr->getLenzHeight() / 2) {
-        yRender = hitbox.getY() - aspectHeight/2;
+        yRender = hitbox.getRenderY() - aspectHeight/2;
     } else if(hitbox.getY() > OYDIMENSION - cameraPtr->getLenzHeight() / 2) {
-        yRender = hitbox.getY() - (OYDIMENSION - cameraPtr->getLenzHeight() / 2) + ofGetHeight() / 2 - aspectHeight/2;
+        yRender = hitbox.getRenderY() - (OYDIMENSION - cameraPtr->getLenzHeight() / 2) + ofGetHeight() / 2 - aspectHeight/2;
     }
 
     overworldSprite.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);

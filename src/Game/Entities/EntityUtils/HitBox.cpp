@@ -1,11 +1,23 @@
 #include "HitBox.h"
 #include "ofMain.h"
 
-HitBox::HitBox(int x, int y, int width, int height) {
+HitBox::HitBox(int x, int y, int widthRender, int heightRender) {
+    this->x = x;
+    this->y = y;
+    this->width = widthRender;
+    this->height = heightRender;
+    this->widthRender= widthRender;
+    this->heightRender = heightRender;
+    this->isSolid = false;
+}
+
+HitBox::HitBox(int x, int y, int widthRender, int heightRender, int width, int height) {
     this->x = x;
     this->y = y;
     this->width = width;
     this->height = height;
+    this->widthRender= widthRender;
+    this->heightRender = heightRender;
     this->isSolid = false;
 }
 
@@ -14,6 +26,8 @@ HitBox::HitBox() {
     this->y = 0;
     this->width = 0;
     this->height = 0;
+    this->widthRender = 0;
+    this->heightRender = 0;
     this->isSolid = false;
 }
 
@@ -35,12 +49,36 @@ void HitBox::setHeight(int h) {
     this->height = h;
 }
 
+void HitBox::setRenderWidth(int w) {
+    this->widthRender = w;
+}
+
+void HitBox::setRenderHeight(int h) {
+    this->heightRender = h;
+}
+
 int HitBox::getX() const {
     return x;
 }
 
 int HitBox::getY() const {
     return y;
+}
+
+int HitBox::getRenderX() const {
+    return x - (widthRender - width) / 2;
+}
+
+int HitBox::getRenderY() const {
+    return y - (heightRender - height) / 2;;
+}
+
+int HitBox::getRenderWidth() const {
+    return widthRender;
+}
+
+int HitBox::getRenderHeight() const {
+    return heightRender;
 }
 
 int HitBox::getWidth() const {

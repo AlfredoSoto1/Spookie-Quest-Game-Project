@@ -150,18 +150,36 @@ void StateMaster::initAreas() {
     Structure* structure = new Structure("rock-1", "images/entities/inmovable/rock.png", 4 * 480, 4 * 470, 1);
     entities.push_back(structure);
 
-    int xLoc = 1200;
-    int yLoc = 1200;
-    int radius = 500;
-    for(int i = 0; i < 10; i ++) {
+    int xLoc = 1500;
+    int yLoc = 1500;
+    int radius = 800;
+    for(int i = 0; i < 5; i ++) {
         Structure* tree = new Structure("spruce", "images/entities/inmovable/pine_tree.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
-        tree->getHitBox().setWidth(50 + ofRandom(30));
-        tree->getHitBox().setHeight(140 + ofRandom(30));
+        tree->getHitBox().setWidth(25);
+        tree->getHitBox().setHeight(100);
+        tree->getHitBox().setRenderWidth(80);
+        tree->getHitBox().setRenderHeight(170);
         entities.push_back(tree);
 
         tree = new Structure("oak", "images/entities/inmovable/tree.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
-        tree->getHitBox().setWidth(50 + ofRandom(30));
-        tree->getHitBox().setHeight(140 + ofRandom(30));
+        tree->getHitBox().setWidth(40);
+        tree->getHitBox().setHeight(100);
+        tree->getHitBox().setRenderWidth(170);
+        tree->getHitBox().setRenderHeight(170);
+        entities.push_back(tree);
+
+        tree = new Structure("cutted tree", "images/entities/inmovable/cutted_tree.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
+        tree->getHitBox().setWidth(50);
+        tree->getHitBox().setHeight(50);
+        tree->getHitBox().setRenderWidth(67);
+        tree->getHitBox().setRenderHeight(100);
+        entities.push_back(tree);
+
+        tree = new Structure("dead tree", "images/entities/inmovable/dead_tree.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
+        tree->getHitBox().setWidth(50);
+        tree->getHitBox().setHeight(50);
+        tree->getHitBox().setRenderWidth(100);
+        tree->getHitBox().setRenderHeight(200);
         entities.push_back(tree);
     }
 
