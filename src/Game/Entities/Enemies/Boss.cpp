@@ -5,14 +5,23 @@ Boss::Boss(const string& name, int health, int baseDamage, int phases, int ox, i
     :   Enemy(name, health, baseDamage, ox, oy)
 {
     this->phases = phases;
+    this->maxPhases = phases;
 }
 
 Boss::~Boss() {
     
 }
 
+void Boss::setCurrentPhases(int phases){
+    this->phases = phases;
+}
+
+int Boss::getCurrentPhases(){
+    return phases < 0 ? 0 : phases;
+}
+
 int Boss::getPhases() {
-    return phases;
+    return maxPhases;
 }
 
 // void Boss::inOverworldUpdate() {

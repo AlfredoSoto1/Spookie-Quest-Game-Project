@@ -42,7 +42,6 @@ BattleState::BattleState(Player *player, Area *area) {
     isAttacking = false;
     needsToReHeal = false;
     enemyHasChosenAttack = false;
-    // currentPlayerHealth = PLAYER_MAX_HP = player->getMaxHealth();
 }
 
 Enemy* BattleState::getEnemy() {
@@ -51,10 +50,6 @@ Enemy* BattleState::getEnemy() {
 
 void BattleState::setEnemy(Enemy *enemy) {
     this->enemy = enemy;
-    // ENEMY_MAX_HP = enemy->getMaxHealth();
-    Boss* boss = dynamic_cast<Boss*>(enemy);
-    if(boss != nullptr)
-        bossPhases = boss->getPhases();
 }
 
 void BattleState::setStage(ofImage stage) {
@@ -63,12 +58,6 @@ void BattleState::setStage(ofImage stage) {
 
 void BattleState::startBattle(Enemy *enemy) {
     this->enemy = enemy;
-    // currentEnemyHealth = enemy->getHealth();
-    // currentPlayerHealth = player->getHealth();
-    // ENEMY_MAX_HP = enemy->getHealth();
-    Boss* boss = dynamic_cast<Boss*>(enemy);
-    if(boss != nullptr)
-        bossPhases = boss->getPhases();
 }
 
 void BattleState::reHeal() {
@@ -78,13 +67,6 @@ void BattleState::reHeal() {
     } else if(needsToReHeal) {
         enemy->setHealth(enemy->getHealth() + 1);
     }
-
-    // if(currentEnemyHealth > ENEMY_MAX_HP) {
-    //     currentEnemyHealth = ENEMY_MAX_HP;
-    //     needsToReHeal = false;
-    // } else if(needsToReHeal) {
-    //     currentEnemyHealth += 1;
-    // }
 }
 
 void BattleState::update() {
@@ -92,19 +74,18 @@ void BattleState::update() {
         if (player->getHealth() <= 0) {
             setNextState(CurrentState::END);
             setFinished(true);
-            // player->setHealth(currentPlayerHealth);
             return;
-        } else if (enemy->getHealth() <= 0) {
-            if(bossPhases > 1) {
-                bossPhases--;
-                needsToReHeal = true;
-                // currentEnemyHealth = 1;
-                enemy->setHealth(1);
-                return;
+        } else if (enemy->getHealth() <= 0 && !needsToReHeal) {
+            Boss* boss = dynamic_cast<Boss*>(enemy);
+            if(boss != nullptr){
+                if(boss->getCurrentPhases() > 1) {
+                    boss->setCurrentPhases(boss->getCurrentPhases() - 1);
+                    needsToReHeal = true;
+                    return;
+                }
             }
             setNextState(CurrentState::WIN);
             setFinished(true);
-            // player->setHealth(currentPlayerHealth);
             return;
         }
     }
