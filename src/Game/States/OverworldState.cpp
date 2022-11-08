@@ -42,10 +42,20 @@ void OverworldState::update() {
 
     player->inOverworldUpdate();
 
+    // if(player->getHealth() <= 0) {
+    //     setFinished(true);
+    //     setNextState(CurrentState::END);
+    //     return;
+    // }
+
     //player Hitbox
     HitBox& playerHitbox = player->getHitBox();
 
-    playerHitbox.collides(overWorldAreaImageBoundry);
+    ofColor inColorBoundry = playerHitbox.collides(ofColor::white, overWorldAreaImageBoundry);
+
+    // if(inColorBoundry == ofColor::red){
+    //     player->setHealth(player->getHealth() - 2);
+    // }    
 
     for(Entity* entity : area->getEntities()) {
         //Update enemies
@@ -89,6 +99,13 @@ void OverworldState::draw() {
         ofGetWidth(), ofGetHeight(),                        //final image scale on screen
         camera->getLeftCornerX(), camera->getTopCornerY(),  //position in image
         camera->getLenzWidth(), camera->getLenzHeight());   //scale in image
+
+    // //debug regions
+    // overWorldAreaImageBoundry.drawSubsection(
+    //     0, 0,                                               //position in screen
+    //     ofGetWidth(), ofGetHeight(),                        //final image scale on screen
+    //     camera->getLeftCornerX(), camera->getTopCornerY(),  //position in image
+    //     camera->getLenzWidth(), camera->getLenzHeight());   //scale in image
 
     /*
         Draw Player

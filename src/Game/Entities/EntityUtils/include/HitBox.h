@@ -43,7 +43,7 @@ public:
     void setSolid(bool isSolid);    
     
     bool collides(const HitBox& hitBox);
-    bool collides(const ofImage& boundryImage);
+    ofColor collides(const ofColor& solid, const ofImage& boundryImage);
     
 protected:
     int x = 0;
