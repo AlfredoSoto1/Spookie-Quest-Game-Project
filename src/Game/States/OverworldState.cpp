@@ -1,6 +1,7 @@
 #include "OverworldState.h"
 
 OverworldState::OverworldState(Player *player, Area *area) {
+    this->setCurrentState(CurrentState::OVERWORLD);
     this->player = player;
     camera = new OverworldCamera(player);
     loadArea(area);
@@ -142,10 +143,15 @@ void OverworldState::draw() {
     // overworldEffectImage.draw(0,0, ofGetWidth(), ofGetHeight());
 }
 
+
 void OverworldState::keyPressed(int key) {
     player->keyPressed(key);
     if(key == 'b')
         area->setInBossFight(true);
+    else if(key == OF_KEY_ESC) {
+        setNextState(CurrentState::PAUSED);
+        setFinished(true);
+    }
 }
 
 void OverworldState::keyReleased(int key) {

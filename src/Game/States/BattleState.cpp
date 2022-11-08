@@ -3,6 +3,7 @@
 #include "Defense.h"
 
 BattleState::BattleState(Player *player, Area *area) {
+    this->setCurrentState(CurrentState::BATTLE);
     stage = area->getStage();
 
     /*
@@ -41,7 +42,7 @@ BattleState::BattleState(Player *player, Area *area) {
     isAttacking = false;
     needsToReHeal = false;
     enemyHasChosenAttack = false;
-    currentPlayerHealth = PLAYER_MAX_HP = player->getHealth();
+    // currentPlayerHealth = PLAYER_MAX_HP = player->getMaxHealth();
 }
 
 Enemy* BattleState::getEnemy() {
@@ -50,7 +51,7 @@ Enemy* BattleState::getEnemy() {
 
 void BattleState::setEnemy(Enemy *enemy) {
     this->enemy = enemy;
-    ENEMY_MAX_HP = enemy->getHealth();
+    // ENEMY_MAX_HP = enemy->getMaxHealth();
     Boss* boss = dynamic_cast<Boss*>(enemy);
     if(boss != nullptr)
         bossPhases = boss->getPhases();
@@ -62,40 +63,48 @@ void BattleState::setStage(ofImage stage) {
 
 void BattleState::startBattle(Enemy *enemy) {
     this->enemy = enemy;
-    currentEnemyHealth = enemy->getHealth();
-    currentPlayerHealth = player->getHealth();
-    ENEMY_MAX_HP = enemy->getHealth();
+    // currentEnemyHealth = enemy->getHealth();
+    // currentPlayerHealth = player->getHealth();
+    // ENEMY_MAX_HP = enemy->getHealth();
     Boss* boss = dynamic_cast<Boss*>(enemy);
     if(boss != nullptr)
         bossPhases = boss->getPhases();
 }
 
 void BattleState::reHeal() {
-    if(currentEnemyHealth > ENEMY_MAX_HP) {
-        currentEnemyHealth = ENEMY_MAX_HP;
+    if(enemy->getHealth() > enemy->getMaxHealth()) {
+        enemy->setHealth(enemy->getMaxHealth());
         needsToReHeal = false;
     } else if(needsToReHeal) {
-        currentEnemyHealth += 1;
+        enemy->setHealth(enemy->getHealth() + 1);
     }
+
+    // if(currentEnemyHealth > ENEMY_MAX_HP) {
+    //     currentEnemyHealth = ENEMY_MAX_HP;
+    //     needsToReHeal = false;
+    // } else if(needsToReHeal) {
+    //     currentEnemyHealth += 1;
+    // }
 }
 
 void BattleState::update() {
     if (canInteract) {
-        if (currentPlayerHealth <= 0) {
+        if (player->getHealth() <= 0) {
             setNextState(CurrentState::END);
             setFinished(true);
-            player->setHealth(currentPlayerHealth);
+            // player->setHealth(currentPlayerHealth);
             return;
-        } else if (currentEnemyHealth <= 0) {
+        } else if (enemy->getHealth() <= 0) {
             if(bossPhases > 1) {
                 bossPhases--;
                 needsToReHeal = true;
-                currentEnemyHealth = 1;
+                // currentEnemyHealth = 1;
+                enemy->setHealth(1);
                 return;
             }
             setNextState(CurrentState::WIN);
             setFinished(true);
-            player->setHealth(currentPlayerHealth);
+            // player->setHealth(currentPlayerHealth);
             return;
         }
     }
@@ -112,7 +121,9 @@ void BattleState::update() {
         //add defenses
         
         Attack& playerAttack = player->getAttack(player->getAttackChoice());
+        int currentEnemyHealth = enemy->getHealth();
         playerAttack.provokeAttack(&currentEnemyHealth, 1);
+        enemy->setHealth(currentEnemyHealth);
 
         if(!enemyHasChosenAttack) {
             enemy->setAttackChoice(rand() % enemy->getNumberOfAttacks());
@@ -120,7 +131,9 @@ void BattleState::update() {
         }
         Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
         if(!playerAttack.isOnCoolDown()) {
+            int currentPlayerHealth = player->getHealth();
             enemyAttack.provokeAttack(&currentPlayerHealth, enemy->getBaseDamage());
+            player->setHealth(currentPlayerHealth);
         }
 
         if(!enemyAttack.isOnCoolDown() && !playerAttack.isOnCoolDown()) {
@@ -146,8 +159,8 @@ void BattleState::draw() {
     int centerXEnemy = enemy->getFightingHitBox().getX() + enemy->getFightingHitBox().getRenderWidth() / 2 - healthBarWidth / 2;
     int centerXPlayer = player->getFightingHitBox().getX() + player->getFightingHitBox().getRenderWidth() / 2 - healthBarWidth / 2;
 
-    enemy->drawHealthBar(centerXEnemy, 64, healthBarWidth, 25, currentEnemyHealth, enemy->getHealth());
-    player->drawHealthBar(centerXPlayer, 64, healthBarWidth, 25, currentPlayerHealth, PLAYER_MAX_HP);
+    enemy->drawHealthBar(centerXEnemy, 64, healthBarWidth, 25, enemy->getHealth(), enemy->getMaxHealth());
+    player->drawHealthBar(centerXPlayer, 64, healthBarWidth, 25, player->getHealth(), player->getMaxHealth());
 
     // render attack buttons
     player->drawAttackList();
@@ -175,10 +188,15 @@ void BattleState::keyPressed(int key) {
             canInteract = false;
         }
     }
+    if(key == OF_KEY_ESC) {
+        setNextState(CurrentState::PAUSED);
+        setFinished(true);
+    }
 }
 
 void BattleState::reset() {
     setFinished(false);
     setNextState(CurrentState::NONE);
-    currentPlayerHealth = player->getHealth();
+    // currentPlayerHealth = player->getHealth();
+    // currentEnemyHealth = enemy->getHealth();
 }

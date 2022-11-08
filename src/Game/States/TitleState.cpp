@@ -1,6 +1,7 @@
 #include "TitleState.h"
 
 TitleState::TitleState() {
+    this->setCurrentState(CurrentState::TITLE);
     vector<ofImage> titleFrames;
     ofImage temp;
     temp.load("images/ui/title1.png");

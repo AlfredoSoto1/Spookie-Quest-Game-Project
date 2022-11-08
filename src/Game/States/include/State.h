@@ -8,10 +8,10 @@ enum CurrentState {
     BATTLE,
     WIN,
     END,
+    PAUSED,
 
     NONE
 };
-
 class State {
 public:
     State() {}
@@ -37,16 +37,23 @@ public:
     void setFinished(bool finished);
     // void setNextState(string nextState);
     void setNextState(int nextState);
+    void setCurrentState(CurrentState currentState);
+
+    void setPastState(State* pastRef);
     
     bool hasFinished();
     
     int getNextState();
-    // string getNextState();
+    CurrentState getCurrentState();
+
+    State* getPastState();
 
     void toggleMusic();
 protected:
     int nextState;
-    // string nextState;
+    CurrentState currentState;
+
+    State* pastRef;
     ofSoundPlayer music;
     bool finished = false;
 };

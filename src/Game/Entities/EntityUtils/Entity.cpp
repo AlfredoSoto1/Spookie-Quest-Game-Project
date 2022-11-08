@@ -6,6 +6,7 @@ Entity::Entity(const string& name, const HitBox& hitbox, int health) {
     this->name = name;
     this->hitbox = hitbox;
     this->health = health;
+    this->maxHealth = health;
     this->id = universalId++;
 }
 
@@ -47,7 +48,13 @@ int Entity::getHealth() {
     return health;
 }
 
+int Entity::getMaxHealth() {
+    return maxHealth;
+}
+
 void Entity::setHealth(int health) {
+    if(health > maxHealth)
+        health = maxHealth;
     this->health = health;
 }
 

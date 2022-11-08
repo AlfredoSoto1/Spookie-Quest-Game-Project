@@ -1,6 +1,7 @@
 #include "EndGameState.h"
 
 EndGameState::EndGameState() {
+    this->setCurrentState(CurrentState::END);
     loseScreen.load("images/ui/losescreen.png");
     winScreen.load("images/ui/winscreen.png");
     win = false;

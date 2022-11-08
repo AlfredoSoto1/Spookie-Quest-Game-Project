@@ -16,14 +16,17 @@ public:
     
     void loadArea(Area *Area);
     void setEnemy(Enemy *enemyToBattle);
-    
+
     void draw();
     void update();
     
+
     void keyPressed(int key);
     void keyReleased(int key);
     
     void reset();
+
+
 
 private:
     Area *area;
