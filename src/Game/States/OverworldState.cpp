@@ -26,6 +26,7 @@ void OverworldState::loadArea(Area* area) {
     this->area = area;
     overworldImage = area->getImage();
     overworldEffectImage = area->getAmbianceImage();
+    overWorldAreaImageBoundry = area->getAreaImageBoundry();
     music = area->getMusic();
     music.setVolume(0.25);
     music.setLoop(true);
@@ -43,7 +44,9 @@ void OverworldState::update() {
 
     //player Hitbox
     HitBox& playerHitbox = player->getHitBox();
-    
+
+    playerHitbox.collides(overWorldAreaImageBoundry);
+
     for(Entity* entity : area->getEntities()) {
         //Update enemies
 
@@ -118,7 +121,8 @@ void OverworldState::draw() {
         }
     }
 
-    overworldEffectImage.draw(0,0, ofGetWidth(), ofGetHeight());
+    //draw Effect
+    // overworldEffectImage.draw(0,0, ofGetWidth(), ofGetHeight());
 }
 
 void OverworldState::keyPressed(int key) {

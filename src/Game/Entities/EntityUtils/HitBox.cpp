@@ -129,3 +129,33 @@ bool HitBox::collides(const HitBox& hitbox) {
     }
     return true;
 }
+
+bool HitBox::collides(const ofImage& boundryImage) {
+
+    int horizontalDifUp = 0;
+    int horizontalDifDown = 0;
+    for(int i = 0;i < width; i++) {
+        if(boundryImage.getColor(x + i, y) == ofColor::white) {
+            horizontalDifUp++;
+        }
+        if(boundryImage.getColor(x + i, y + height) == ofColor::white) {
+            horizontalDifDown++;
+        }
+    }
+    for(int i = 0;i < height; i++) {
+        
+    }
+    
+    if(horizontalDifUp != 0 && direction == Direction::right) {
+        x = x - horizontalDifUp;
+    } else if(horizontalDifUp != 0 && direction == Direction::left) {
+        x = x + horizontalDifUp;
+    }
+    if(horizontalDifDown != 0 && direction == Direction::right) {
+        x = x - horizontalDifDown;
+    } else if(horizontalDifUp != 0 && direction == Direction::left) {
+        x = x + horizontalDifUp;
+    }
+
+    return true;
+}

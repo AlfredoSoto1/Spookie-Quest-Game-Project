@@ -4,10 +4,11 @@
 #include "Boss.h"
 #include "Player.h"
 #include "Structure.h"
+#include "Boundry.h"
 
 class Area {
 public:
-    Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, string areaImageAmbiance, ofPoint entrancePosition, vector<Entity*> entitiesInArea);
+    Area(string name, Area *nextArea, string areaImagePath, string areaImageBoundryPath, string areaMusicPath, string areaStagePath, string areaImageAmbiance, ofPoint entrancePosition, vector<Entity*> entitiesInArea);
     
     bool inBossFight();
     
@@ -26,6 +27,7 @@ public:
     ofImage getImage();
     ofImage getStage();
     ofImage getAmbianceImage();
+    ofImage getAreaImageBoundry();
     ofSoundPlayer getMusic();
     ofPoint getEntrancePos();
     vector<Entity*> getEntities();
@@ -35,7 +37,10 @@ private:
     string name;
     ofImage areaAmbiance;
     ofImage areaImage;
+    ofImage areaImageBoundry;
+
     ofImage areaStage;
+    
     ofSoundPlayer areaMusic;
 
     Area *nextArea;

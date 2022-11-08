@@ -3,6 +3,8 @@
 #ifndef HIX_BOX_HEADER
 #define HIX_BOX_HEADER
 
+#include "ofMain.h"
+
 enum Direction {
     left,
     right,
@@ -41,6 +43,7 @@ public:
     void setSolid(bool isSolid);    
     
     bool collides(const HitBox& hitBox);
+    bool collides(const ofImage& boundryImage);
     
 protected:
     int x = 0;

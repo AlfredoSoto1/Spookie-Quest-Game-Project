@@ -31,5 +31,6 @@ private:
     Enemy *enemyToBattle;
     ofImage overworldImage;
     ofImage overworldEffectImage;
+    ofImage overWorldAreaImageBoundry;
     OverworldCamera *camera;
 };
