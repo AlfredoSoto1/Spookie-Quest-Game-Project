@@ -55,6 +55,8 @@ int Entity::getMaxHealth() {
 void Entity::setHealth(int health) {
     if(health > maxHealth)
         health = maxHealth;
+    else if(health < 0)
+        health = 0;
     this->health = health;
 }
 

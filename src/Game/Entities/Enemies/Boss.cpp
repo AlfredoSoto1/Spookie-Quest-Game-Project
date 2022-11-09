@@ -4,34 +4,42 @@
 Boss::Boss(const string& name, int health, int baseDamage, int phases, int ox, int oy)
     :   Enemy(name, health, baseDamage, ox, oy)
 {
-    this->phases = phases;
     this->maxPhases = phases;
+    this->currentPhase = 0;
+    this->hasPassedNextPhase = false;
 }
 
 Boss::~Boss() {
     
 }
 
-void Boss::setCurrentPhases(int phases){
-    this->phases = phases;
-}
-
-int Boss::getCurrentPhases(){
-    return phases < 0 ? 0 : phases;
-}
-
-int Boss::getPhases() {
+int Boss::getPhasesCount() {
     return maxPhases;
 }
 
-// void Boss::inOverworldUpdate() {
+int Boss::getCurrentPhase() {
+    return currentPhase;
+}
 
-// }
+void Boss::reHeal() {
+    health++;
+    if(health > maxHealth) {
+        health = maxHealth;
+        hasPassedNextPhase = false;
+    }
+}
 
-// void Boss::fightingUpdate() {
+bool Boss::passToNextPhase() {
+    if(health <= 0 && !hasPassedNextPhase){
+        hasPassedNextPhase = true;
+        currentPhase++;
+    }
+    return hasPassedNextPhase;
+}
 
-// }
+bool Boss::hasPhasesLeft() {
+    return currentPhase < maxPhases;
+}
 
-// void Boss::inOverworldDraw(void* camera) {
-
-// }
+void Boss::reset() {
+}

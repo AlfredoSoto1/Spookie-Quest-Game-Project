@@ -10,25 +10,19 @@ public:
     Boss(const string& name, int health, int baseDamage, int phases, int ox, int oy);
     virtual ~Boss();
 
-    void setCurrentPhases(int phases);
+    int getPhasesCount();
+    int getCurrentPhase();
 
-    int getPhases();
-    int getCurrentPhases();
-    // virtual void inOverworldUpdate();
-    // virtual void fightingUpdate();
-    // virtual void inOverworldDraw(void* camera) override;
+    void reset();
+    void reHeal();
+    bool hasPhasesLeft();
+    bool passToNextPhase();
 
 private:
-    int phases;
     int maxPhases;
-// Boss: Implement a Boss class. This class must inherit from the Enemy
-// class. Bosses appear in an Area after all other Enemies of that area are
-// defeated. A Boss Battle must have at least two phases. That is to say, you
-// must deplete the Boss’s health bar twice in order to beat them. Defeating
-// a Boss moves the Player to the next Area or a Win State if there are no
-// remaining Areas. You must have at least one Boss instance per Area of
-// the game
+    int currentPhase;
 
+    bool hasPassedNextPhase;
 };
 
 #endif

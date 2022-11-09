@@ -43,7 +43,6 @@ private:
     bool canInteract;
     bool isAttacking;
     bool enemyHasChosenAttack;
-    bool needsToReHeal;
 
     void reHeal();
 };

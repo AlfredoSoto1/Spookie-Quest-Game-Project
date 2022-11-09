@@ -40,7 +40,6 @@ BattleState::BattleState(Player *player, Area *area) {
     resultTimer = 0;
     canInteract = true;
     isAttacking = false;
-    needsToReHeal = false;
     enemyHasChosenAttack = false;
 }
 
@@ -60,70 +59,75 @@ void BattleState::startBattle(Enemy *enemy) {
     this->enemy = enemy;
 }
 
-void BattleState::reHeal() {
-    if(enemy->getHealth() > enemy->getMaxHealth()) {
-        enemy->setHealth(enemy->getMaxHealth());
-        needsToReHeal = false;
-    } else if(needsToReHeal) {
-        enemy->setHealth(enemy->getHealth() + 1);
-    }
-}
-
 void BattleState::update() {
-    if (canInteract) {
-        if (player->getHealth() <= 0) {
-            setNextState(CurrentState::END);
-            setFinished(true);
-            return;
-        } else if (enemy->getHealth() <= 0 && !needsToReHeal) {
-            Boss* boss = dynamic_cast<Boss*>(enemy);
-            if(boss != nullptr){
-                if(boss->getCurrentPhases() > 1) {
-                    boss->setCurrentPhases(boss->getCurrentPhases() - 1);
-                    needsToReHeal = true;
-                    return;
-                }
-            }
-            setNextState(CurrentState::WIN);
-            setFinished(true);
-            return;
-        }
-    }
-
-    reHeal();
 
     //update sprite animation
     player->fightingUpdate();
     enemy->fightingUpdate();
 
-    if(isAttacking) {
+    if(!isAttacking)
+        return;
+    
+    if(player->getHealth() <= 0) {
+        setNextState(CurrentState::END);
+        setFinished(true);
+        return;
+    }
 
-        //TODO
-        //add defenses
-        
-        Attack& playerAttack = player->getAttack(player->getAttackChoice());
-        int currentEnemyHealth = enemy->getHealth();
-        playerAttack.provokeAttack(&currentEnemyHealth, 1);
-        enemy->setHealth(currentEnemyHealth);
+    //Player attacks
+    Attack& playerAttack = player->getAttack(player->getAttackChoice());
+    int currentEnemyHealth = enemy->getHealth();
+    playerAttack.provokeAttack(&currentEnemyHealth, 1);
+    enemy->setHealth(currentEnemyHealth);
 
-        if(!enemyHasChosenAttack) {
-            enemy->setAttackChoice(rand() % enemy->getNumberOfAttacks());
-            enemyHasChosenAttack = true;
-        }
-        Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
-        if(!playerAttack.isOnCoolDown()) {
-            int currentPlayerHealth = player->getHealth();
-            enemyAttack.provokeAttack(&currentPlayerHealth, enemy->getBaseDamage());
-            player->setHealth(currentPlayerHealth);
-        }
-
-        if(!enemyAttack.isOnCoolDown() && !playerAttack.isOnCoolDown()) {
-            enemyAttack.reset();
-            playerAttack.reset();
+    Boss* boss = dynamic_cast<Boss*>(enemy);
+    if(enemy->getHealth() <= 0 && boss == nullptr && !playerAttack.isOnCoolDown()) {
+        /*
+            end battle if normal enemy dies
+        */
+        setNextState(CurrentState::WIN);
+        setFinished(true);
+        canInteract = true;
+        isAttacking = false;
+        enemyHasChosenAttack = false;
+        return;
+    }else if(boss != nullptr && !playerAttack.isOnCoolDown()) {
+        /*
+            if enemy is a boss, go to next boss phase
+        */
+        if(!boss->hasPhasesLeft()) {
+            setNextState(CurrentState::WIN);
+            setFinished(true);
             canInteract = true;
             isAttacking = false;
             enemyHasChosenAttack = false;
+            return;
         }
+        if(boss->passToNextPhase()) {
+            boss->reHeal();
+            return;
+        }
+    }
+
+    //Enemy Attacks
+    if(!enemyHasChosenAttack) {
+        enemy->setAttackChoice(rand() % enemy->getNumberOfAttacks());
+        enemyHasChosenAttack = true;
+    }
+    Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
+    if(!playerAttack.isOnCoolDown()) {
+        int currentPlayerHealth = player->getHealth();
+        enemyAttack.provokeAttack(&currentPlayerHealth, enemy->getBaseDamage());
+        player->setHealth(currentPlayerHealth);
+    }
+
+    //reset for next round
+    if(!enemyAttack.isOnCoolDown() && !playerAttack.isOnCoolDown()) {
+        enemyAttack.reset();
+        playerAttack.reset();
+        canInteract = true;
+        isAttacking = false;
+        enemyHasChosenAttack = false;
     }
 }
 
