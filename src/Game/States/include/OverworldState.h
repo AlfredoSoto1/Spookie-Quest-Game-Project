@@ -15,6 +15,7 @@ public:
     Enemy* getEnemyToBattle();
     
     void loadArea(Area *Area);
+   
     void setEnemy(Enemy *enemyToBattle);
     
     void draw();
@@ -27,8 +28,9 @@ public:
 
 private:
     Area *area;
-    std::vector<Enemy*> enemyDead;
+    // std::vector<Enemy*> enemyDead;
     Player *player;
+    int countDead = 0;
     Enemy *enemyToBattle;
     ofImage overworldImage;
     OverworldCamera *camera;

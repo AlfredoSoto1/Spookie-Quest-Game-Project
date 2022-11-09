@@ -26,6 +26,21 @@ int Area::getRemainingEnemies() {
     return count;
 }
 
+int Area::getDeadEnemies() {
+    int count = 0;
+    for (unsigned int i = 0; i < entitiesInArea.size(); i++) {
+        Enemy* enemy = dynamic_cast<Enemy*>(entitiesInArea.at(i));
+        if(enemy != nullptr) {
+            Boss* boss = dynamic_cast<Boss*>(enemy);
+            if(boss != nullptr)
+                continue;
+            if (enemy->isDead())
+                count++;
+        }
+    }
+    return count;
+}
+
 bool Area::inBossFight() {
     return bossFightActivated;
 }

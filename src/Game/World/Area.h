@@ -10,7 +10,7 @@ public:
     Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Entity*> entitiesInArea);
     
     bool inBossFight();
-    
+    int getDeadEnemies();
     int getRemainingEnemies();
     int getRemainingEntities();
     
