@@ -1,6 +1,7 @@
 #include "OverworldState.h"
 
 OverworldState::OverworldState(Player *player, Area *area) {
+    this->setCurrentState(CurrentState::OVERWORLD);
     this->player = player;
     camera = new OverworldCamera(player);
     loadArea(area);
@@ -26,6 +27,7 @@ void OverworldState::loadArea(Area* area) {
     this->area = area;
     overworldImage = area->getImage();
     overworldEffectImage = area->getAmbianceImage();
+    overWorldAreaImageBoundry = area->getAreaImageBoundry();
     music = area->getMusic();
     music.setVolume(0.25);
     music.setLoop(true);
@@ -41,9 +43,21 @@ void OverworldState::update() {
 
     player->inOverworldUpdate();
 
+    // if(player->getHealth() <= 0) {
+    //     setFinished(true);
+    //     setNextState(CurrentState::END);
+    //     return;
+    // }
+
     //player Hitbox
     HitBox& playerHitbox = player->getHitBox();
-    
+
+    ofColor inColorBoundry = playerHitbox.collides(ofColor::white, overWorldAreaImageBoundry);
+
+    // if(inColorBoundry == ofColor::red){
+    //     player->setHealth(player->getHealth() - 2);
+    // }    
+
     for(Entity* entity : area->getEntities()) {
         //Update enemies
 
@@ -87,6 +101,13 @@ void OverworldState::draw() {
         camera->getLeftCornerX(), camera->getTopCornerY(),  //position in image
         camera->getLenzWidth(), camera->getLenzHeight());   //scale in image
 
+    // //debug regions
+    // overWorldAreaImageBoundry.drawSubsection(
+    //     0, 0,                                               //position in screen
+    //     ofGetWidth(), ofGetHeight(),                        //final image scale on screen
+    //     camera->getLeftCornerX(), camera->getTopCornerY(),  //position in image
+    //     camera->getLenzWidth(), camera->getLenzHeight());   //scale in image
+
     /*
         Draw Player
     */
@@ -118,13 +139,19 @@ void OverworldState::draw() {
         }
     }
 
-    overworldEffectImage.draw(0,0, ofGetWidth(), ofGetHeight());
+    //draw Effect
+    // overworldEffectImage.draw(0,0, ofGetWidth(), ofGetHeight());
 }
+
 
 void OverworldState::keyPressed(int key) {
     player->keyPressed(key);
     if(key == 'b')
         area->setInBossFight(true);
+    else if(key == OF_KEY_ESC) {
+        setNextState(CurrentState::PAUSED);
+        setFinished(true);
+    }
 }
 
 void OverworldState::keyReleased(int key) {

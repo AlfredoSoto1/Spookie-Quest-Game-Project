@@ -43,7 +43,7 @@ Player::Player(const string& playerName, int health, int baseDamage) :
     buttonAttack.load("images/ui/buttons/rock.png");
 
     //set attacks
-    addAttack(Attack(5, 60));    
+    addAttack(Attack(10, 60));    
     addAttack(Attack(5, 60 * 2));    
     addAttack(Attack(5, 60 * 3));    
 

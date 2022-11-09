@@ -129,3 +129,55 @@ bool HitBox::collides(const HitBox& hitbox) {
     }
     return true;
 }
+
+ofColor HitBox::collides(const ofColor& solid, const ofImage& boundryImage) {
+
+    int verticalDif = 0;
+    int horizontalDif = 0;
+
+    //get Avrg color inside de collision
+    //that is the color to return
+
+    //horizontal dif
+    for(int i = 0; i < height; i++) {
+        int lastHorizontalDif = 0;
+        for(int j = 0; j < width; j++) {
+            if(boundryImage.getColor(x + j, y + i) == ofColor::white) {
+                lastHorizontalDif++;
+            }
+        }
+        //always pick the largest
+        if(horizontalDif < lastHorizontalDif)
+            horizontalDif = lastHorizontalDif;
+    }
+    //vertical dif
+    for(int i = 0; i < width; i++) {
+        int lastVerticalDif = 0;
+        for(int j = 0; j < height; j++) {
+            if(boundryImage.getColor(x + i, y + j) == ofColor::white) {
+                lastVerticalDif++;
+            }
+        }
+        //always pick the largest
+        if(verticalDif < lastVerticalDif)
+            verticalDif = lastVerticalDif;
+    }
+
+    if(solid == ofColor(0,0,0,0)){
+        return boundryImage.getColor(x, y);//avrg color
+    }
+
+    if(horizontalDif != 0 && direction == Direction::right) {
+        x = x - horizontalDif;
+    } else if(horizontalDif != 0 && direction == Direction::left) {
+        x = x + horizontalDif;
+    }
+
+    if(verticalDif != 0 && direction == Direction::down) {
+        y = y - verticalDif;
+    } else if(verticalDif != 0 && direction == Direction::up) {
+        y = y + verticalDif;
+    }
+
+    return boundryImage.getColor(x, y);//avrg color
+}

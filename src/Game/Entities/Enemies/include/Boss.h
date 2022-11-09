@@ -10,13 +10,17 @@ public:
     Boss(const string& name, int health, int baseDamage, int phases, int ox, int oy);
     virtual ~Boss();
 
+    void setCurrentPhases(int phases);
+
     int getPhases();
+    int getCurrentPhases();
     // virtual void inOverworldUpdate();
     // virtual void fightingUpdate();
     // virtual void inOverworldDraw(void* camera) override;
 
 private:
     int phases;
+    int maxPhases;
 // Boss: Implement a Boss class. This class must inherit from the Enemy
 // class. Bosses appear in an Area after all other Enemies of that area are
 // defeated. A Boss Battle must have at least two phases. That is to say, you

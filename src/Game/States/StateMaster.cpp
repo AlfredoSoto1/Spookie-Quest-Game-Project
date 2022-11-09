@@ -51,7 +51,12 @@ void StateMaster::update() {
             The new state will be the overworld
         */
         currentState = overworldState;
-
+    } else if (currentState->getNextState() == CurrentState::PAUSED) {
+        /*
+            The new state will be the overworld
+        */
+        pauseState->setPastState(currentState);
+        currentState = pauseState;
     } else if (currentState->getNextState() == CurrentState::BATTLE) {
         /*
             The new state will be Battle, this being called after overworld state
@@ -111,6 +116,8 @@ void StateMaster::createStates() {
     this->battleState = new BattleState(this->player, this->currentArea);
     this->winState = new WinState();
     this->endGameState = new EndGameState();
+    this->pauseState = new PauseState();
+    
 
     this->currentState = this->titleState;
 }
@@ -130,7 +137,7 @@ void StateMaster::initAreas() {
     entities.push_back(area2Enemy4);
     entities.push_back(area2Enemy5);
     entities.push_back(area2Enemy6);
-    Area* area2 = new Area("Area2", NULL, "images/areas/area2.png", "audio/ice.wav", "images/stages/stage2.png", "images/areas/darkness.png", entrancePosition, entities);
+    Area* area2 = new Area("Area2", NULL, "images/areas/area2.png", "images/areas/area3_boundry.png", "audio/ice.wav", "images/stages/stage2.png", "images/areas/darkness.png", entrancePosition, entities);
     generatedAreas.push_back(area2);
 
     ///-----------------------------------------------------------------------
@@ -143,57 +150,58 @@ void StateMaster::initAreas() {
     Boss* bossLevel2 = new Boss("Boss-1", 20, 4, 2, 1280, 720);
     entities1.push_back(bossLevel2);
 
-    Area* cave = new Area("cave", area2, "images/areas/area3.png", "audio/forest.wav", "images/stages/stage1.png", "images/areas/darkness.png", entrancePosition, entities1);
+    Area* cave = new Area("cave", area2, "images/areas/area3.png", "images/areas/area3_boundry.png", "audio/forest.wav", "images/stages/stage1.png", "images/areas/darkness.png", entrancePosition, entities1);
     generatedAreas.push_back(cave);
+    this->currentArea = cave;
 
     //------------------------------------------------------------------------
     
-    vector<Entity*> entities2;
-    Enemy *enemy1 = new Enemy("enemy1", 20, 4, 4 * 480, 4 * 432);
+    // vector<Entity*> entities2;
+    // Enemy *enemy1 = new Enemy("enemy1", 20, 4, 4 * 480, 4 * 432);
 
-    entities2.push_back(enemy1);
+    // entities2.push_back(enemy1);
     
-    Boss* bossLevel1 = new Boss("Boss-1", 20, 4, 2, 1280, 720);
-    entities2.push_back(bossLevel1);
+    // Boss* bossLevel1 = new Boss("Boss-1", 20, 4, 2, 1280, 720);
+    // entities2.push_back(bossLevel1);
 
-    Structure* structure = new Structure("rock-1", "images/entities/inmovable/rock.png", 4 * 480, 4 * 470, 1);
-    entities2.push_back(structure);
+    // Structure* structure = new Structure("rock-1", "images/entities/inmovable/rock.png", 4 * 480, 4 * 470, 1);
+    // entities2.push_back(structure);
 
-    int xLoc = 1500;
-    int yLoc = 1500;
-    int radius = 800;
-    for(int i = 0; i < 5; i ++) {
-        Structure* tree = new Structure("spruce", "images/entities/inmovable/pine_tree.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
-        tree->getHitBox().setWidth(25);
-        tree->getHitBox().setHeight(100);
-        tree->getHitBox().setRenderWidth(80);
-        tree->getHitBox().setRenderHeight(170);
-        entities2.push_back(tree);
+    // int xLoc = 1500;
+    // int yLoc = 1500;
+    // int radius = 800;
+    // for(int i = 0; i < 5; i ++) {
+    //     Structure* tree = new Structure("spruce", "images/entities/inmovable/pine_tree.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
+    //     tree->getHitBox().setWidth(25);
+    //     tree->getHitBox().setHeight(100);
+    //     tree->getHitBox().setRenderWidth(80);
+    //     tree->getHitBox().setRenderHeight(170);
+    //     entities2.push_back(tree);
 
-        tree = new Structure("oak", "images/entities/inmovable/tree.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
-        tree->getHitBox().setWidth(40);
-        tree->getHitBox().setHeight(100);
-        tree->getHitBox().setRenderWidth(170);
-        tree->getHitBox().setRenderHeight(170);
-        entities2.push_back(tree);
+    //     tree = new Structure("oak", "images/entities/inmovable/tree.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
+    //     tree->getHitBox().setWidth(40);
+    //     tree->getHitBox().setHeight(100);
+    //     tree->getHitBox().setRenderWidth(170);
+    //     tree->getHitBox().setRenderHeight(170);
+    //     entities2.push_back(tree);
 
-        tree = new Structure("cutted tree", "images/entities/inmovable/cutted_tree.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
-        tree->getHitBox().setWidth(50);
-        tree->getHitBox().setHeight(50);
-        tree->getHitBox().setRenderWidth(67);
-        tree->getHitBox().setRenderHeight(100);
-        entities2.push_back(tree);
+    //     tree = new Structure("cutted tree", "images/entities/inmovable/cutted_tree.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
+    //     tree->getHitBox().setWidth(50);
+    //     tree->getHitBox().setHeight(50);
+    //     tree->getHitBox().setRenderWidth(67);
+    //     tree->getHitBox().setRenderHeight(100);
+    //     entities2.push_back(tree);
 
-        tree = new Structure("dead tree", "images/entities/inmovable/dead_tree.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
-        tree->getHitBox().setWidth(50);
-        tree->getHitBox().setHeight(50);
-        tree->getHitBox().setRenderWidth(100);
-        tree->getHitBox().setRenderHeight(200);
-        entities2.push_back(tree);
-    }
+    //     tree = new Structure("dead tree", "images/entities/inmovable/dead_tree.png", xLoc + ofRandom(-radius, radius), yLoc + ofRandom(-radius, radius), 1);
+    //     tree->getHitBox().setWidth(50);
+    //     tree->getHitBox().setHeight(50);
+    //     tree->getHitBox().setRenderWidth(100);
+    //     tree->getHitBox().setRenderHeight(200);
+    //     entities2.push_back(tree);
+    // }
 
-    Area* area1 = new Area("wild-life", cave, "images/areas/area1.png", "audio/forest.wav", "images/stages/stage1.png", "images/areas/darkness.png", entrancePosition, entities2);
-    generatedAreas.push_back(area1);
+    // Area* area1 = new Area("wild-life", cave, "images/areas/area1.png", "audio/forest.wav", "images/stages/stage1.png", "images/areas/darkness.png", entrancePosition, entities2);
+    // generatedAreas.push_back(area1);
 
-    this->currentArea = area1;
+    // this->currentArea = area1;
 }

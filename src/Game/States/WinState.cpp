@@ -1,6 +1,7 @@
 #include "WinState.h"
 
 WinState::WinState() {
+    this->setCurrentState(CurrentState::WIN);
     screen.load("images/ui/winscreen.png");
 }
 

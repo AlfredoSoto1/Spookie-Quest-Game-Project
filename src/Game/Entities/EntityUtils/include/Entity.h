@@ -16,6 +16,7 @@ public:
 
     int getId();
     int getHealth();
+    int getMaxHealth();
     
     string& getName();
     HitBox& getHitBox();
@@ -28,6 +29,7 @@ protected:
 
     int id;
     int health;
+    int maxHealth;
 
     string name;
 
