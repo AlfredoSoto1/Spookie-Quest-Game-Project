@@ -178,6 +178,4 @@ void BattleState::keyPressed(int key) {
 void BattleState::reset() {
     setFinished(false);
     setNextState(CurrentState::NONE);
-    // currentPlayerHealth = player->getHealth();
-    // currentEnemyHealth = enemy->getHealth();
 }
