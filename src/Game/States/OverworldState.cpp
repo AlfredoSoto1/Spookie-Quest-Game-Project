@@ -178,4 +178,6 @@ void OverworldState::reset() {
     player->keyReleased('d');
     setFinished(false);
     setNextState(CurrentState::NONE);
+
+    player->setHealth(player->getMaxHealth());
 }
