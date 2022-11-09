@@ -91,6 +91,11 @@ void OverworldState::update() {
     }
 }
 
+
+
+
+
+
 void OverworldState::draw() {
     /*
         Draw Arena
@@ -113,8 +118,14 @@ void OverworldState::draw() {
     */
     player->inOverworldDraw(camera);
 
-    ofDrawBitmapString("player position " + ofToString(player->getHitBox().getX()) + ", " + ofToString(player->getHitBox().getY()), 50, 100);
-
+    ofSetColor(ofColor::black);
+    ofDrawRectangle(10,30,290,140);
+    ofSetColor(ofColor::gray);
+    ofDrawRectangle(30,45,250,110);
+    ofSetColor(ofColor::white);
+    ofDrawBitmapString("PLAYER POSITION " + ofToString(player->getHitBox().getX()) + ", " + ofToString(player->getHitBox().getY()), 50, 100);
+    ofDrawBitmapString("PLAYER HEALTH: " + ofToString(player->getHealth()), 50, 80);
+    ofDrawBitmapString("ENEMIES ALIVE: " + ofToString(area->getRemainingEnemies()), 50, 120);
     /*
         Draw Entities
     */
