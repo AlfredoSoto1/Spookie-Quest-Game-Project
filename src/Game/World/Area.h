@@ -4,7 +4,6 @@
 #include "Boss.h"
 #include "Player.h"
 #include "Structure.h"
-#include "Boundry.h"
 
 class Area {
 public:
