@@ -1,5 +1,4 @@
 #include "HitBox.h"
-#include "ofMain.h"
 
 HitBox::HitBox(int x, int y, int widthRender, int heightRender) {
     this->x = x;
@@ -130,19 +129,24 @@ bool HitBox::collides(const HitBox& hitbox) {
     return true;
 }
 
-ofColor HitBox::collides(const ofColor& solid, const ofImage& boundryImage) {
+glm::vec4 HitBox::collides(const ofColor& solid, const ofImage& boundryImage) {
 
     int verticalDif = 0;
     int horizontalDif = 0;
-
-    //get Avrg color inside de collision
-    //that is the color to return
+    ofColor temp;
+    glm::vec4 avrgColorAccumulation;
 
     //horizontal dif
     for(int i = 0; i < height; i++) {
         int lastHorizontalDif = 0;
         for(int j = 0; j < width; j++) {
-            if(boundryImage.getColor(x + j, y + i) == ofColor::white) {
+            temp = boundryImage.getColor(x + j, y + i);
+            avrgColorAccumulation.r += temp.r;
+            avrgColorAccumulation.g += temp.g;
+            avrgColorAccumulation.b += temp.b;
+            avrgColorAccumulation.a += temp.a;
+
+            if(temp == solid) {
                 lastHorizontalDif++;
             }
         }
@@ -154,17 +158,13 @@ ofColor HitBox::collides(const ofColor& solid, const ofImage& boundryImage) {
     for(int i = 0; i < width; i++) {
         int lastVerticalDif = 0;
         for(int j = 0; j < height; j++) {
-            if(boundryImage.getColor(x + i, y + j) == ofColor::white) {
+            if(boundryImage.getColor(x + i, y + j) == solid) {
                 lastVerticalDif++;
             }
         }
         //always pick the largest
         if(verticalDif < lastVerticalDif)
             verticalDif = lastVerticalDif;
-    }
-
-    if(solid == ofColor(0,0,0,0)){
-        return boundryImage.getColor(x, y);//avrg color
     }
 
     if(horizontalDif != 0 && direction == Direction::right) {
@@ -179,5 +179,12 @@ ofColor HitBox::collides(const ofColor& solid, const ofImage& boundryImage) {
         y = y + verticalDif;
     }
 
-    return boundryImage.getColor(x, y);//avrg color
+    float totalPixelsInArea = width * height;
+
+    avrgColorAccumulation.r /= totalPixelsInArea;
+    avrgColorAccumulation.g /= totalPixelsInArea;
+    avrgColorAccumulation.b /= totalPixelsInArea;
+    avrgColorAccumulation.a /= totalPixelsInArea;
+
+    return avrgColorAccumulation;//avrg color
 }

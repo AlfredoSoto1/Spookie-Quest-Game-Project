@@ -49,6 +49,10 @@ Player::Player(const string& playerName, int health, int baseDamage) :
 
 }
 
+void Player::loadCamera(void* camera) {
+    this->camera = camera;
+}
+
 void Player::drawAttackList() {
     /*
         Draw Button for attacks depending how much the player has
@@ -67,7 +71,7 @@ void Player::drawAttackList() {
 }
 
 void Player::inOverworldUpdate() {
-
+    OverworldCamera* cameraPtr = static_cast<OverworldCamera*>(camera);
     if (!pressedKeys.empty()) {
         switch (pressedKeys[0]) {
             case 'a':
@@ -82,10 +86,10 @@ void Player::inOverworldUpdate() {
                 break;
             case 'd':
                 hitbox.setDirection(Direction::right);
-                if (hitbox.getX() + speed < OXDIMENSION)
+                if (hitbox.getX() + speed < cameraPtr->getCurrentAreaWidth())
                     hitbox.setX(hitbox.getX() + speed);
                 else
-                    hitbox.setX(OXDIMENSION);
+                    hitbox.setX(cameraPtr->getCurrentAreaWidth());
                 walkRight->update();
                 overworldSprite = walkRight->getCurrentFrame();
                 break;
@@ -100,10 +104,10 @@ void Player::inOverworldUpdate() {
                 break;
             case 's':
                 hitbox.setDirection(Direction::down);
-                if (hitbox.getY() + speed < OYDIMENSION)
+                if (hitbox.getY() + speed < cameraPtr->getCurrentAreaHeight())
                     hitbox.setY(hitbox.getY() + speed);
                 else
-                    hitbox.setY(OYDIMENSION);
+                    hitbox.setY(cameraPtr->getCurrentAreaHeight());
                 walkDown->update();
                 overworldSprite = walkDown->getCurrentFrame();
                 break;
@@ -141,8 +145,8 @@ void Player::inOverworldDraw(void* camera) {
 
     OverworldCamera* cameraPtr = static_cast<OverworldCamera*>(camera);
 
-    double xAspectDif = ofGetWidth() / 1280.0;
-    double yAspectDif = ofGetHeight() / 720.0;
+    double xAspectDif = ofGetWidth() / cameraPtr->getLenzWidth();
+    double yAspectDif = ofGetHeight() / cameraPtr->getLenzHeight();
 
     int aspectWidth = hitbox.getRenderWidth() * xAspectDif;
     int aspectHeight = hitbox.getRenderHeight() * yAspectDif;
@@ -156,9 +160,9 @@ void Player::inOverworldDraw(void* camera) {
         float leftCornerDif = leftCorner - hitbox.getRenderX();
         float ratio = leftCornerDif / (cameraPtr->getLenzWidth() / 2);
         xRender = ofGetWidth() / 2 - aspectWidth/2 - ratio * ofGetWidth() / 2;
-    } else if(hitbox.getX() > OXDIMENSION - cameraPtr->getLenzWidth() / 2) {
+    } else if(hitbox.getX() > cameraPtr->getCurrentAreaWidth() - cameraPtr->getLenzWidth() / 2) {
         // xRender = hitbox.getRenderX() - (OXDIMENSION - cameraPtr->getLenzWidth() / 2) + ofGetWidth() / 2 - aspectWidth/2;
-        float rightCorner = OXDIMENSION - cameraPtr->getLenzWidth() / 2;
+        float rightCorner = cameraPtr->getCurrentAreaWidth() - cameraPtr->getLenzWidth() / 2;
         float rightCornerDif = hitbox.getRenderX() - rightCorner;
         float ratio = rightCornerDif / (cameraPtr->getLenzWidth() / 2);
         xRender = ofGetWidth() / 2 - aspectWidth/2 + ratio * ofGetWidth() / 2;
@@ -170,9 +174,9 @@ void Player::inOverworldDraw(void* camera) {
         float topCornerDif = topCorner - hitbox.getRenderY();
         float ratio = topCornerDif / (cameraPtr->getLenzHeight() / 2);
         yRender = ofGetHeight() / 2 - aspectHeight/2 - ratio * ofGetHeight() / 2;
-    } else if(hitbox.getY() > OYDIMENSION - cameraPtr->getLenzHeight() / 2) {
+    } else if(hitbox.getY() > cameraPtr->getCurrentAreaHeight() - cameraPtr->getLenzHeight() / 2) {
         // yRender = hitbox.getRenderY() - (OYDIMENSION - cameraPtr->getLenzHeight() / 2) + ofGetHeight() / 2 - aspectHeight/2;
-        float downCorner = OYDIMENSION - cameraPtr->getLenzHeight() / 2;
+        float downCorner = cameraPtr->getCurrentAreaHeight()- cameraPtr->getLenzHeight() / 2;
         float downCornerDif = hitbox.getRenderY() - downCorner;
         float ratio = downCornerDif / (cameraPtr->getLenzHeight() / 2);
         yRender = ofGetHeight() / 2 - aspectHeight/2 + ratio * ofGetHeight() / 2;

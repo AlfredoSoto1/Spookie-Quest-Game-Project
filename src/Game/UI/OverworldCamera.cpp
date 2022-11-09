@@ -1,12 +1,15 @@
 #include "OverworldCamera.h"
 
-OverworldCamera::OverworldCamera(Player *player) {
+OverworldCamera::OverworldCamera(Player *player, Area* area) {
     this->player = player;
+    this->player->loadCamera(this);
 
     HitBox& playerHitBox = this->player->getHitBox();
     this->playerW = playerHitBox.getRenderWidth();
     this->playerH = playerHitBox.getRenderHeight();
 
+    this->currentAreaWidth = area->getImage().getWidth();
+    this->currentAreaHeight = area->getImage().getHeight();
     update();
 }
 
@@ -37,16 +40,16 @@ void OverworldCamera::update() {
         this->leftCornerX = 0;
         this->rightCornerX = lenzWidth;
         this->cameraX = lenzWidth / 2;
-    } else if (this->rightCornerX > OXDIMENSION) {
-        this->rightCornerX = OXDIMENSION;
-        this->leftCornerX = OXDIMENSION - lenzWidth;
-        this->cameraX = OXDIMENSION - lenzWidth / 2;
+    } else if (this->rightCornerX > currentAreaWidth) {
+        this->rightCornerX = currentAreaWidth;
+        this->leftCornerX = currentAreaWidth - lenzWidth;
+        this->cameraX = currentAreaWidth - lenzWidth / 2;
     }
 
-    if (this->bottomCornerY > OYDIMENSION) {
-        this->bottomCornerY = OYDIMENSION;
-        this->topCornerY = OYDIMENSION - lenzHeight;
-        this->cameraY = OYDIMENSION - lenzHeight / 2;
+    if (this->bottomCornerY > currentAreaHeight) {
+        this->bottomCornerY = currentAreaHeight;
+        this->topCornerY = currentAreaHeight - lenzHeight;
+        this->cameraY = currentAreaHeight - lenzHeight / 2;
     } else if (this->topCornerY < 0) {
         this->topCornerY = 0;
         this->bottomCornerY = lenzHeight;

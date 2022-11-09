@@ -20,9 +20,13 @@ private:
     ofImage healthBar;
     ofImage buttonAttack;
 
+    void* camera;
+
 public:
     Player(const string& playerName, int health, int baseDamage);
     ~Player();
+
+    void loadCamera(void* camera);
 
     void drawAttackList();
 

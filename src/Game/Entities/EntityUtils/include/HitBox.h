@@ -43,7 +43,7 @@ public:
     void setSolid(bool isSolid);    
     
     bool collides(const HitBox& hitBox);
-    ofColor collides(const ofColor& solid, const ofImage& boundryImage);
+    glm::vec4 collides(const ofColor& solid, const ofImage& boundryImage);
     
 protected:
     int x = 0;

@@ -26,14 +26,14 @@ public:
     
     void reset();
 
-
-
 private:
     Area *area;
     Player *player;
     Enemy *enemyToBattle;
     ofImage overworldImage;
     ofImage overworldEffectImage;
-    ofImage overWorldAreaImageBoundry;
+    ofImage overWorldAreaCollider;
     OverworldCamera *camera;
+
+    bool debugMapCollider;
 };

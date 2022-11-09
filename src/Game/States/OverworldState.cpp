@@ -3,8 +3,9 @@
 OverworldState::OverworldState(Player *player, Area *area) {
     this->setCurrentState(CurrentState::OVERWORLD);
     this->player = player;
-    camera = new OverworldCamera(player);
+    camera = new OverworldCamera(player, area);
     loadArea(area);
+    this->debugMapCollider = false;
 }
 
 Player* OverworldState::getPlayer() { 
@@ -27,7 +28,7 @@ void OverworldState::loadArea(Area* area) {
     this->area = area;
     overworldImage = area->getImage();
     overworldEffectImage = area->getAmbianceImage();
-    overWorldAreaImageBoundry = area->getAreaImageBoundry();
+    overWorldAreaCollider = area->getAreaImageBoundry();
     music = area->getMusic();
     music.setVolume(0.25);
     music.setLoop(true);
@@ -43,20 +44,26 @@ void OverworldState::update() {
 
     player->inOverworldUpdate();
 
-    // if(player->getHealth() <= 0) {
-    //     setFinished(true);
-    //     setNextState(CurrentState::END);
-    //     return;
-    // }
+    if(player->getHealth() <= 0) {
+        setFinished(true);
+        setNextState(CurrentState::END);
+        return;
+    }
 
     //player Hitbox
     HitBox& playerHitbox = player->getHitBox();
 
-    ofColor inColorBoundry = playerHitbox.collides(ofColor::white, overWorldAreaImageBoundry);
+    glm::vec4 inColorBoundry = playerHitbox.collides(ofColor::white, overWorldAreaCollider);
 
-    // if(inColorBoundry == ofColor::red){
-    //     player->setHealth(player->getHealth() - 2);
-    // }    
+    //check if red is dominant
+    if(inColorBoundry.r > inColorBoundry.g && inColorBoundry.r > inColorBoundry.b) {
+        player->setHealth(player->getHealth() - 4);//"is in lava"
+    }
+
+    //check if blue is dominant
+    if(inColorBoundry.b > inColorBoundry.g && inColorBoundry.b > inColorBoundry.r) {
+        player->setHealth(player->getHealth() - 1);//"is in water"
+    }
 
     for(Entity* entity : area->getEntities()) {
         //Update enemies
@@ -101,18 +108,21 @@ void OverworldState::draw() {
         camera->getLeftCornerX(), camera->getTopCornerY(),  //position in image
         camera->getLenzWidth(), camera->getLenzHeight());   //scale in image
 
-    // //debug regions
-    // overWorldAreaImageBoundry.drawSubsection(
-    //     0, 0,                                               //position in screen
-    //     ofGetWidth(), ofGetHeight(),                        //final image scale on screen
-    //     camera->getLeftCornerX(), camera->getTopCornerY(),  //position in image
-    //     camera->getLenzWidth(), camera->getLenzHeight());   //scale in image
+    if(debugMapCollider) {
+        //debug regions
+        overWorldAreaCollider.drawSubsection(
+            0, 0,                                               //position in screen
+            ofGetWidth(), ofGetHeight(),                        //final image scale on screen
+            camera->getLeftCornerX(), camera->getTopCornerY(),  //position in image
+            camera->getLenzWidth(), camera->getLenzHeight());   //scale in image
+    }
 
     /*
         Draw Player
     */
     player->inOverworldDraw(camera);
 
+    ofDrawBitmapString("player health " + ofToString(player->getHealth()), 50, 200);
     ofDrawBitmapString("player position " + ofToString(player->getHitBox().getX()) + ", " + ofToString(player->getHitBox().getY()), 50, 100);
 
     /*
@@ -151,6 +161,9 @@ void OverworldState::keyPressed(int key) {
     else if(key == OF_KEY_ESC) {
         setNextState(CurrentState::PAUSED);
         setFinished(true);
+    }
+    if(key == 't') {
+        debugMapCollider = !debugMapCollider;
     }
 }
 
