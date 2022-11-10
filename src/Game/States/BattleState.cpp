@@ -67,6 +67,10 @@ void BattleState::update() {
     enemy->fightingUpdate();
 
     if(player->getHealth() <= 0) {
+         Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
+        enemyAttack.reset();
+        Attack& playerAttack = player->getAttack(player->getAttackChoice());
+        playerAttack.reset();
         setNextState(CurrentState::END);
         setFinished(true);
         return;
@@ -80,6 +84,10 @@ void BattleState::update() {
                 return;
             }
             enemy->getDeath()->reset();
+            Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
+            enemyAttack.reset();
+            Attack& playerAttack = player->getAttack(player->getAttackChoice());
+            playerAttack.reset();
             setNextState(CurrentState::WIN);
             setFinished(true);
             canInteract = true;
@@ -95,6 +103,10 @@ void BattleState::update() {
                     return;
                 }
                 boss->getDeath()->reset();
+                Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
+                enemyAttack.reset();
+                Attack& playerAttack = player->getAttack(player->getAttackChoice());
+                playerAttack.reset();
                 setNextState(CurrentState::WIN);
                 setFinished(true);
                 canInteract = true;
@@ -106,6 +118,14 @@ void BattleState::update() {
         }
     }
 
+    Boss* boss = dynamic_cast<Boss*>(enemy);
+    if(boss != nullptr) {
+        if(boss->passToNextPhase()) {
+            boss->reHeal();
+            isEnemyOnAttack = false;
+            return;
+        }
+    }
 
     if(!isAttacking)
         return;
@@ -115,58 +135,6 @@ void BattleState::update() {
     int currentEnemyHealth = enemy->getHealth();
     playerAttack.provokeAttack(&currentEnemyHealth, 1);
     enemy->setHealth(currentEnemyHealth);
-
-    Boss* boss = dynamic_cast<Boss*>(enemy);
-    if(boss != nullptr && !playerAttack.isOnCoolDown()) {
-        if(!boss->hasPhasesLeft()) {
-            canInteract = true;
-            isAttacking = false;
-        }
-        if(boss->passToNextPhase()) {
-            boss->reHeal();
-            isEnemyOnAttack = false;
-            return;
-        }
-    }
-
-    // Boss* boss = dynamic_cast<Boss*>(enemy);
-    // if(enemy->getHealth() <= 0 && boss == nullptr && !playerAttack.isOnCoolDown()) {
-    //     if(!enemy->getDeath()->hasEnded()) {
-    //         enemy->getDeath()->update();
-    //         return;
-    //     }
-    //     enemy->getDeath()->reset();  
-    //     setNextState(CurrentState::WIN);
-    //     setFinished(true);
-    //     canInteract = true;
-    //     isAttacking = false;
-    //     enemyHasChosenAttack = false;
-    //     isEnemyOnAttack = false;
-    //     return;
-    // }else if(boss != nullptr && !playerAttack.isOnCoolDown()) {
-    //     if(!boss->hasPhasesLeft()) {
-    //         if(!boss->getDeath()->hasEnded()) {
-    //             boss->getDeath()->update();
-    //             return;
-    //         }
-    //         boss->getDeath()->reset();
-    //         setNextState(CurrentState::WIN);
-    //         setFinished(true);
-    //         canInteract = true;
-    //         isAttacking = false;
-    //         enemyHasChosenAttack = false;
-    //         isEnemyOnAttack = false;
-    //         return;
-    //     }
-    //     if(boss->passToNextPhase()) {
-    //         boss->reHeal();
-    //         isEnemyOnAttack = false;
-    //         return;
-    //     }
-    // }
-
-    // if(enemy->getHealth() <= 0)
-    //     return;
 
     //Enemy Attacks
     if(!enemyHasChosenAttack) {

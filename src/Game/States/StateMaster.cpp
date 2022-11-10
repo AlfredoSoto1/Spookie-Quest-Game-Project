@@ -86,10 +86,16 @@ void StateMaster::update() {
                 currentState = winState;
             }
         } else if(currentArea->inBossFight()) {
-            currentArea = currentArea->getNextArea();
-            overworldState->loadArea(currentArea);
-            battleState->setStage(currentArea->getStage());
-            currentState = winState;
+            if (currentArea->getNextArea() == nullptr) {
+                endGameState->setWin(true);
+                currentState = endGameState;
+            } else {
+                currentArea = currentArea->getNextArea();
+                overworldState->loadArea(currentArea);
+                battleState->setStage(currentArea->getStage());
+                currentState = winState;
+                player->setHealth(player->getMaxHealth());
+            }
         }else {
             currentState = winState;
         }
@@ -171,7 +177,7 @@ void StateMaster::initAreas() {
     string areaFightingStage = "images/stages/stage1.png";
     string areaEffect = "images/areas/darkness.png";
     
-    ofPoint entrancePosition(1679, 2003);
+    ofPoint entrancePosition(570, 300);
     vector<Entity*> tempEntityList;
 
     // Friend* friend1 = new Friend("Friend-1", "", 1280, 720);
@@ -188,21 +194,20 @@ void StateMaster::initAreas() {
                 mushroom->getFightingHitBox().setRenderWidth(600);
                 mushroom->getFightingHitBox().setRenderHeight(600);
                 tempEntityList.push_back(mushroom);
-            }else if(spawnColor == ofColor::green) {
-                Enemy *goblin = new Enemy("golin", EnemyE::GOBLIN, 20, 4, x, y);
-                //enlarge image
-                goblin->getHitBox().setRenderWidth(300);
-                goblin->getHitBox().setRenderHeight(300);
-                goblin->getFightingHitBox().setRenderWidth(600);
-                goblin->getFightingHitBox().setRenderHeight(600);
-                tempEntityList.push_back(goblin);
+            }else if(spawnColor == ofColor::blue) {
+                Boss* bossLevel2 = new Boss("Boss-2", 20, 4, 2, x, y);
+                bossLevel2->getHitBox().setRenderWidth(300);
+                bossLevel2->getHitBox().setRenderHeight(300);
+                bossLevel2->getFightingHitBox().setRenderWidth(600);
+                bossLevel2->getFightingHitBox().setRenderHeight(600);
+                tempEntityList.push_back(bossLevel2);
             }
         }
     }
 
     Area* cave = new Area("cave", nullptr, areaPath, areaBoundryPath, areaAudio, areaFightingStage, areaEffect, entrancePosition, tempEntityList);
     generatedAreas.push_back(cave);
-    this->currentArea = cave;
+    // this->currentArea = cave;
 
     //include entities for area 1
     tempEntityList.clear();
@@ -263,8 +268,10 @@ void StateMaster::initAreas() {
 
     entrancePosition = ofPoint(1679, 2003);
 
-    Area* area1 = new Area("wild-life", cave, areaPath, areaBoundryPath, areaAudio, areaFightingStage, areaEffect, entrancePosition, tempEntityList);
+    Area* area1 = new Area("wild-life", nullptr, areaPath, areaBoundryPath, areaAudio, areaFightingStage, areaEffect, entrancePosition, tempEntityList);
     generatedAreas.push_back(area1);
 
+
+    //set this current area to last area (which is the first one)
     this->currentArea = area1;
 }
