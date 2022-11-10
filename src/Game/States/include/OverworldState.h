@@ -8,6 +8,8 @@
 
 class OverworldState : public State {
 public:
+
+    
     OverworldState(Player *player, Area *area);
 
     Area* getArea();
@@ -17,6 +19,7 @@ public:
     void loadArea(Area *Area);
     void setEnemy(Enemy *enemyToBattle);
 
+    
     void draw();
     void update();
     
@@ -25,6 +28,7 @@ public:
     void keyReleased(int key);
     
     void reset();
+
 
 
 
