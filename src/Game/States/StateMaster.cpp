@@ -161,11 +161,12 @@ void StateMaster::initAreas() {
 
     //------------------------------------------------------------------------
     
+    //prepare
     ofImage spawnImage;
-    spawnImage.load("images/areas/area1_spawn.png");
+    spawnImage.load("images/areas/area3_spawn.png");
 
-    string areaPath = "images/areas/area1.png";
-    string areaBoundryPath = "images/areas/area1_boundry.png";
+    string areaPath = "images/areas/area3.png";
+    string areaBoundryPath = "images/areas/area3_boundry.png";
     string areaAudio = "audio/forest.wav";
     string areaFightingStage = "images/stages/stage1.png";
     string areaEffect = "images/areas/darkness.png";
@@ -173,9 +174,8 @@ void StateMaster::initAreas() {
     ofPoint entrancePosition(1679, 2003);
     vector<Entity*> tempEntityList;
 
-    //load boss
-    Boss* bossLevel1 = new Boss("Boss-1", 100, 4, 2, 870, 726);
-    tempEntityList.push_back(bossLevel1);
+    // Friend* friend1 = new Friend("Friend-1", "", 1280, 720);
+    // entities1.push_back(friend1);
 
     for(int x = 0;x < spawnImage.getWidth(); x++) {
         for(int y = 0;y < spawnImage.getHeight(); y++) {
@@ -188,73 +188,82 @@ void StateMaster::initAreas() {
                 mushroom->getFightingHitBox().setRenderWidth(600);
                 mushroom->getFightingHitBox().setRenderHeight(600);
                 tempEntityList.push_back(mushroom);
+            }else if(spawnColor == ofColor::green) {
+                Enemy *goblin = new Enemy("golin", EnemyE::GOBLIN, 20, 4, x, y);
+                //enlarge image
+                goblin->getHitBox().setRenderWidth(300);
+                goblin->getHitBox().setRenderHeight(300);
+                goblin->getFightingHitBox().setRenderWidth(600);
+                goblin->getFightingHitBox().setRenderHeight(600);
+                tempEntityList.push_back(goblin);
             }
         }
     }
 
-    //load Enemies
-    // Enemy *mushroom1 = new Enemy("mushroom", EnemyE::MUSHROOM, 20, 4, 1086, 1885);
-    // //enlarge image
-    // mushroom1->getHitBox().setRenderWidth(300);
-    // mushroom1->getHitBox().setRenderHeight(300);
-    // mushroom1->getFightingHitBox().setRenderWidth(600);
-    // mushroom1->getFightingHitBox().setRenderHeight(600);
-    // tempEntityList.push_back(mushroom1);
-    
-    // Enemy *mushroom2 = new Enemy("mushroom", EnemyE::MUSHROOM, 20, 4, 812, 1442);
-    // //enlarge image
-    // mushroom2->getHitBox().setRenderWidth(300);
-    // mushroom2->getHitBox().setRenderHeight(300);
-    // mushroom2->getFightingHitBox().setRenderWidth(600);
-    // mushroom2->getFightingHitBox().setRenderHeight(600);
-    // tempEntityList.push_back(mushroom2);
+    Area* cave = new Area("cave", nullptr, areaPath, areaBoundryPath, areaAudio, areaFightingStage, areaEffect, entrancePosition, tempEntityList);
+    generatedAreas.push_back(cave);
+    this->currentArea = cave;
 
-    // Enemy *mushroom3 = new Enemy("mushroom", EnemyE::MUSHROOM, 20, 4, 1954, 1075);
-    // //enlarge image
-    // mushroom3->getHitBox().setRenderWidth(300);
-    // mushroom3->getHitBox().setRenderHeight(300);
-    // mushroom3->getFightingHitBox().setRenderWidth(600);
-    // mushroom3->getFightingHitBox().setRenderHeight(600);
-    // tempEntityList.push_back(mushroom3);
-    
-    // for(int i = 0; i < 10; i ++) {
-    //     Structure* tree = new Structure("spruce", "images/entities/inmovable/pine_tree.png", 1370 + i * 100, 420 + ofRandom(-50, 50), 1);
-    //     tree->getHitBox().setWidth(25);
-    //     tree->getHitBox().setHeight(170);
-    //     tree->getHitBox().setRenderWidth(80);
-    //     tree->getHitBox().setRenderHeight(170);
-    //     tempEntityList.push_back(tree);
+    //include entities for area 1
+    tempEntityList.clear();
+    spawnImage.load("images/areas/area1_spawn.png");
 
-    //     tree = new Structure("spruce", "images/entities/inmovable/pine_tree.png", 1370 + i * 100, 600 + ofRandom(-50, 50), 1);
-    //     tree->getHitBox().setWidth(25);
-    //     tree->getHitBox().setHeight(170);
-    //     tree->getHitBox().setRenderWidth(80);
-    //     tree->getHitBox().setRenderHeight(170);
-    //     tempEntityList.push_back(tree);
+    areaPath = "images/areas/area1.png";
+    areaBoundryPath = "images/areas/area1_boundry.png";
+    areaAudio = "audio/forest.wav";
+    areaFightingStage = "images/stages/stage1.png";
+    areaEffect = "images/areas/darkness.png";
 
-    //     tree = new Structure("oak", "images/entities/inmovable/tree.png", 1170 + i * 100, 1716 + ofRandom(-100, 100), 1);
-    //     tree->getHitBox().setWidth(40);
-    //     tree->getHitBox().setHeight(170);
-    //     tree->getHitBox().setRenderWidth(170);
-    //     tree->getHitBox().setRenderHeight(170);
-    //     tempEntityList.push_back(tree);
+    for(int x = 0;x < spawnImage.getWidth(); x++) {
+        for(int y = 0;y < spawnImage.getHeight(); y++) {
+            ofColor spawnColor = spawnImage.getColor(x, y);
+            if(spawnColor == ofColor::red) {
+                Enemy *mushroom = new Enemy("mushroom", EnemyE::MUSHROOM, 20, 4, x, y);
+                //enlarge image
+                mushroom->getHitBox().setRenderWidth(300);
+                mushroom->getHitBox().setRenderHeight(300);
+                mushroom->getFightingHitBox().setRenderWidth(600);
+                mushroom->getFightingHitBox().setRenderHeight(600);
+                tempEntityList.push_back(mushroom);
+            }else if(spawnColor == ofColor::green) {
+                Enemy *goblin = new Enemy("golbin", EnemyE::GOBLIN, 20, 4, x, y);
+                //enlarge image
+                goblin->getHitBox().setRenderWidth(300);
+                goblin->getHitBox().setRenderHeight(300);
+                goblin->getFightingHitBox().setRenderWidth(600);
+                goblin->getFightingHitBox().setRenderHeight(600);
+                tempEntityList.push_back(goblin);
+            }else if(spawnColor == ofColor::blue) {
+                Boss* bossLevel1 = new Boss("Boss-1", 20, 4, 2, x, y);
+                bossLevel1->getHitBox().setRenderWidth(300);
+                bossLevel1->getHitBox().setRenderHeight(300);
+                bossLevel1->getFightingHitBox().setRenderWidth(600);
+                bossLevel1->getFightingHitBox().setRenderHeight(600);
+                tempEntityList.push_back(bossLevel1);
+            }else if(spawnColor == ofColor::white) {
+                int random = ofRandom(0, 1);
+                if(random == 0) {
+                    Structure* tree = new Structure("spruce", "images/entities/inmovable/tree_0.png", x, y, 1);
+                    tree->getHitBox().setWidth(25);
+                    tree->getHitBox().setHeight(170);
+                    tree->getHitBox().setRenderWidth(80);
+                    tree->getHitBox().setRenderHeight(170);
+                    tempEntityList.push_back(tree);
+                }else {
+                    Structure* tree = new Structure("oak", "images/entities/inmovable/tree_1.png", x, y, 1);
+                    tree->getHitBox().setWidth(40);
+                    tree->getHitBox().setHeight(170);
+                    tree->getHitBox().setRenderWidth(170);
+                    tree->getHitBox().setRenderHeight(170);
+                    tempEntityList.push_back(tree);
+                }
+            }
+        }
+    }
 
-    //     tree = new Structure("oak", "images/entities/inmovable/tree.png", 1170 + i * 100, 1580 + ofRandom(-100, 100), 1);
-    //     tree->getHitBox().setWidth(40);
-    //     tree->getHitBox().setHeight(170);
-    //     tree->getHitBox().setRenderWidth(170);
-    //     tree->getHitBox().setRenderHeight(170);
-    //     tempEntityList.push_back(tree);
+    entrancePosition = ofPoint(1679, 2003);
 
-    //     tree = new Structure("oak", "images/entities/inmovable/tree.png", 540 + i * 100, 1160 + ofRandom(-100, 100), 1);
-    //     tree->getHitBox().setWidth(40);
-    //     tree->getHitBox().setHeight(170);
-    //     tree->getHitBox().setRenderWidth(170);
-    //     tree->getHitBox().setRenderHeight(170);
-    //     tempEntityList.push_back(tree);
-    // }
-
-    Area* area1 = new Area("wild-life", nullptr, areaPath, areaBoundryPath, areaAudio, areaFightingStage, areaEffect, entrancePosition, tempEntityList);
+    Area* area1 = new Area("wild-life", cave, areaPath, areaBoundryPath, areaAudio, areaFightingStage, areaEffect, entrancePosition, tempEntityList);
     generatedAreas.push_back(area1);
 
     this->currentArea = area1;

@@ -205,7 +205,7 @@ void Player::reset() {
     hitbox.setY(0);
     fightingHitbox.setX(64);
     fightingHitbox.setY(64);
-    health = 100;
+    health = maxHealth;
 }
 
 Player::~Player() {

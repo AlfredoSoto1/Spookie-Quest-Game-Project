@@ -203,5 +203,5 @@ void OverworldState::reset() {
     setFinished(false);
     setNextState(CurrentState::NONE);
 
-    player->setHealth(player->getMaxHealth());
+    // player->setHealth(player->getMaxHealth());
 }
