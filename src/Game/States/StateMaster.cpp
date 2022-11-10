@@ -204,32 +204,39 @@ void StateMaster::initAreas() {
     // entities2.push_back(structure);
 
     for(int i = 0; i < 10; i ++) {
-        Structure* tree = new Structure("spruce", "images/entities/inmovable/pine_tree.png", 1370 + i * 100, 420 + ofRandom(-100, 100), 1);
+        Structure* tree = new Structure("spruce", "images/entities/inmovable/pine_tree.png", 1370 + i * 100, 420 + ofRandom(-50, 50), 1);
         tree->getHitBox().setWidth(25);
         tree->getHitBox().setHeight(170);
         tree->getHitBox().setRenderWidth(80);
         tree->getHitBox().setRenderHeight(170);
         tempEntityList.push_back(tree);
 
-        tree = new Structure("cutted tree", "images/entities/inmovable/cutted_tree.png", 1600 + i * 100, 1716 + ofRandom(-100, 100), 1);
-        tree->getHitBox().setWidth(50);
-        tree->getHitBox().setHeight(100);
-        tree->getHitBox().setRenderWidth(67);
-        tree->getHitBox().setRenderHeight(100);
+        tree = new Structure("spruce", "images/entities/inmovable/pine_tree.png", 1370 + i * 100, 600 + ofRandom(-50, 50), 1);
+        tree->getHitBox().setWidth(25);
+        tree->getHitBox().setHeight(170);
+        tree->getHitBox().setRenderWidth(80);
+        tree->getHitBox().setRenderHeight(170);
         tempEntityList.push_back(tree);
 
-        tree = new Structure("oak", "images/entities/inmovable/tree.png", 1600 + i * 100, 1716 + ofRandom(-200, 200), 1);
+        tree = new Structure("oak", "images/entities/inmovable/tree.png", 1170 + i * 100, 1716 + ofRandom(-100, 100), 1);
         tree->getHitBox().setWidth(40);
         tree->getHitBox().setHeight(170);
         tree->getHitBox().setRenderWidth(170);
         tree->getHitBox().setRenderHeight(170);
         tempEntityList.push_back(tree);
 
-        tree = new Structure("cutted tree", "images/entities/inmovable/cutted_tree.png", 1600 + i * 100, 1716 + ofRandom(-200, 200), 1);
-        tree->getHitBox().setWidth(50);
-        tree->getHitBox().setHeight(100);
-        tree->getHitBox().setRenderWidth(67);
-        tree->getHitBox().setRenderHeight(100);
+        tree = new Structure("oak", "images/entities/inmovable/tree.png", 1170 + i * 100, 1580 + ofRandom(-100, 100), 1);
+        tree->getHitBox().setWidth(40);
+        tree->getHitBox().setHeight(170);
+        tree->getHitBox().setRenderWidth(170);
+        tree->getHitBox().setRenderHeight(170);
+        tempEntityList.push_back(tree);
+
+        tree = new Structure("oak", "images/entities/inmovable/tree.png", 540 + i * 100, 1160 + ofRandom(-100, 100), 1);
+        tree->getHitBox().setWidth(40);
+        tree->getHitBox().setHeight(170);
+        tree->getHitBox().setRenderWidth(170);
+        tree->getHitBox().setRenderHeight(170);
         tempEntityList.push_back(tree);
     }
 
