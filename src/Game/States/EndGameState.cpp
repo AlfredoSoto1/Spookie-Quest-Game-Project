@@ -2,7 +2,7 @@
 
 EndGameState::EndGameState() {
     this->setCurrentState(CurrentState::END);
-    loseScreen.load("images/ui/losescreen.png");
+    loseScreen.load("images/ui/gameover.png");
     winScreen.load("images/ui/winscreen.png");
     win = false;
 }
@@ -14,6 +14,7 @@ void EndGameState::draw() {
     if (win)
         winScreen.draw(0, 0, ofGetWidth(), ofGetHeight());
     else
+        loseScreen.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
         loseScreen.draw(0, 0, ofGetWidth(), ofGetHeight());
 }
 
