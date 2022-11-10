@@ -66,10 +66,10 @@ void OverworldState::update() {
         player->setHealth(player->getHealth() - 1);//"is in water"
     }
 
-    // //check if black is dominant
-    // if(inColorBoundry.r == 0 && inColorBoundry.g == 0 && inColorBoundry.b == 0 && inColorBoundry.a != 0) {
-    //     player->setHealth(0);//"fell to void"
-    // }
+    //check if black is dominant
+    if(inColorBoundry.g > inColorBoundry.r && inColorBoundry.g > inColorBoundry.b) {
+        player->setHealth(0);//"fell to void"
+    }
 
     for(Entity* entity : area->getEntities()) {
         //Update enemies

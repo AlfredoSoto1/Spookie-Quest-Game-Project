@@ -199,10 +199,6 @@ void StateMaster::initAreas() {
     mushroom3->getFightingHitBox().setRenderHeight(600);
     tempEntityList.push_back(mushroom3);
     
-    // load structure entities / inmovables
-    // Structure* structure = new Structure("rock-1", "images/entities/inmovable/rock.png", 4 * 480, 4 * 470, 1);
-    // entities2.push_back(structure);
-
     for(int i = 0; i < 10; i ++) {
         Structure* tree = new Structure("spruce", "images/entities/inmovable/pine_tree.png", 1370 + i * 100, 420 + ofRandom(-50, 50), 1);
         tree->getHitBox().setWidth(25);
