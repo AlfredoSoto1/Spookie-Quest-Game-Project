@@ -14,11 +14,11 @@ enum AttackType {
 
 class Attack {
 public:
-    // Attack(const Animation& attackAnimation, int damage);
-    Attack(int damage, int maxCoolDown);
+    Attack(Animation* attackAnimation, int damage, int maxCoolDown);
     ~Attack();
 
     AttackType getAttackType();
+    Animation* getAnimation();
 
     int getDamage();
     bool provokeAttack(int* health, int baseDamage);
@@ -32,7 +32,7 @@ private:
 
     bool hasAttacked;
 
-    // Animation attackAnimation;
+    Animation* attackAnimation;
 
     AttackType attackType;
 

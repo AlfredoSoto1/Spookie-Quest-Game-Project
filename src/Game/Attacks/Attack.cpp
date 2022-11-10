@@ -1,13 +1,7 @@
 #include "Attack.h"
 
-// Attack::Attack(const Animation& attackAnimation, int damage) :
-//     attackAnimation(attackAnimation), damage(damage)
-// {
-    
-// }
-
-Attack::Attack(int damage, int coolDown) :
-    damage(damage), maxCoolDown(coolDown)
+Attack::Attack(Animation* attackAnimation, int damage, int coolDown)
+    : attackAnimation(attackAnimation), damage(damage), maxCoolDown(coolDown)
 {
     this->coolDown = 0;
     this->hasAttacked = false;
@@ -15,6 +9,10 @@ Attack::Attack(int damage, int coolDown) :
 
 Attack::~Attack() {
     
+}
+
+Animation* Attack::getAnimation() {
+    return attackAnimation;
 }
 
 AttackType Attack::getAttackType() {

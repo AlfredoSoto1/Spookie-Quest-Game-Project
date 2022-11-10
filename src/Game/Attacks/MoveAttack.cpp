@@ -27,3 +27,7 @@ Attack& MoveAttack::getAttack(int choice) {
 void MoveAttack::addAttack(const Attack& attack) {
     this->attacks.push_back(attack);
 }
+
+vector<Attack>& MoveAttack::getAttacks() {
+    return attacks;
+}

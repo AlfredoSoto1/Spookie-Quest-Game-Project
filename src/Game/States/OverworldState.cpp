@@ -5,6 +5,7 @@ OverworldState::OverworldState(Player *player, Area *area) {
     this->player = player;
     camera = new OverworldCamera(player, area);
     loadArea(area);
+    this->friendInteract = false;
     this->debugMapCollider = false;
 }
 
@@ -65,6 +66,11 @@ void OverworldState::update() {
         player->setHealth(player->getHealth() - 1);//"is in water"
     }
 
+    // //check if black is dominant
+    // if(inColorBoundry.r == 0 && inColorBoundry.g == 0 && inColorBoundry.b == 0 && inColorBoundry.a != 0) {
+    //     player->setHealth(0);//"fell to void"
+    // }
+
     for(Entity* entity : area->getEntities()) {
         //Update enemies
 
@@ -86,13 +92,22 @@ void OverworldState::update() {
             }
             continue;
         }
-        //update other entities here
-        //change this to inmovable/structure entity
-        Structure* rock = dynamic_cast<Structure*>(entity);
-        if(rock != nullptr) { 
-            rock->inOverworldUpdate();
-            HitBox& rockHitbox = rock->getHitBox();
-            playerHitbox.collides(rockHitbox);
+        
+        Structure* structure = dynamic_cast<Structure*>(entity);
+        if(structure != nullptr) { 
+            structure->inOverworldUpdate();
+            HitBox& structureHitBox = structure->getHitBox();
+            playerHitbox.collides(structureHitBox);
+            continue;
+        }
+
+        Friend* npc = dynamic_cast<Friend*>(entity);
+        if(npc != nullptr) {
+            if(friendInteract)
+                npc->interact();
+            npc->inOverworldUpdate();
+            HitBox& npcHitBox = npc->getHitBox();
+            playerHitbox.collides(npcHitBox);
             continue;
         }
     }
@@ -147,6 +162,12 @@ void OverworldState::draw() {
             structure->inOverworldDraw(camera);
             continue;
         }
+
+        Friend* npc = dynamic_cast<Friend*>(entity);
+        if(npc != nullptr) { 
+            npc->inOverworldDraw(camera);
+            continue;
+        }
     }
 
     //draw Effect
@@ -164,6 +185,9 @@ void OverworldState::keyPressed(int key) {
     }
     if(key == 't') {
         debugMapCollider = !debugMapCollider;
+    }
+    if(key == 'e') {
+        friendInteract = !friendInteract;
     }
 }
 

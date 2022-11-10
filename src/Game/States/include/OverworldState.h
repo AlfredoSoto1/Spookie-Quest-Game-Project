@@ -2,6 +2,7 @@
 
 #include "Area.h"
 #include "Enemy.h"
+#include "Friend.h"
 #include "OverworldCamera.h"
 #include "Player.h"
 #include "State.h"
@@ -35,5 +36,6 @@ private:
     ofImage overWorldAreaCollider;
     OverworldCamera *camera;
 
+    bool friendInteract;
     bool debugMapCollider;
 };

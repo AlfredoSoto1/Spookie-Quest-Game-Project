@@ -43,9 +43,9 @@ Player::Player(const string& playerName, int health, int baseDamage) :
     buttonAttack.load("images/ui/buttons/rock.png");
 
     //set attacks
-    addAttack(Attack(10, 60));    
-    addAttack(Attack(5, 60 * 2));    
-    addAttack(Attack(5, 60 * 3));    
+    addAttack(Attack(nullptr, 10, 60));    
+    addAttack(Attack(nullptr, 5, 60 * 2));    
+    addAttack(Attack(nullptr, 5, 60 * 3));    
 
 }
 
@@ -134,8 +134,8 @@ void Player::fightingUpdate() {
     fightingSprite = fighting->getCurrentFrame();
     fighting->update();
 
-    int xpos = ofGetWidth() * (1.0 / 4.0) - fightingHitbox.getRenderWidth()  / 2;
-    int ypos = ofGetHeight() * (1.0 / 2.0) - fightingHitbox.getRenderHeight() / 2;
+    int xpos = ofGetWidth() * (1.0 / 4.0) - fightingHitbox.getWidth()  / 2;
+    int ypos = ofGetHeight() * (1.0 / 2.0) - fightingHitbox.getHeight() / 2;
 
     fightingHitbox.setX(xpos);
     fightingHitbox.setY(ypos);

@@ -41,6 +41,8 @@ BattleState::BattleState(Player *player, Area *area) {
     canInteract = true;
     isAttacking = false;
     enemyHasChosenAttack = false;
+    isEnemyOnAttack = false;
+    hasDied = false;
 }
 
 Enemy* BattleState::getEnemy() {
@@ -85,29 +87,47 @@ void BattleState::update() {
         /*
             end battle if normal enemy dies
         */
+        if(!enemy->getDeath()->hasEnded()) {
+            enemy->getDeath()->update();
+            return;
+        }
+        boss->getDeath()->reset();  
         setNextState(CurrentState::WIN);
         setFinished(true);
         canInteract = true;
         isAttacking = false;
         enemyHasChosenAttack = false;
+        isEnemyOnAttack = false;
+        hasDied = false;
         return;
     }else if(boss != nullptr && !playerAttack.isOnCoolDown()) {
         /*
             if enemy is a boss, go to next boss phase
         */
         if(!boss->hasPhasesLeft()) {
+            if(!boss->getDeath()->hasEnded()) {
+                boss->getDeath()->update();
+                return;
+            }
+            boss->getDeath()->reset();
             setNextState(CurrentState::WIN);
             setFinished(true);
             canInteract = true;
             isAttacking = false;
             enemyHasChosenAttack = false;
+            isEnemyOnAttack = false;
+            hasDied = false;
             return;
         }
         if(boss->passToNextPhase()) {
             boss->reHeal();
+            isEnemyOnAttack = false;
             return;
         }
     }
+
+    if(enemy->getHealth() <= 0)
+        return;
 
     //Enemy Attacks
     if(!enemyHasChosenAttack) {
@@ -119,6 +139,9 @@ void BattleState::update() {
         int currentPlayerHealth = player->getHealth();
         enemyAttack.provokeAttack(&currentPlayerHealth, enemy->getBaseDamage());
         player->setHealth(currentPlayerHealth);
+        enemyAttack.getAnimation()->update();
+        displayAttack = enemyAttack.getAnimation()->getCurrentFrame();
+        isEnemyOnAttack = true;
     }
 
     //reset for next round
@@ -128,6 +151,8 @@ void BattleState::update() {
         canInteract = true;
         isAttacking = false;
         enemyHasChosenAttack = false;
+        isEnemyOnAttack = false;
+        hasDied = false;
     }
 }
 
@@ -137,12 +162,23 @@ void BattleState::draw() {
 
     // render combatant sprites
     player->fightingDraw();
-    enemy->fightingDraw();
+    if(enemy->getHealth() <= 0) {
+        displayDeath = enemy->getDeath()->getCurrentFrame();
+        HitBox& fightingHitbox = enemy->getFightingHitBox();
+        displayDeath.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+        displayDeath.draw(fightingHitbox.getRenderX(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
+    } else if(isEnemyOnAttack) {
+        HitBox& fightingHitbox = enemy->getFightingHitBox();
+        displayAttack.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+        displayAttack.draw(fightingHitbox.getRenderX(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
+    } else {
+        enemy->fightingDraw();
+    }
 
     //draw healthBar from both enemy and player
     int healthBarWidth = 256;
-    int centerXEnemy = enemy->getFightingHitBox().getX() + enemy->getFightingHitBox().getRenderWidth() / 2 - healthBarWidth / 2;
-    int centerXPlayer = player->getFightingHitBox().getX() + player->getFightingHitBox().getRenderWidth() / 2 - healthBarWidth / 2;
+    int centerXEnemy = enemy->getFightingHitBox().getX() + enemy->getFightingHitBox().getWidth() / 2 - healthBarWidth / 2;
+    int centerXPlayer = player->getFightingHitBox().getX() + player->getFightingHitBox().getWidth() / 2 - healthBarWidth / 2;
 
     enemy->drawHealthBar(centerXEnemy, 64, healthBarWidth, 25, enemy->getHealth(), enemy->getMaxHealth());
     player->drawHealthBar(centerXPlayer, 64, healthBarWidth, 25, player->getHealth(), player->getMaxHealth());

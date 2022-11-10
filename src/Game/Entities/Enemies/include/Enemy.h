@@ -6,15 +6,21 @@
 #include "Animation.h"
 #include "EntityFighter.h"
 
+enum EnemyE {
+    MUSHROOM, 
+
+};
+
 class Enemy : public EntityFighter {
 public:
-    Enemy(const string& name, int health, int baseDamage, int ox, int oy);
+    Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox, int oy);
     virtual ~Enemy();
     bool isDead();
     void kill();
     void revive();
     
     ofImage getSprite();
+    Animation* getDeath();
 
     void reset();
 
@@ -38,11 +44,15 @@ private:
     bool walking = false;
     bool dead = false;
     
-    Animation *walkUp;
-    Animation *walkDown;
+    // Animation *walkUp;
+    // Animation *walkDown;
     Animation *walkLeft;
     Animation *walkRight;
+    Animation *idleRight;
+    Animation *idleLeft;
+
     Animation *fighting;
+    Animation *death;
     ofImage sprite;
 };
 

@@ -1,6 +1,6 @@
-#include "EntityManager.h"
+// #include "EntityManager.h"
 
-EntityManager::~EntityManager() {
-    entities.clear();
-    delete player;
-}
+// EntityManager::~EntityManager() {
+//     entities.clear();
+//     delete player;
+// }

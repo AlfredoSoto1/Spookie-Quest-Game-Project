@@ -34,6 +34,9 @@ private:
     ofImage result1;
     ofImage result2;
     ofImage result3;
+
+    ofImage displayAttack;
+    ofImage displayDeath;
     
     int enemyChoice = 0;
     int currentButton;
@@ -43,6 +46,8 @@ private:
     bool canInteract;
     bool isAttacking;
     bool enemyHasChosenAttack;
+    bool isEnemyOnAttack;
+    bool hasDied;
 
     void reHeal();
 };

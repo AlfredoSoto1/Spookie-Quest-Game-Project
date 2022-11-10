@@ -17,6 +17,8 @@ public:
     Attack& getAttack(int choice);
     void addAttack(const Attack& attack);
 
+    vector<Attack>& getAttacks();
+
 protected:
     int attackChoice;
     vector<Attack> attacks;
