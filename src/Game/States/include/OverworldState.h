@@ -19,7 +19,7 @@ public:
     void loadArea(Area *Area);
     void setEnemy(Enemy *enemyToBattle);
 
-    
+    bool hud = false;
     void draw();
     void update();
     

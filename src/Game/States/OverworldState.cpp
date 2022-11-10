@@ -145,17 +145,31 @@ void OverworldState::draw() {
     }
 
     // Draw HUD
+    if(hud == true){
+        ofSetColor(ofColor::black);
+        ofDrawRectangle(10,30,440,250);
+        ofSetColor(ofColor::gray);
+        ofDrawRectangle(30,45,400,220);
+        ofSetColor(ofColor::white);
+        ofDrawBitmapString("AREA: " + ofToString(area->getName()), 50, 80);
+        ofDrawBitmapString("ENEMIES ALIVE: " + ofToString(area->getRemainingEnemies()), 50, 100);
+        ofDrawBitmapString("HEALTH: ", 50, 126);
+        player->drawHealthBar(120, 110, 256, 25, player->getHealth(), player->getMaxHealth());
+        ofDrawBitmapString(ofToString(floor(player->getHealth() * .10)* 2) + "%", 385, 126);
+        ofDrawBitmapString("PLAYER POSITION " + ofToString(player->getHitBox().getX()) + ", " + ofToString(player->getHitBox().getY()), 50, 155);
+    }
+    else{
     ofSetColor(ofColor::black);
     ofDrawRectangle(10,30,440,140);
     ofSetColor(ofColor::gray);
     ofDrawRectangle(30,45,400,110);
     ofSetColor(ofColor::white);
-    ofDrawBitmapString("PLAYER POSITION " + ofToString(player->getHitBox().getX()) + ", " + ofToString(player->getHitBox().getY()), 50, 80);
+    ofDrawBitmapString("AREA: " + ofToString(area->getName()), 50, 80);
     ofDrawBitmapString("ENEMIES ALIVE: " + ofToString(area->getRemainingEnemies()), 50, 100);
-     ofDrawBitmapString("HEALTH: ", 50, 126);
+    ofDrawBitmapString("HEALTH: ", 50, 126);
     player->drawHealthBar(120, 110, 256, 25, player->getHealth(), player->getMaxHealth());
     ofDrawBitmapString(ofToString(floor(player->getHealth() * .10)* 2) + "%", 385, 126);
-
+    }
     //draw Effect
     // overworldEffectImage.draw(0,0, ofGetWidth(), ofGetHeight());
 }
@@ -169,6 +183,9 @@ void OverworldState::keyPressed(int key) {
     else if(key == OF_KEY_ESC) {
         setNextState(CurrentState::PAUSED);
         setFinished(true);
+    }
+    else if(key == 'k'){
+        hud = !hud;
     }
 }
 
