@@ -161,6 +161,9 @@ void StateMaster::initAreas() {
 
     //------------------------------------------------------------------------
     
+    ofImage spawnImage;
+    spawnImage.load("images/areas/area1_spawn.png");
+
     string areaPath = "images/areas/area1.png";
     string areaBoundryPath = "images/areas/area1_boundry.png";
     string areaAudio = "audio/forest.wav";
@@ -174,67 +177,82 @@ void StateMaster::initAreas() {
     Boss* bossLevel1 = new Boss("Boss-1", 100, 4, 2, 870, 726);
     tempEntityList.push_back(bossLevel1);
 
-    //load Enemies
-    Enemy *mushroom1 = new Enemy("mushroom", EnemyE::MUSHROOM, 20, 4, 1086, 1885);
-    //enlarge image
-    mushroom1->getHitBox().setRenderWidth(300);
-    mushroom1->getHitBox().setRenderHeight(300);
-    mushroom1->getFightingHitBox().setRenderWidth(600);
-    mushroom1->getFightingHitBox().setRenderHeight(600);
-    tempEntityList.push_back(mushroom1);
-    
-    Enemy *mushroom2 = new Enemy("mushroom", EnemyE::MUSHROOM, 20, 4, 812, 1442);
-    //enlarge image
-    mushroom2->getHitBox().setRenderWidth(300);
-    mushroom2->getHitBox().setRenderHeight(300);
-    mushroom2->getFightingHitBox().setRenderWidth(600);
-    mushroom2->getFightingHitBox().setRenderHeight(600);
-    tempEntityList.push_back(mushroom2);
-
-    Enemy *mushroom3 = new Enemy("mushroom", EnemyE::MUSHROOM, 20, 4, 1954, 1075);
-    //enlarge image
-    mushroom3->getHitBox().setRenderWidth(300);
-    mushroom3->getHitBox().setRenderHeight(300);
-    mushroom3->getFightingHitBox().setRenderWidth(600);
-    mushroom3->getFightingHitBox().setRenderHeight(600);
-    tempEntityList.push_back(mushroom3);
-    
-    for(int i = 0; i < 10; i ++) {
-        Structure* tree = new Structure("spruce", "images/entities/inmovable/pine_tree.png", 1370 + i * 100, 420 + ofRandom(-50, 50), 1);
-        tree->getHitBox().setWidth(25);
-        tree->getHitBox().setHeight(170);
-        tree->getHitBox().setRenderWidth(80);
-        tree->getHitBox().setRenderHeight(170);
-        tempEntityList.push_back(tree);
-
-        tree = new Structure("spruce", "images/entities/inmovable/pine_tree.png", 1370 + i * 100, 600 + ofRandom(-50, 50), 1);
-        tree->getHitBox().setWidth(25);
-        tree->getHitBox().setHeight(170);
-        tree->getHitBox().setRenderWidth(80);
-        tree->getHitBox().setRenderHeight(170);
-        tempEntityList.push_back(tree);
-
-        tree = new Structure("oak", "images/entities/inmovable/tree.png", 1170 + i * 100, 1716 + ofRandom(-100, 100), 1);
-        tree->getHitBox().setWidth(40);
-        tree->getHitBox().setHeight(170);
-        tree->getHitBox().setRenderWidth(170);
-        tree->getHitBox().setRenderHeight(170);
-        tempEntityList.push_back(tree);
-
-        tree = new Structure("oak", "images/entities/inmovable/tree.png", 1170 + i * 100, 1580 + ofRandom(-100, 100), 1);
-        tree->getHitBox().setWidth(40);
-        tree->getHitBox().setHeight(170);
-        tree->getHitBox().setRenderWidth(170);
-        tree->getHitBox().setRenderHeight(170);
-        tempEntityList.push_back(tree);
-
-        tree = new Structure("oak", "images/entities/inmovable/tree.png", 540 + i * 100, 1160 + ofRandom(-100, 100), 1);
-        tree->getHitBox().setWidth(40);
-        tree->getHitBox().setHeight(170);
-        tree->getHitBox().setRenderWidth(170);
-        tree->getHitBox().setRenderHeight(170);
-        tempEntityList.push_back(tree);
+    for(int x = 0;x < spawnImage.getWidth(); x++) {
+        for(int y = 0;y < spawnImage.getHeight(); y++) {
+            ofColor spawnColor = spawnImage.getColor(x, y);
+            if(spawnColor == ofColor::red) {
+                Enemy *mushroom = new Enemy("mushroom", EnemyE::MUSHROOM, 20, 4, x, y);
+                //enlarge image
+                mushroom->getHitBox().setRenderWidth(300);
+                mushroom->getHitBox().setRenderHeight(300);
+                mushroom->getFightingHitBox().setRenderWidth(600);
+                mushroom->getFightingHitBox().setRenderHeight(600);
+                tempEntityList.push_back(mushroom);
+            }
+        }
     }
+
+    //load Enemies
+    // Enemy *mushroom1 = new Enemy("mushroom", EnemyE::MUSHROOM, 20, 4, 1086, 1885);
+    // //enlarge image
+    // mushroom1->getHitBox().setRenderWidth(300);
+    // mushroom1->getHitBox().setRenderHeight(300);
+    // mushroom1->getFightingHitBox().setRenderWidth(600);
+    // mushroom1->getFightingHitBox().setRenderHeight(600);
+    // tempEntityList.push_back(mushroom1);
+    
+    // Enemy *mushroom2 = new Enemy("mushroom", EnemyE::MUSHROOM, 20, 4, 812, 1442);
+    // //enlarge image
+    // mushroom2->getHitBox().setRenderWidth(300);
+    // mushroom2->getHitBox().setRenderHeight(300);
+    // mushroom2->getFightingHitBox().setRenderWidth(600);
+    // mushroom2->getFightingHitBox().setRenderHeight(600);
+    // tempEntityList.push_back(mushroom2);
+
+    // Enemy *mushroom3 = new Enemy("mushroom", EnemyE::MUSHROOM, 20, 4, 1954, 1075);
+    // //enlarge image
+    // mushroom3->getHitBox().setRenderWidth(300);
+    // mushroom3->getHitBox().setRenderHeight(300);
+    // mushroom3->getFightingHitBox().setRenderWidth(600);
+    // mushroom3->getFightingHitBox().setRenderHeight(600);
+    // tempEntityList.push_back(mushroom3);
+    
+    // for(int i = 0; i < 10; i ++) {
+    //     Structure* tree = new Structure("spruce", "images/entities/inmovable/pine_tree.png", 1370 + i * 100, 420 + ofRandom(-50, 50), 1);
+    //     tree->getHitBox().setWidth(25);
+    //     tree->getHitBox().setHeight(170);
+    //     tree->getHitBox().setRenderWidth(80);
+    //     tree->getHitBox().setRenderHeight(170);
+    //     tempEntityList.push_back(tree);
+
+    //     tree = new Structure("spruce", "images/entities/inmovable/pine_tree.png", 1370 + i * 100, 600 + ofRandom(-50, 50), 1);
+    //     tree->getHitBox().setWidth(25);
+    //     tree->getHitBox().setHeight(170);
+    //     tree->getHitBox().setRenderWidth(80);
+    //     tree->getHitBox().setRenderHeight(170);
+    //     tempEntityList.push_back(tree);
+
+    //     tree = new Structure("oak", "images/entities/inmovable/tree.png", 1170 + i * 100, 1716 + ofRandom(-100, 100), 1);
+    //     tree->getHitBox().setWidth(40);
+    //     tree->getHitBox().setHeight(170);
+    //     tree->getHitBox().setRenderWidth(170);
+    //     tree->getHitBox().setRenderHeight(170);
+    //     tempEntityList.push_back(tree);
+
+    //     tree = new Structure("oak", "images/entities/inmovable/tree.png", 1170 + i * 100, 1580 + ofRandom(-100, 100), 1);
+    //     tree->getHitBox().setWidth(40);
+    //     tree->getHitBox().setHeight(170);
+    //     tree->getHitBox().setRenderWidth(170);
+    //     tree->getHitBox().setRenderHeight(170);
+    //     tempEntityList.push_back(tree);
+
+    //     tree = new Structure("oak", "images/entities/inmovable/tree.png", 540 + i * 100, 1160 + ofRandom(-100, 100), 1);
+    //     tree->getHitBox().setWidth(40);
+    //     tree->getHitBox().setHeight(170);
+    //     tree->getHitBox().setRenderWidth(170);
+    //     tree->getHitBox().setRenderHeight(170);
+    //     tempEntityList.push_back(tree);
+    // }
 
     Area* area1 = new Area("wild-life", nullptr, areaPath, areaBoundryPath, areaAudio, areaFightingStage, areaEffect, entrancePosition, tempEntityList);
     generatedAreas.push_back(area1);

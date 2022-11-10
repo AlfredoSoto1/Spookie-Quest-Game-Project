@@ -13,8 +13,7 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
     ofImage temp;
     ofImage sprite;
 
-    switch(type) {
-    case MUSHROOM:
+   if(type == EnemyE::MUSHROOM) {
         sprite.load("images/entities/enemy/Mushroom/Run_right.png");
         for(unsigned int i = 0; i < 8; i++) {
             temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
@@ -65,6 +64,58 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
         addAttack(Attack(new Animation(4, attack1), 4, 90));
         addAttack(Attack(new Animation(4, attack2), 6, 90));
         addAttack(Attack(new Animation(4, attack3), 8, 90));
+    } else if(type == EnemyE::GOBLIN) {
+
+        // sprite.load("images/entities/enemy/Mushroom/Run_right.png");
+        // for(unsigned int i = 0; i < 8; i++) {
+        //     temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+        //     rightFrames.push_back(temp);
+        // }
+        // sprite.load("images/entities/enemy/Mushroom/Run_left.png");
+        // for(unsigned int i = 0; i < 8; i++) {
+        //     temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+        //     leftFrames.push_back(temp);
+        // }
+        // sprite.load("images/entities/enemy/Mushroom/Idle_right.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     idleRightFrames.push_back(temp);
+        // }
+        // sprite.load("images/entities/enemy/Mushroom/Idle_left.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     idleLeftFrames.push_back(temp);
+        // }
+
+        // sprite.load("images/entities/enemy/Mushroom/Death.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     deathFrames.push_back(temp);
+        // }
+
+        // //attack frames
+        // vector<ofImage> attack1;
+        // sprite.load("images/entities/enemy/Mushroom/Attack1.png");
+        // for(unsigned int i = 0; i < 8; i++) {
+        //     temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+        //     attack1.push_back(temp);
+        // }
+        // vector<ofImage> attack2;
+        // sprite.load("images/entities/enemy/Mushroom/Attack2.png");
+        // for(unsigned int i = 0; i < 8; i++) {
+        //     temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+        //     attack2.push_back(temp);
+        // }
+        // vector<ofImage> attack3;
+        // sprite.load("images/entities/enemy/Mushroom/Attack3.png");
+        // for(unsigned int i = 0; i < 11; i++) {
+        //     temp.cropFrom(sprite, (10 - i) * 150, 0, 150, 150);
+        //     attack3.push_back(temp);
+        // }
+
+        // addAttack(Attack(new Animation(4, attack1), 4, 90));
+        // addAttack(Attack(new Animation(4, attack2), 6, 90));
+        // addAttack(Attack(new Animation(4, attack3), 8, 90));
     }
 
     /*
