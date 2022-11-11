@@ -107,6 +107,7 @@ void BattleState::update() {
                 enemyAttack.reset();
                 Attack& playerAttack = player->getAttack(player->getAttackChoice());
                 playerAttack.reset();
+                boss->reset();
                 setNextState(CurrentState::WIN);
                 setFinished(true);
                 canInteract = true;
@@ -164,6 +165,7 @@ void BattleState::update() {
 
 void BattleState::draw() {
     // render stage
+    stage.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
     stage.draw(0, 0, ofGetWidth(), ofGetHeight());
 
     // render combatant sprites

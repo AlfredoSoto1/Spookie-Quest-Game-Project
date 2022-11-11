@@ -150,10 +150,12 @@ bool Enemy::isDead() {
 
 void Enemy::kill() {
     this->dead = true;
+    this->health = 0;
 }
 
 void Enemy::revive() {
     this->dead = false;
+    this->health = maxHealth;
 }
 
 ofImage Enemy::getSprite() {

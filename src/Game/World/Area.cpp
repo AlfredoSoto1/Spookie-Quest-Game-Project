@@ -48,6 +48,11 @@ void Area::setInBossFight(bool bossFightActivated) {
     this->bossFightActivated = bossFightActivated;
 }
 
+void Area::resetContent() {
+    resetEnemies();
+    setInBossFight(false);
+}
+
 void Area::resetEnemies() {
     for (unsigned int i = 0; i < entitiesInArea.size(); i++) {
         Enemy* enemy = dynamic_cast<Enemy*>(entitiesInArea.at(i));

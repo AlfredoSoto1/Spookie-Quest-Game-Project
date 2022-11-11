@@ -20,6 +20,7 @@ public:
     void setInBossFight(bool bossFightActivated);
 
     void resetEnemies();
+    void resetContent();
     void clearAllEntities();
 
     string getName();

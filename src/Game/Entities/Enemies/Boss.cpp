@@ -33,6 +33,10 @@ bool Boss::passToNextPhase() {
     if(health <= 0 && !hasPassedNextPhase){
         hasPassedNextPhase = true;
         currentPhase++;
+        if(!hasPhasesLeft()) {
+            currentPhase = maxPhases;
+            return false;
+        }
     }
     return hasPassedNextPhase;
 }
@@ -42,4 +46,6 @@ bool Boss::hasPhasesLeft() {
 }
 
 void Boss::reset() {
+    currentPhase = 0;
+    hasPassedNextPhase = false;
 }
