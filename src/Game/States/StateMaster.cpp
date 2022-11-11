@@ -261,24 +261,24 @@ void StateMaster::initAreas() {
                 bossLevel1->getFightingHitBox().setRenderHeight(600);
                 tempEntityList3.push_back(bossLevel1);
             }
-            // else if(spawnColor == ofColor::white) {
-            //     int random = ofRandom(0, 1);
-            //     if(random == 0) {
-            //         Structure* tree = new Structure("spruce", "images/entities/inmovable/tree_0.png", x, y, 1);
-            //         tree->getHitBox().setWidth(25);
-            //         tree->getHitBox().setHeight(170);
-            //         tree->getHitBox().setRenderWidth(80);
-            //         tree->getHitBox().setRenderHeight(170);
-            //         tempEntityList3.push_back(tree);
-            //     }else {
-            //         Structure* tree = new Structure("oak", "images/entities/inmovable/tree_1.png", x, y, 1);
-            //         tree->getHitBox().setWidth(40);
-            //         tree->getHitBox().setHeight(170);
-            //         tree->getHitBox().setRenderWidth(170);
-            //         tree->getHitBox().setRenderHeight(170);
-            //         tempEntityList3.push_back(tree);
-            //     }
-            // }
+            else if(spawnColor == ofColor::white) {
+                int random = ofRandom(0, 1);
+                if(random == 0) {
+                    Structure* tree = new Structure("spruce", "images/entities/inmovable/tree_0.png", x, y, 1);
+                    tree->getHitBox().setWidth(25);
+                    tree->getHitBox().setHeight(170);
+                    tree->getHitBox().setRenderWidth(80);
+                    tree->getHitBox().setRenderHeight(170);
+                    tempEntityList3.push_back(tree);
+                }else {
+                    Structure* tree = new Structure("oak", "images/entities/inmovable/tree_1.png", x, y, 1);
+                    tree->getHitBox().setWidth(40);
+                    tree->getHitBox().setHeight(170);
+                    tree->getHitBox().setRenderWidth(170);
+                    tree->getHitBox().setRenderHeight(170);
+                    tempEntityList3.push_back(tree);
+                }
+            }
         }
     }
 
