@@ -3,6 +3,7 @@
 
 PauseState::PauseState() {
     this->setCurrentState(CurrentState::PAUSED);
+    background.load("images/PauseState/PAUSED.png");
 }
 
 void PauseState::update() {
@@ -10,7 +11,8 @@ void PauseState::update() {
 }
 
 void PauseState::draw() {
-    ofSetBackgroundColor(ofColor::black); 
+    // ofSetBackgroundColor(ofColor::black);
+    background.draw(0,0,ofGetWidth(),ofGetHeight());
     ofSetColor(ofColor::white);
 }
 
