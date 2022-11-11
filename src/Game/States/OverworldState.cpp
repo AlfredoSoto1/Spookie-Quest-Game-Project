@@ -219,6 +219,22 @@ void OverworldState::keyPressed(int key) {
     if(key == 'k') {
         hud = !hud;
     }
+    else if(key == 'h'){
+        player->setHealth(player->getMaxHealth());
+
+    }
+    else if(key == 'r'){
+
+        for(Entity* entity : area->getEntities()){
+            Enemy* enemy = dynamic_cast<Enemy*>(entity);
+            if(enemy != nullptr) {
+                if (enemy->isDead()) {
+                    enemy->revive();
+
+                }
+                continue;
+            }
+        }}
     
 
 }
