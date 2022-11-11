@@ -72,39 +72,44 @@ void StateMaster::update() {
         */
         Enemy* enemy = overworldState->getEnemyToBattle();
         enemy->kill();
-        
-        //checks if player is in a boss fight
-        if(currentArea->inBossFight()) {
-            //checks if has a next area
-            if (currentArea->getNextArea() == nullptr) {
-                //if it doesn't, reset everything after winning
-                endGameState->setWin(true);
-                currentState = endGameState;
-                player->setHealth(player->getMaxHealth());//reset player's health
-                for(Area* area : generatedAreas)
-                    area->resetContent();
+        Boss* boss = dynamic_cast<Boss*>(enemy);
+        if (currentArea->getRemainingEnemies() == 0) {
+            if(currentArea->inBossFight()) {
+                if (currentArea->getNextArea() == nullptr) {
+                    endGameState->setWin(true);
+                    currentState = endGameState;
+                    player->setHealth(player->getMaxHealth());//reset player's health
+                    for(Area* area : generatedAreas)
+                        area->resetContent();
+                } else {
+                    currentArea = currentArea->getNextArea();
+                    overworldState->loadArea(currentArea);
+                    battleState->setStage(currentArea->getStage());
+                    currentState = winState;
+                }
             } else {
-                //if it has, go to next area
-                currentArea = currentArea->getNextArea();
-                overworldState->loadArea(currentArea);
-                battleState->setStage(currentArea->getStage());
+                currentArea->setInBossFight(true);
                 currentState = winState;
             }
         }else {
-            //if not in boss fight
-            if(currentArea->getRemainingEnemies() == 0) {
-                //start boss fight after no enemies are alive in area
-                currentArea->setInBossFight(true);
+           if(currentArea->inBossFight() && boss != nullptr) {
+                if (currentArea->getNextArea() == nullptr) {
+                    endGameState->setWin(true);
+                    currentState = endGameState;
+                    player->setHealth(player->getMaxHealth());//reset player's health
+                    for(Area* area : generatedAreas)
+                        area->resetContent();
+                } else {
+                    currentArea = currentArea->getNextArea();
+                    overworldState->loadArea(currentArea);
+                    battleState->setStage(currentArea->getStage());
+                    currentState = winState;
+                }
+            } else {
                 currentState = winState;
-            }else {
-                //if has enemies remaining, go back to state->
-                currentState = winState;
-            }
+            } 
         }
     } else if (currentState->getNextState() == CurrentState::END) {
-        /*
-            This is called when Battle ends and player loses
-        */
         currentState = endGameState;
         player->reset();
         for(Area* area : generatedAreas)
@@ -159,18 +164,19 @@ void StateMaster::initAreas() {
                 mushroom->getFightingHitBox().setRenderHeight(600);
                 tempEntityList.push_back(mushroom);
             }else if(spawnColor == ofColor::blue) {
-                Boss* bossLevel2 = new Boss("Boss-2", 20, 4, 2, x, y);
-                bossLevel2->getHitBox().setRenderWidth(300);
-                bossLevel2->getHitBox().setRenderHeight(300);
-                bossLevel2->getFightingHitBox().setRenderWidth(600);
-                bossLevel2->getFightingHitBox().setRenderHeight(600);
-                tempEntityList.push_back(bossLevel2);
+                Boss* bossLevel3 = new Boss("Boss-3", 20, 4, 2, x, y);
+                bossLevel3->getHitBox().setRenderWidth(300);
+                bossLevel3->getHitBox().setRenderHeight(300);
+                bossLevel3->getFightingHitBox().setRenderWidth(600);
+                bossLevel3->getFightingHitBox().setRenderHeight(600);
+                tempEntityList.push_back(bossLevel3);
             }
         }
     }
 
     Area* iceCave = new Area("ice-cave", nullptr, areaPath, areaBoundryPath, areaAudio, areaFightingStage, areaEffect, entrancePosition, tempEntityList);
     generatedAreas.push_back(iceCave);
+    // this->currentArea = iceCave;
     /*
         ---------------------------------------------------------
         prepare Area 2
