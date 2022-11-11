@@ -215,7 +215,7 @@ void StateMaster::initAreas() {
         }
     }
 
-    Area* cave = new Area("cave", nullptr, areaPath2, areaBoundryPath2, areaAudio2, areaFightingStage2, areaEffect2, entrancePosition2, tempEntityList2);
+    Area* cave = new Area("cave", iceCave, areaPath2, areaBoundryPath2, areaAudio2, areaFightingStage2, areaEffect2, entrancePosition2, tempEntityList2);
     generatedAreas.push_back(cave);
 
     /*

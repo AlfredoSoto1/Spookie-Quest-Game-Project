@@ -125,7 +125,7 @@ void BattleState::update() {
     Attack& playerAttack = player->getAttack(player->getAttackChoice());
     int currentEnemyHealth = enemy->getHealth();
     playerAttack.provokeAttack(&currentEnemyHealth, 1);
-    enemy->setHealth(currentEnemyHealth - 10);
+    enemy->setHealth(currentEnemyHealth);
 
     //Enemy Attacks
     if(!enemyHasChosenAttack) {
