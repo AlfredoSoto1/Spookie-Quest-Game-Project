@@ -15,6 +15,21 @@ Area::Area(string name, Area *nextArea, string areaImagePath, string areaImageBo
     this->bossFightActivated = false;
 }
 
+int Area::getDeadEnemies() {
+    int count = 0;
+    for (unsigned int i = 0; i < entitiesInArea.size(); i++) {
+        Enemy* enemy = dynamic_cast<Enemy*>(entitiesInArea.at(i));
+        if(enemy != nullptr) {
+            Boss* boss = dynamic_cast<Boss*>(enemy);
+            if(boss != nullptr)
+                continue;
+            if (enemy->isDead())
+                count++;
+        }
+    }
+    return count;
+}
+
 int Area::getRemainingEnemies() {
     int count = 0;
     for (unsigned int i = 0; i < entitiesInArea.size(); i++) {

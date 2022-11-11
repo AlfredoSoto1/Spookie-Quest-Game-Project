@@ -190,6 +190,23 @@ void OverworldState::keyPressed(int key) {
     if(key == 'e') {
         friendInteract = !friendInteract;
     }
+    else if(key == 'h'){
+        player->setHealth(player->getMaxHealth());
+        
+    }
+    else if(key == 'r'){
+
+        for(Entity* entity : area->getEntities()){
+            Enemy* enemy = dynamic_cast<Enemy*>(entity);
+            if(enemy != nullptr) {
+                if (enemy->isDead()) {
+                    enemy->revive();
+
+                }
+                continue;
+            }
+        }}
+        
 }
 
 void OverworldState::keyReleased(int key) {
