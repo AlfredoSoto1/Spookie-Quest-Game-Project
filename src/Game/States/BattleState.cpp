@@ -23,16 +23,6 @@ BattleState::BattleState(Player *player, Area *area) {
     buttonSelect.setVolume(0.5);
 
     /*
-        Interact images 
-    */
-    button1.load("images/ui/buttons/rock.png");
-    button2.load("images/ui/buttons/paper.png");
-    button3.load("images/ui/buttons/scissors.png");
-    result1.load("images/ui/buttons/rock1.png");
-    result2.load("images/ui/buttons/paper1.png");
-    result3.load("images/ui/buttons/scissors1.png");
-
-    /*
         default setup
     */
     this->player = player;
@@ -135,7 +125,7 @@ void BattleState::update() {
     Attack& playerAttack = player->getAttack(player->getAttackChoice());
     int currentEnemyHealth = enemy->getHealth();
     playerAttack.provokeAttack(&currentEnemyHealth, 1);
-    enemy->setHealth(currentEnemyHealth);
+    enemy->setHealth(currentEnemyHealth - 10);
 
     //Enemy Attacks
     if(!enemyHasChosenAttack) {

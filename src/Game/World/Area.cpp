@@ -3,6 +3,7 @@
 Area::Area(string name, Area *nextArea, string areaImagePath, string areaImageBoundryPath, string areaMusicPath, string areaStagePath, string areaImageAmbiance, ofPoint entrancePosition, vector<Entity*> entitiesInArea) {
     this->name = name;
     this->nextArea = nextArea;
+
     areaImage.load(areaImagePath);
     areaImageBoundry.load(areaImageBoundryPath);
     areaStage.load(areaStagePath);
@@ -71,19 +72,19 @@ void Area::clearAllEntities() {
 string Area::getName() {
     return name;
 }
-ofImage Area::getImage() {
+ofImage& Area::getImage() {
     return areaImage;
 }
 
-ofImage Area::getAmbianceImage() {
+ofImage& Area::getAmbianceImage() {
     return areaAmbiance;
 }
 
-ofImage Area::getAreaImageBoundry() {
+ofImage& Area::getAreaImageBoundry() {
     return areaImageBoundry;
 }
 
-ofImage Area::getStage() {
+ofImage& Area::getStage() {
     return areaStage;
 }
 

@@ -117,6 +117,7 @@ void OverworldState::draw() {
     /*
         Draw Arena
     */
+
     overworldImage.drawSubsection(
         0, 0,                                               //position in screen
         ofGetWidth(), ofGetHeight(),                        //final image scale on screen

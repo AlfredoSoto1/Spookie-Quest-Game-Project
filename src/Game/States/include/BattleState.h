@@ -28,12 +28,6 @@ private:
     Enemy *enemy;
     ofSoundPlayer buttonChange;
     ofSoundPlayer buttonSelect;
-    ofImage button1;
-    ofImage button2;
-    ofImage button3;
-    ofImage result1;
-    ofImage result2;
-    ofImage result3;
 
     ofImage displayAttack;
     ofImage displayDeath;

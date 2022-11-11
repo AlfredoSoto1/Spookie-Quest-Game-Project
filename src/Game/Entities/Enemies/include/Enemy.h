@@ -8,7 +8,8 @@
 
 enum EnemyE {
     MUSHROOM, 
-    GOBLIN
+    GOBLIN,
+    SKELETON,
 };
 
 class Enemy : public EntityFighter {

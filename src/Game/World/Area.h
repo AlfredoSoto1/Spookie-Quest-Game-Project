@@ -24,10 +24,10 @@ public:
     void clearAllEntities();
 
     string getName();
-    ofImage getImage();
-    ofImage getStage();
-    ofImage getAmbianceImage();
-    ofImage getAreaImageBoundry();
+    ofImage& getImage();
+    ofImage& getStage();
+    ofImage& getAmbianceImage();
+    ofImage& getAreaImageBoundry();
     ofSoundPlayer getMusic();
     ofPoint getEntrancePos();
     vector<Entity*> getEntities();
@@ -38,7 +38,6 @@ private:
     ofImage areaAmbiance;
     ofImage areaImage;
     ofImage areaImageBoundry;
-
     ofImage areaStage;
     
     ofSoundPlayer areaMusic;
