@@ -55,11 +55,23 @@ void Area::resetContent() {
 }
 
 void Area::resetEnemies() {
-    for (unsigned int i = 0; i < entitiesInArea.size(); i++) {
-        Enemy* enemy = dynamic_cast<Enemy*>(entitiesInArea.at(i));
-        if(enemy != nullptr)
-            enemy->revive();
+    for(Entity* entity : entitiesInArea) {
+        Enemy* enemy = dynamic_cast<Enemy*>(entity);
+        if(enemy != nullptr) {
+            Boss* boss = dynamic_cast<Boss*>(enemy);
+            if(boss != nullptr) {
+                boss->reset();
+                boss->revive();
+            }else {
+                enemy->revive();
+            }
+        }
     }
+    // for (unsigned int i = 0; i < entitiesInArea.size(); i++) {
+    //     Enemy* enemy = dynamic_cast<Enemy*>(entitiesInArea.at(i));
+    //     if(enemy != nullptr)
+    //         enemy->revive();
+    // }
 }
 
 void Area::clearAllEntities() {
