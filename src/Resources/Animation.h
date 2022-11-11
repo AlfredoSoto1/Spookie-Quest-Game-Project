@@ -9,10 +9,15 @@ class Animation {
     int timer;
     std::vector<ofImage> frames;
     bool end = false;
+    bool showOnce;
+    bool endedAnimation;
 
    public:
     Animation(int speed, std::vector<ofImage> frames);
     void update();
     ofImage getCurrentFrame();
     void reset();
+
+    bool hasEnded();
+    void setShowOnce(bool showOnce);
 };

@@ -1,30 +1,51 @@
 #pragma once
 
 #include "Enemy.h"
-#include "OverworldCamera.h"
+#include "Boss.h"
 #include "Player.h"
+#include "Structure.h"
 
 class Area {
-   private:
-    string name;
-    ofImage areaImage;
-    ofSoundPlayer areaMusic;
-    ofImage areaStage;
-    ofPoint entrancePosition;
-    std::vector<Enemy *> enemies;
-    Area *nextArea;
-
-   public:
-    Area(string name, Area *nextArea, string areaImagePath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Enemy *> enemies);
-    void resetEnemies();
-    string getName() { return name; }
-    ofImage getImage() { return areaImage; }
-    ofSoundPlayer getMusic() { return areaMusic; }
-    ofImage getStage() { return areaStage; }
-    ofPoint getEntrancePos() { return entrancePosition; }
-    vector<Enemy *> getEnemies() { return enemies; }
+public:
+    Area(string name, Area *nextArea, string areaImagePath, string areaImageBoundryPath, string areaMusicPath, string areaStagePath, string areaImageAmbiance, ofPoint entrancePosition, vector<Entity*> entitiesInArea);
+    
+    bool inBossFight();
+    int getDeadEnemies();
     int getRemainingEnemies();
-    Area *getNextArea() { return nextArea; }
-    void setName(string name) { this->name = name; }
-    void setEnemies(std::vector<Enemy *> enemies) { this->enemies = enemies; }
+    int getRemainingEntities();
+    
+    void setName(string name);
+    void setEntities(std::vector<Entity*> entitiesInArea);
+    void setDefeatedBoss(bool defeatedBoss);
+    void setInBossFight(bool bossFightActivated);
+
+    void resetEnemies();
+    void resetContent();
+    void clearAllEntities();
+
+    string getName();
+    ofImage& getImage();
+    ofImage& getStage();
+    ofImage& getAmbianceImage();
+    ofImage& getAreaImageBoundry();
+    ofSoundPlayer getMusic();
+    ofPoint getEntrancePos();
+    vector<Entity*> getEntities();
+    
+    Area *getNextArea();
+private:
+    string name;
+    ofImage areaAmbiance;
+    ofImage areaImage;
+    ofImage areaImageBoundry;
+    ofImage areaStage;
+    
+    ofSoundPlayer areaMusic;
+
+    Area *nextArea;
+    ofPoint entrancePosition;
+    
+    std::vector<Entity*> entitiesInArea;
+
+    bool bossFightActivated;
 };

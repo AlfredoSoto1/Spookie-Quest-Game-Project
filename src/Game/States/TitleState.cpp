@@ -1,6 +1,7 @@
 #include "TitleState.h"
 
 TitleState::TitleState() {
+    this->setCurrentState(CurrentState::TITLE);
     vector<ofImage> titleFrames;
     ofImage temp;
     temp.load("images/ui/title1.png");
@@ -8,7 +9,8 @@ TitleState::TitleState() {
     temp.load("images/ui/title2.png");
     titleFrames.push_back(temp);
     titlescreen = new Animation(11, titleFrames);
-    setNextState("Overworld");
+    // setNextState("Overworld");
+    setNextState(CurrentState::OVERWORLD);
     music.load("audio/title.wav");
     music.setLoop(true);
     music.setVolume(0.25);
@@ -25,11 +27,13 @@ void TitleState::draw() {
 }
 
 void TitleState::keyPressed(int key) {
-    setNextState("Overworld");
+    setNextState(CurrentState::OVERWORLD);
+    // setNextState("Overworld");
     setFinished(true);
 }
 
 void TitleState::reset() {
     setFinished(false);
-    setNextState("");
+    // setNextState("");
+    setNextState(CurrentState::NONE);
 }

@@ -1,57 +1,58 @@
 #include "OverworldCamera.h"
 
-OverworldCamera::OverworldCamera(Player *player) {
+OverworldCamera::OverworldCamera(Player *player, Area* area) {
     this->player = player;
+    this->player->loadCamera(this);
 
-    this->playerW = this->player->getOW();
-    this->playerH = this->player->getOH();
-    this->playerX = this->player->getOX() + (this->playerW / 2);
-    this->playerY = this->player->getOY() + (this->playerH / 2);
+    HitBox& playerHitBox = this->player->getHitBox();
+    this->playerW = playerHitBox.getRenderWidth();
+    this->playerH = playerHitBox.getRenderHeight();
 
-    this->leftCornerX = this->playerX - (DIMENSIONX / 2);
-    this->rightCornerX = this->playerX + (DIMENSIONX / 2);
-    if (this->leftCornerX < 0) {
-        this->leftCornerX = 0;
-        this->rightCornerX = DIMENSIONX;
-    } else if (this->rightCornerX > OXDIMENSION) {
-        this->rightCornerX = OXDIMENSION;
-        this->leftCornerX = OXDIMENSION - DIMENSIONX;
-    }
+    this->currentAreaWidth = area->getImage().getWidth();
+    this->currentAreaHeight = area->getImage().getHeight();
+    update();
+}
 
-    this->bottomCornerY = this->playerY + (DIMENSIONY / 2);
-    this->topCornerY = this->playerY - (DIMENSIONY / 2);
+double OverworldCamera::getLenzWidth() {
+    return lenzWidth;
+}
 
-    if (this->bottomCornerY > OYDIMENSION) {
-        this->bottomCornerY = OYDIMENSION;
-        this->topCornerY = OYDIMENSION - DIMENSIONY;
-    } else if (this->topCornerY < 0) {
-        this->topCornerY = 0;
-        this->bottomCornerY = DIMENSIONY;
-    }
+double OverworldCamera::getLenzHeight() {
+    return lenzHeight;
 }
 
 void OverworldCamera::update() {
-    this->playerX = this->player->getOX() + (this->playerW / 2);
-    this->playerY = this->player->getOY() + (this->playerH / 2);
+    HitBox& playerHitBox = this->player->getHitBox();
 
-    this->leftCornerX = this->playerX - (DIMENSIONX / 2);
-    this->rightCornerX = this->playerX + (DIMENSIONX / 2);
+    //set camera to center of player sprite
+    this->cameraX = playerHitBox.getX() + playerHitBox.getRenderWidth() / 2;
+    this->cameraY = playerHitBox.getY() + playerHitBox.getRenderHeight() / 2;
+
+    //set lenz corner in relation to camera
+    this->leftCornerX  = this->cameraX - lenzWidth / 2;
+    this->rightCornerX = this->cameraX + lenzWidth / 2;
+
+    this->topCornerY    = this->cameraY - lenzHeight / 2;
+    this->bottomCornerY = this->cameraY + lenzHeight / 2;
+
+    //lenz cant move beyond the area is looking
     if (this->leftCornerX < 0) {
         this->leftCornerX = 0;
-        this->rightCornerX = DIMENSIONX;
-    } else if (this->rightCornerX > OXDIMENSION) {
-        this->rightCornerX = OXDIMENSION;
-        this->leftCornerX = OXDIMENSION - DIMENSIONX;
+        this->rightCornerX = lenzWidth;
+        this->cameraX = lenzWidth / 2;
+    } else if (this->rightCornerX > currentAreaWidth) {
+        this->rightCornerX = currentAreaWidth;
+        this->leftCornerX = currentAreaWidth - lenzWidth;
+        this->cameraX = currentAreaWidth - lenzWidth / 2;
     }
 
-    this->bottomCornerY = this->playerY + (DIMENSIONY / 2);
-    this->topCornerY = this->playerY - (DIMENSIONY / 2);
-
-    if (this->bottomCornerY > OXDIMENSION) {
-        this->bottomCornerY = OXDIMENSION;
-        this->topCornerY = OXDIMENSION - DIMENSIONY;
+    if (this->bottomCornerY > currentAreaHeight) {
+        this->bottomCornerY = currentAreaHeight;
+        this->topCornerY = currentAreaHeight - lenzHeight;
+        this->cameraY = currentAreaHeight - lenzHeight / 2;
     } else if (this->topCornerY < 0) {
         this->topCornerY = 0;
-        this->bottomCornerY = DIMENSIONY;
+        this->bottomCornerY = lenzHeight;
+        this->cameraY = lenzHeight / 2;
     }
 }
