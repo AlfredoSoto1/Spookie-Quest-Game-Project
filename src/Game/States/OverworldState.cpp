@@ -184,7 +184,7 @@ void OverworldState::draw() {
         player->drawHealthBar(120, 110, 256, 25, player->getHealth(), player->getMaxHealth());
         ofDrawBitmapString(ofToString((int)(((float)player->getHealth() / player->getMaxHealth()) * 100)) + "%", 385, 126);
         ofDrawBitmapString("PLAYER POSITION " + ofToString(player->getHitBox().getX()) + ", " + ofToString(player->getHitBox().getY()), 50, 155);
-         ofDrawBitmapString("DEAD ENEMIES:  " + ofToString(area->getDeadEnemies()), 50, 175);
+        ofDrawBitmapString("DEAD ENEMIES:  " + ofToString(area->getDeadEnemies()), 50, 175);
     }
     else{
         ofSetColor(ofColor::black);

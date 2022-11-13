@@ -208,11 +208,17 @@ void Player::fightingUpdate() {
     fightingSprite = fighting->getCurrentFrame();
     fighting->update();
 
-    int xpos = ofGetWidth() * (1.0 / 4.0) - fightingHitbox.getWidth()  / 2;
+    int xpos = ofGetWidth() * (1.0 / 4.0) - fightingHitbox.getWidth() / 2;
     int ypos = ofGetHeight() * (1.0 / 2.0) - fightingHitbox.getHeight() / 2;
 
     fightingHitbox.setX(xpos);
     fightingHitbox.setY(ypos);
+
+
+    // OverworldCamera* cameraPtr = static_cast<OverworldCamera*>(camera);
+    // double xAspectDif = ofGetWidth() / cameraPtr->getLenzWidth();
+    // double yAspectDif = ofGetHeight() / cameraPtr->getLenzHeight();
+    // fightingHitbox.setRenderWidth(fightingHitbox.getRenderWidth() * xAspectDif);
 }
 
 void Player::inOverworldDraw(void* camera) {
