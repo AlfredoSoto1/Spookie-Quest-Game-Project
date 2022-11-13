@@ -182,7 +182,7 @@ void OverworldState::draw() {
         ofDrawBitmapString("ENEMIES ALIVE: " + ofToString(area->getRemainingEnemies()), 50, 100);
         ofDrawBitmapString("HEALTH: ", 50, 126);
         player->drawHealthBar(120, 110, 256, 25, player->getHealth(), player->getMaxHealth());
-        ofDrawBitmapString(ofToString(floor(player->getHealth() /2)) + "%", 385, 126);
+        ofDrawBitmapString(ofToString((int)(((float)player->getHealth() / player->getMaxHealth()) * 100)) + "%", 385, 126);
         ofDrawBitmapString("PLAYER POSITION " + ofToString(player->getHitBox().getX()) + ", " + ofToString(player->getHitBox().getY()), 50, 155);
          ofDrawBitmapString("DEAD ENEMIES:  " + ofToString(area->getDeadEnemies()), 50, 175);
     }
@@ -196,7 +196,7 @@ void OverworldState::draw() {
         ofDrawBitmapString("ENEMIES ALIVE: " + ofToString(area->getRemainingEnemies()), 50, 100);
         ofDrawBitmapString("HEALTH: ", 50, 126);
         player->drawHealthBar(120, 110, 256, 25, player->getHealth(), player->getMaxHealth());
-        ofDrawBitmapString(ofToString(floor(player->getHealth() /2)) + "%", 385, 126);
+        ofDrawBitmapString(ofToString((int)(((float)player->getHealth() / player->getMaxHealth()) * 100)) + "%", 385, 126);
     }
 
     player->getInventory()->draw();    

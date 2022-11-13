@@ -29,8 +29,11 @@ private:
     ofSoundPlayer buttonChange;
     ofSoundPlayer buttonSelect;
 
-    ofImage displayAttack;
-    ofImage displayDeath;
+    ofImage displayPlayerAttack;
+    ofImage displayPlayerDeath;
+
+    ofImage displayEnemyAttack;
+    ofImage displayEnemyDeath;
     
     int enemyChoice = 0;
     int currentButton;
@@ -41,6 +44,7 @@ private:
     bool isAttacking;
     bool enemyHasChosenAttack;
     bool isEnemyOnAttack;
+    bool isPlayerOnAttack;
 
     void reHeal();
 };

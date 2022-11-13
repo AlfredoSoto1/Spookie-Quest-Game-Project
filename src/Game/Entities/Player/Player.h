@@ -16,6 +16,8 @@ private:
     Animation *walkLeft;
     Animation *walkRight;
     Animation *fighting;
+    Animation *death;
+
     vector<char> pressedKeys;
 
     ofImage healthBar;
@@ -30,6 +32,7 @@ public:
     ~Player();
 
     Inventory* getInventory();
+    Animation* getDeath();
 
     void loadCamera(void* camera);
 

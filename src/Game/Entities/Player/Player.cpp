@@ -23,8 +23,9 @@ Player::Player(const string& playerName, int health, int baseDamage) :
     vector<ofImage> upFrames;
     vector<ofImage> leftFrames;
     vector<ofImage> rightFrames;
-    vector<ofImage> fightingFrames;
+    vector<ofImage> deathFrames;
     ofImage temp;
+    ofImage sprite;
 
     /*
         Load fight sprites
@@ -41,10 +42,40 @@ Player::Player(const string& playerName, int health, int baseDamage) :
         rightFrames.push_back(temp);
     }
 
-    temp.load("images/entities/player/fightingframes/player-f1.png");
-    fightingFrames.push_back(temp);
-    temp.load("images/entities/player/fightingframes/player-f2.png");
-    fightingFrames.push_back(temp);
+    vector<ofImage> idleFrames;
+    sprite.load("images/entities/player/Idle.png");
+    for(unsigned int i = 0; i < 4; i++) {
+        temp.cropFrom(sprite, i * 137, 0, 137, 86);
+        idleFrames.push_back(temp);
+    }
+
+    //rightFrames
+    vector<ofImage> attackFrames1;
+    sprite.load("images/entities/player/player_attack.png");
+    for(unsigned int i = 0; i < 5; i++) {
+        temp.cropFrom(sprite, i * 137, 0, 137, 86);
+        attackFrames1.push_back(temp);
+    }
+
+    vector<ofImage> attackFrames2;
+    sprite.load("images/entities/player/player_attack2.png");
+    for(unsigned int i = 0; i < 4; i++) {
+        temp.cropFrom(sprite, i * 137, 0, 137, 86);
+        attackFrames2.push_back(temp);
+    }
+
+    vector<ofImage> attackFrames3;
+    sprite.load("images/entities/player/player_attack3.png");
+    for(unsigned int i = 0; i < 4; i++) {
+        temp.cropFrom(sprite, i * 137, 0, 137, 86);
+        attackFrames3.push_back(temp);
+    }
+
+    sprite.load("images/entities/player/Death.png");
+    for(unsigned int i = 0; i < 6; i++) {
+        temp.cropFrom(sprite, i * 137, 0, 137, 86);
+        deathFrames.push_back(temp);
+    }
 
     /*
         Load walking sprites
@@ -53,41 +84,39 @@ Player::Player(const string& playerName, int health, int baseDamage) :
     walkUp = new Animation(5, upFrames);
     walkLeft = new Animation(5, leftFrames);
     walkRight = new Animation(5, rightFrames);
-    fighting = new Animation(7, fightingFrames);
+    fighting = new Animation(7, idleFrames);
+
+    death = new Animation(10, deathFrames);
+    death->setShowOnce(true);
+
+    //set attacks
+    addAttack(Attack(new Animation(4, attackFrames1), 10, 50));    
+    addAttack(Attack(new Animation(4, attackFrames2),  5, 50));    
+    addAttack(Attack(new Animation(4, attackFrames3),  5, 50));    
 
     //load Attack buttons
     buttonAttack.load("images/ui/buttons/rock.png");
-
-
-    //rightFrames
-    vector<ofImage> attackFrames;
-    ofImage sprite;
-    sprite.load("images/entities/player/fightingframes/player_attack.png");
-    for(unsigned int i = 0; i < 5; i++) {
-        temp.cropFrom(sprite, i * 137, 0, 137, 86);
-        attackFrames.push_back(temp);
-    }
-
-    //set attacks
-    addAttack(Attack(new Animation(4, attackFrames), 10, 50));    
-    addAttack(Attack(new Animation(4, attackFrames),  5, 50));    
-    addAttack(Attack(new Animation(4, attackFrames),  5, 50));    
-
 }
 
 Player::~Player() {
+    delete inventory;
+
     delete walkUp;
     delete walkDown;
     delete walkLeft;
     delete walkRight;
 
-    delete inventory;
+    delete death;
     
     vector<Attack>& attacks = getAttacks();
     for(unsigned int i = 0;i < attacks.size(); i++) {
         if(attacks[i].getAnimation() != nullptr)
             delete attacks[i].getAnimation();
     }
+}
+
+Animation* Player::getDeath() {
+    return death;
 }
 
 Inventory* Player::getInventory() {

@@ -2,7 +2,7 @@
 
 StateMaster::StateMaster(Player* player) {
     this->player = player;
-    this->player->getFightingHitBox().setRenderWidth(200);
+    this->player->getFightingHitBox().setRenderWidth(350);
     this->player->getFightingHitBox().setRenderHeight(200);
     initAreas();
     createStates();

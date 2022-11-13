@@ -128,7 +128,7 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
 
     fighting = new Animation(7, idleLeftFrames);
 
-    death = new Animation(5, deathFrames);
+    death = new Animation(10, deathFrames);
     death->setShowOnce(true);
 
     speed = 8;
@@ -138,6 +138,24 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
     movementDirection = glm::vec2(0.0, 0.0);
     hitbox.setDirection(Direction::up);
     
+}
+
+Enemy::~Enemy() {
+    // delete walkUp;
+    // delete walkDown;
+    delete walkLeft;
+    delete walkRight;
+    delete idleRight;
+    delete idleLeft;
+
+    delete fighting;
+
+    delete death;
+
+    vector<Attack>& attacks = getAttacks();
+    for(unsigned int i = 0;i < attacks.size(); i++) {
+        delete attacks[i].getAnimation();
+    }
 }
 
 Animation* Enemy::getDeath() {
@@ -269,22 +287,4 @@ void Enemy::fightingUpdate() {
 }
 
 void Enemy::reset() {
-}
-
-Enemy::~Enemy() {
-    // delete walkUp;
-    // delete walkDown;
-    delete walkLeft;
-    delete walkRight;
-    delete idleRight;
-    delete idleLeft;
-
-    delete fighting;
-
-    delete death;
-
-    vector<Attack>& attacks = getAttacks();
-    for(unsigned int i = 0;i < attacks.size(); i++) {
-        delete attacks[i].getAnimation();
-    }
 }
