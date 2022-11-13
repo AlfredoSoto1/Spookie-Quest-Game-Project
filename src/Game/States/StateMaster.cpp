@@ -2,8 +2,8 @@
 
 StateMaster::StateMaster(Player* player) {
     this->player = player;
-    this->player->getFightingHitBox().setRenderWidth(350);
-    this->player->getFightingHitBox().setRenderHeight(200);
+    this->player->getFightingHitBox().setRenderWidth(450);
+    this->player->getFightingHitBox().setRenderHeight(300);
     initAreas();
     createStates();
 }
@@ -256,7 +256,7 @@ void StateMaster::initAreas() {
         for(int y = 0;y < spawnImage3.getHeight(); y++) {
             ofColor spawnColor = spawnImage3.getColor(x, y);
             if(spawnColor == ofColor::red) {
-                int random = ofRandom(2);
+                int random = ofRandom(3);
                 if(random == 0) {
                     Enemy *mushroom = new Enemy("mushroom", EnemyE::MUSHROOM, 20, 4, x, y);
                     //enlarge image
@@ -266,8 +266,16 @@ void StateMaster::initAreas() {
                     mushroom->getFightingHitBox().setRenderHeight(600);
                     tempEntityList3.push_back(mushroom);
 
-                }else {
+                }else if(random == 1){
                     Enemy *goblin = new Enemy("golbin", EnemyE::GOBLIN, 20, 4, x, y);
+                    //enlarge image
+                    goblin->getHitBox().setRenderWidth(300);
+                    goblin->getHitBox().setRenderHeight(300);
+                    goblin->getFightingHitBox().setRenderWidth(600);
+                    goblin->getFightingHitBox().setRenderHeight(600);
+                    tempEntityList3.push_back(goblin);
+                }else if(random == 2){
+                    Enemy *goblin = new Enemy("skeleton", EnemyE::SKELETON, 20, 4, x, y);
                     //enlarge image
                     goblin->getHitBox().setRenderWidth(300);
                     goblin->getHitBox().setRenderHeight(300);
