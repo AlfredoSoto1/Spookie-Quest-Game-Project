@@ -40,4 +40,5 @@ private:
 
     bool friendInteract;
     bool debugMapCollider;
+    bool bossNear;
 };

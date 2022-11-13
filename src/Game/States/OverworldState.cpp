@@ -77,10 +77,11 @@ void OverworldState::update() {
         Enemy* enemy = dynamic_cast<Enemy*>(entity);
         if(enemy != nullptr) {
             Boss* boss = dynamic_cast<Boss*>(enemy);
-            if(boss != nullptr)
+            if(boss != nullptr){
+                
                 if(!area->inBossFight())
                     continue;
-
+            }
             if (!enemy->isDead()) {
                 enemy->inOverworldUpdate();
                 if (playerHitbox.collides(enemy->getHitBox())) {
@@ -150,7 +151,10 @@ void OverworldState::draw() {
         if(enemy != nullptr) {
             Boss* boss = dynamic_cast<Boss*>(enemy);
             if(boss != nullptr)
-                if(!area->inBossFight())
+                if(area->inBossFight()){
+                bossNear = true;}
+                else if(!area->inBossFight())
+
                     continue;
             if (!enemy->isDead()) {
                 enemy->inOverworldDraw(camera);
@@ -186,6 +190,11 @@ void OverworldState::draw() {
          ofDrawBitmapString("DEAD ENEMIES:  " + ofToString(area->getDeadEnemies()), 50, 175);
     }
     else{
+    if(bossNear == true){
+        ofSetColor(ofColor::red);
+        ofDrawBitmapString("BOSS IS NEAR", 500, 80);
+        ofSetColor(ofColor::white);
+    }
     ofSetColor(ofColor::black);
     ofDrawRectangle(10,30,440,140);
     ofSetColor(ofColor::gray);
