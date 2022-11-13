@@ -7,7 +7,7 @@ void ofApp::setup() {
     ofSetWindowTitle("PA2");
     ofSetWindowPosition(ofGetScreenWidth() / 2 - ofGetWidth() / 2, ofGetScreenHeight() / 2 - ofGetHeight()/2);
     
-    player = new Player("User-1", 200, 50);
+    player = new Player("User-1", 100, 50);
     stateMaster = new StateMaster(player);
 }
 

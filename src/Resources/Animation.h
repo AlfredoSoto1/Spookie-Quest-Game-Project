@@ -17,6 +17,7 @@ class Animation {
     void update();
     ofImage getCurrentFrame();
     void reset();
+    void resetTime();
 
     bool hasEnded();
     void setShowOnce(bool showOnce);

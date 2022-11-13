@@ -9,113 +9,122 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
     vector<ofImage> idleLeftFrames;
     vector<ofImage> idleRightFrames;
     vector<ofImage> deathFrames;
+    vector<ofImage> hitFrames;
 
-    ofImage temp;
-    ofImage sprite;
-
-   if(type == EnemyE::MUSHROOM) {
-        sprite.load("images/entities/enemy/Mushroom/Run_right.png");
-        for(unsigned int i = 0; i < 8; i++) {
-            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
-            rightFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/Mushroom/Run_left.png");
-        for(unsigned int i = 0; i < 8; i++) {
-            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
-            leftFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/Mushroom/Idle_right.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            idleRightFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/Mushroom/Idle_left.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            idleLeftFrames.push_back(temp);
-        }
-
-        sprite.load("images/entities/enemy/Mushroom/Death.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            deathFrames.push_back(temp);
-        }
+    if(type == EnemyE::MUSHROOM) {
+        obtainFramesOf(&rightFrames    , 8, 150, 150, "images/entities/enemy/Mushroom/Run_right.png");
+        obtainFramesOf(&leftFrames     , 8, 150, 150, "images/entities/enemy/Mushroom/Run_left.png");
+        obtainFramesOf(&idleRightFrames, 4, 150, 150, "images/entities/enemy/Mushroom/Idle_right.png");
+        obtainFramesOf(&idleLeftFrames , 4, 150, 150, "images/entities/enemy/Mushroom/Idle_left.png");
+        obtainFramesOf(&deathFrames    , 4, 150, 150, "images/entities/enemy/Mushroom/Death.png");
+        obtainFramesOf(&hitFrames      , 4, 150, 150, "images/entities/enemy/Mushroom/Hit.png");
 
         //attack frames
         vector<ofImage> attack1;
-        sprite.load("images/entities/enemy/Mushroom/Attack1.png");
-        for(unsigned int i = 0; i < 8; i++) {
-            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
-            attack1.push_back(temp);
-        }
         vector<ofImage> attack2;
-        sprite.load("images/entities/enemy/Mushroom/Attack2.png");
-        for(unsigned int i = 0; i < 8; i++) {
-            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
-            attack2.push_back(temp);
-        }
         vector<ofImage> attack3;
-        sprite.load("images/entities/enemy/Mushroom/Attack3.png");
-        for(unsigned int i = 0; i < 11; i++) {
-            temp.cropFrom(sprite, (10 - i) * 150, 0, 150, 150);
-            attack3.push_back(temp);
-        }
+        obtainFramesOf(&attack1      , 8 , 150, 150, "images/entities/enemy/Mushroom/Attack1.png");
+        obtainFramesOf(&attack2      , 8 , 150, 150, "images/entities/enemy/Mushroom/Attack2.png");
+        obtainFramesOf(&attack3      , 11, 150, 150, "images/entities/enemy/Mushroom/Attack3.png");
 
-        addAttack(Attack(new Animation(4, attack1), 4, 90));
+        vector<ofImage> projectile;
+        obtainFramesOf(&projectile, 8, 50, 50, "images/entities/enemy/Mushroom/projectile.png");
+
+        addAttack(Attack(new Animation(4, attack1), new Animation(3, projectile), 4, 90, 60));
         addAttack(Attack(new Animation(4, attack2), 6, 90));
         addAttack(Attack(new Animation(4, attack3), 8, 90));
     } else if(type == EnemyE::GOBLIN) {
 
-        sprite.load("images/entities/enemy/Mushroom/Run_right.png");
-        for(unsigned int i = 0; i < 8; i++) {
-            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
-            rightFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/Mushroom/Run_left.png");
-        for(unsigned int i = 0; i < 8; i++) {
-            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
-            leftFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/Mushroom/Idle_right.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            idleRightFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/Mushroom/Idle_left.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            idleLeftFrames.push_back(temp);
-        }
-
-        sprite.load("images/entities/enemy/Mushroom/Death.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            deathFrames.push_back(temp);
-        }
+        obtainFramesOf(&rightFrames    , 8, 150, 150, "images/entities/enemy/Goblin/Run_right.png");
+        obtainFramesOf(&leftFrames     , 8, 150, 150, "images/entities/enemy/Goblin/Run_left.png");
+        obtainFramesOf(&idleRightFrames, 4, 150, 150, "images/entities/enemy/Goblin/Idle_right.png");
+        obtainFramesOf(&idleLeftFrames , 4, 150, 150, "images/entities/enemy/Goblin/Idle_left.png");
+        obtainFramesOf(&deathFrames    , 4, 150, 150, "images/entities/enemy/Goblin/Death.png");
+        obtainFramesOf(&hitFrames      , 4, 150, 150, "images/entities/enemy/Goblin/Hit.png");
 
         //attack frames
         vector<ofImage> attack1;
-        sprite.load("images/entities/enemy/Mushroom/Attack1.png");
-        for(unsigned int i = 0; i < 8; i++) {
-            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
-            attack1.push_back(temp);
-        }
         vector<ofImage> attack2;
-        sprite.load("images/entities/enemy/Mushroom/Attack2.png");
-        for(unsigned int i = 0; i < 8; i++) {
-            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
-            attack2.push_back(temp);
-        }
         vector<ofImage> attack3;
-        sprite.load("images/entities/enemy/Mushroom/Attack3.png");
-        for(unsigned int i = 0; i < 11; i++) {
-            temp.cropFrom(sprite, (10 - i) * 150, 0, 150, 150);
-            attack3.push_back(temp);
-        }
+        obtainFramesOf(&attack1      , 8 , 150, 150, "images/entities/enemy/Goblin/Attack1.png");
+        obtainFramesOf(&attack2      , 8 , 150, 150, "images/entities/enemy/Goblin/Attack2.png");
+        obtainFramesOf(&attack3      , 11, 150, 150, "images/entities/enemy/Goblin/Attack3.png");
+        
+        vector<ofImage> projectile;
+        obtainFramesOf(&projectile, 19, 100, 100, "images/entities/enemy/Goblin/projectile.png");
+        
+        addAttack(Attack(new Animation(4, attack1), 4, 90));
+        addAttack(Attack(new Animation(4, attack2), 6, 90));
+        addAttack(Attack(new Animation(4, attack3), new Animation(3, projectile), 8, 90, 60));
+    }else if(type == EnemyE::SKELETON) {
+
+        obtainFramesOf(&rightFrames    , 4, 150, 150, "images/entities/enemy/Skeleton/Run_right.png");
+        obtainFramesOf(&leftFrames     , 4, 150, 150, "images/entities/enemy/Skeleton/Run_left.png");
+        obtainFramesOf(&idleRightFrames, 4, 150, 150, "images/entities/enemy/Skeleton/Idle_right.png");
+        obtainFramesOf(&idleLeftFrames , 4, 150, 150, "images/entities/enemy/Skeleton/Idle_left.png");
+        obtainFramesOf(&deathFrames    , 4, 150, 150, "images/entities/enemy/Skeleton/Death.png");
+        obtainFramesOf(&hitFrames      , 4, 150, 150, "images/entities/enemy/Skeleton/Hit.png");
+
+        //attack frames
+        vector<ofImage> attack1;
+        vector<ofImage> attack2;
+        vector<ofImage> attack3;
+        obtainFramesOf(&attack1      , 8 , 150, 150, "images/entities/enemy/Skeleton/Attack1.png");
+        obtainFramesOf(&attack2      , 8 , 150, 150, "images/entities/enemy/Skeleton/Attack2.png");
+        obtainFramesOf(&attack3      , 6 , 150, 150, "images/entities/enemy/Skeleton/Attack3.png");
+
+        vector<ofImage> projectile;
+        obtainFramesOf(&projectile, 8, 92, 92, "images/entities/enemy/Skeleton/projectile.png");
 
         addAttack(Attack(new Animation(4, attack1), 4, 90));
         addAttack(Attack(new Animation(4, attack2), 6, 90));
-        addAttack(Attack(new Animation(4, attack3), 8, 90));
+        addAttack(Attack(new Animation(4, attack3), new Animation(3, projectile), 8, 90, 60));
+    }else if(type == EnemyE::EVIL_WIZZARD) {
+
+        obtainFramesOf(&rightFrames    , 8, 150, 150, "images/entities/enemy/evilWizzard/Run_right.png");
+        obtainFramesOf(&leftFrames     , 8, 150, 150, "images/entities/enemy/evilWizzard/Run_left.png");
+        obtainFramesOf(&idleRightFrames, 8, 150, 150, "images/entities/enemy/evilWizzard/Idle_right.png");
+        obtainFramesOf(&idleLeftFrames , 8, 150, 150, "images/entities/enemy/evilWizzard/Idle_left.png");
+        obtainFramesOf(&deathFrames    , 5, 150, 150, "images/entities/enemy/evilWizzard/Death.png");
+        obtainFramesOf(&hitFrames      , 4, 150, 150, "images/entities/enemy/evilWizzard/Hit.png");
+
+        //attack frames
+        vector<ofImage> attack1;
+        obtainFramesOf(&attack1      , 8 , 150, 150, "images/entities/enemy/evilWizzard/Attack.png");
+        
+        addAttack(Attack(new Animation(4, attack1), 4, 90));
+    } else if(type == EnemyE::FIRE_WORM) {
+        obtainFramesOf(&rightFrames    , 9, 90, 90, "images/entities/enemy/fireWorm/Run_right.png");
+        obtainFramesOf(&leftFrames     , 9, 90, 90, "images/entities/enemy/fireWorm/Run_left.png");
+        obtainFramesOf(&idleRightFrames, 9, 90, 90, "images/entities/enemy/fireWorm/Idle_right.png");
+        obtainFramesOf(&idleLeftFrames , 9, 90, 90, "images/entities/enemy/fireWorm/Idle_left.png");
+        obtainFramesOf(&deathFrames    , 8, 90, 90, "images/entities/enemy/fireWorm/Death.png");
+        obtainFramesOf(&hitFrames      , 3, 90, 90, "images/entities/enemy/fireWorm/Hit.png");
+
+        //attack frames
+        vector<ofImage> attack1;
+        obtainFramesOf(&attack1      , 16 , 90, 90, "images/entities/enemy/fireWorm/Attack1.png");
+
+        vector<ofImage> projectile;
+        obtainFramesOf(&projectile, 6, 46, 46, "images/entities/enemy/fireWorm/projectile.png");
+
+        addAttack(Attack(new Animation(4, attack1), new Animation(3, projectile), 8, 60, 60));
+    } else if(type == EnemyE::DARK_WIZZARD) {
+        obtainFramesOf(&rightFrames    , 8, 250, 250, "images/entities/enemy/darkWizzard/Run_right.png");
+        obtainFramesOf(&leftFrames     , 8, 250, 250, "images/entities/enemy/darkWizzard/Run_left.png");
+        obtainFramesOf(&idleRightFrames, 8, 250, 250, "images/entities/enemy/darkWizzard/Idle_right.png");
+        obtainFramesOf(&idleLeftFrames , 8, 250, 250, "images/entities/enemy/darkWizzard/Idle_left.png");
+        obtainFramesOf(&deathFrames    , 7, 250, 250, "images/entities/enemy/darkWizzard/Death.png");
+        obtainFramesOf(&hitFrames      , 3, 250, 250, "images/entities/enemy/darkWizzard/Hit.png");
+
+        //attack frames
+        vector<ofImage> attack1;
+        vector<ofImage> attack2;
+        obtainFramesOf(&attack1      , 8 , 250, 250, "images/entities/enemy/darkWizzard/Attack1.png");
+        obtainFramesOf(&attack2      , 8 , 250, 250, "images/entities/enemy/darkWizzard/Attack2.png");
+
+        addAttack(Attack(new Animation(4, attack1), 8, 60));
+        addAttack(Attack(new Animation(4, attack2), 8, 60));
     }
 
     /*
@@ -128,7 +137,9 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
 
     fighting = new Animation(7, idleLeftFrames);
 
-    death = new Animation(5, deathFrames);
+    hit = new Animation(4, hitFrames);
+
+    death = new Animation(10, deathFrames);
     death->setShowOnce(true);
 
     speed = 8;
@@ -138,6 +149,39 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
     movementDirection = glm::vec2(0.0, 0.0);
     hitbox.setDirection(Direction::up);
     
+}
+
+Enemy::~Enemy() {
+    delete walkLeft;
+    delete walkRight;
+    delete idleRight;
+    delete idleLeft;
+
+    delete fighting;
+
+    delete death;
+    delete hit;
+
+    vector<Attack>& attacks = getAttacks();
+    for(unsigned int i = 0;i < attacks.size(); i++) {
+        delete attacks[i].getAnimation();
+        if(attacks[i].hasProjectile())
+            delete attacks[i].getProjectileAnimation();
+    }
+}
+
+void Enemy::obtainFramesOf(vector<ofImage>* frames, int frameCount, int imgWidth, int imgHeight, const string& path) {
+    ofImage sprite;
+    ofImage temp;
+    sprite.load(path);
+    for(int i = 0; i < frameCount; i++) {
+        temp.cropFrom(sprite, (frameCount - 1 - i) * imgWidth, 0, imgWidth, imgHeight);
+        frames->push_back(temp);
+    }
+}
+
+Animation* Enemy::getHit() {
+    return hit;
 }
 
 Animation* Enemy::getDeath() {
@@ -269,22 +313,4 @@ void Enemy::fightingUpdate() {
 }
 
 void Enemy::reset() {
-}
-
-Enemy::~Enemy() {
-    // delete walkUp;
-    // delete walkDown;
-    delete walkLeft;
-    delete walkRight;
-    delete idleRight;
-    delete idleLeft;
-
-    delete fighting;
-
-    delete death;
-
-    vector<Attack>& attacks = getAttacks();
-    for(unsigned int i = 0;i < attacks.size(); i++) {
-        delete attacks[i].getAnimation();
-    }
 }

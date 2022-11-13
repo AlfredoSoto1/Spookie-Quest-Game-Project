@@ -32,6 +32,7 @@ BattleState::BattleState(Player *player, Area *area) {
     isAttacking = false;
     enemyHasChosenAttack = false;
     isEnemyOnAttack = false;
+    isPlayerOnAttack = false;
 }
 
 Enemy* BattleState::getEnemy() {
@@ -57,17 +58,37 @@ void BattleState::update() {
     enemy->fightingUpdate();
 
     if(player->getHealth() <= 0) {
-         Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
+        Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
+        enemyAttack.getAnimation()->update();
+        displayEnemyAttack = enemyAttack.getAnimation()->getCurrentFrame();
+        isEnemyOnAttack = true;
+
+        if(!player->getDeath()->hasEnded()) {
+            player->getDeath()->update();
+            return;
+        }
+        player->getDeath()->reset();
+
         enemyAttack.reset();
         Attack& playerAttack = player->getAttack(player->getAttackChoice());
         playerAttack.reset();
         setNextState(CurrentState::END);
         setFinished(true);
+        canInteract = true;
+        isAttacking = false;
+        enemyHasChosenAttack = false;
+        isEnemyOnAttack = false;
+        isPlayerOnAttack = false;
         return;
     }
     if(enemy->getHealth() <= 0) {
         Boss* boss = dynamic_cast<Boss*>(enemy);
         if(boss == nullptr) {
+            //player strikes last attack animation
+            Attack& playerAttack = player->getAttack(player->getAttackChoice());
+            playerAttack.getAnimation()->update();
+            displayPlayerAttack = playerAttack.getAnimation()->getCurrentFrame();
+            isPlayerOnAttack = true;
             //default enemy dies
             if(!enemy->getDeath()->hasEnded()) {
                 enemy->getDeath()->update();
@@ -76,7 +97,6 @@ void BattleState::update() {
             enemy->getDeath()->reset();
             Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
             enemyAttack.reset();
-            Attack& playerAttack = player->getAttack(player->getAttackChoice());
             playerAttack.reset();
             setNextState(CurrentState::WIN);
             setFinished(true);
@@ -84,10 +104,16 @@ void BattleState::update() {
             isAttacking = false;
             enemyHasChosenAttack = false;
             isEnemyOnAttack = false;
+            isPlayerOnAttack = false;
             return;
         }else {
             //boss enemy dies
             if(!boss->hasPhasesLeft()) {
+                //player strikes last attack animation
+                Attack& playerAttack = player->getAttack(player->getAttackChoice());
+                playerAttack.getAnimation()->update();
+                displayPlayerAttack = playerAttack.getAnimation()->getCurrentFrame();
+                isPlayerOnAttack = true;
                 if(!boss->getDeath()->hasEnded()) {
                     boss->getDeath()->update();
                     return;
@@ -95,7 +121,6 @@ void BattleState::update() {
                 boss->getDeath()->reset();
                 Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
                 enemyAttack.reset();
-                Attack& playerAttack = player->getAttack(player->getAttackChoice());
                 playerAttack.reset();
                 boss->reset();
                 setNextState(CurrentState::WIN);
@@ -104,6 +129,7 @@ void BattleState::update() {
                 isAttacking = false;
                 enemyHasChosenAttack = false;
                 isEnemyOnAttack = false;
+                isPlayerOnAttack = false;
                 return;
             }
         }
@@ -126,20 +152,41 @@ void BattleState::update() {
     int currentEnemyHealth = enemy->getHealth();
     playerAttack.provokeAttack(&currentEnemyHealth, 1);
     enemy->setHealth(currentEnemyHealth);
+    if(!isEnemyOnAttack) {
+        //player attack animation
+        playerAttack.getAnimation()->update();
+        displayPlayerAttack = playerAttack.getAnimation()->getCurrentFrame();
+        //update enemy hit
+        enemy->getHit()->update();
+        displayEnemyHit = enemy->getHit()->getCurrentFrame();
+        isPlayerOnAttack = true;
+    }
 
-    //Enemy Attacks
+    //enemy chooses attack
     if(!enemyHasChosenAttack) {
         enemy->setAttackChoice(rand() % enemy->getNumberOfAttacks());
         enemyHasChosenAttack = true;
     }
     Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
+
+    //Enemy Attacks
     if(!playerAttack.isOnCoolDown()) {
         int currentPlayerHealth = player->getHealth();
         enemyAttack.provokeAttack(&currentPlayerHealth, enemy->getBaseDamage());
         player->setHealth(currentPlayerHealth);
+        //update enemy attack animation
         enemyAttack.getAnimation()->update();
-        displayAttack = enemyAttack.getAnimation()->getCurrentFrame();
+        displayEnemyAttack = enemyAttack.getAnimation()->getCurrentFrame();
+        if(enemyAttack.hasProjectile()) {
+            enemyAttack.updateProjectileTraslation();
+            enemyAttack.getProjectileAnimation()->update();
+            displayEnemyProjectile = enemyAttack.getProjectileAnimation()->getCurrentFrame();
+        }
+        //update player hit
+        player->getHit()->update();
+        displayPlayerHit = player->getHit()->getCurrentFrame();
         isEnemyOnAttack = true;
+        isPlayerOnAttack = false;
     }
 
     //reset for next round
@@ -150,6 +197,7 @@ void BattleState::update() {
         isAttacking = false;
         enemyHasChosenAttack = false;
         isEnemyOnAttack = false;
+        isPlayerOnAttack = false;
     }
 }
 
@@ -159,16 +207,42 @@ void BattleState::draw() {
     stage.draw(0, 0, ofGetWidth(), ofGetHeight());
 
     // render combatant sprites
-    player->fightingDraw();
+    if(player->getHealth() <= 0) {
+        displayPlayerDeath = player->getDeath()->getCurrentFrame();
+        HitBox& fightingHitbox = player->getFightingHitBox();
+        displayPlayerDeath.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+        displayPlayerDeath.draw(fightingHitbox.getRenderX(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
+    } else if(isPlayerOnAttack) {
+        HitBox& fightingHitbox = player->getFightingHitBox();
+        displayPlayerAttack.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+        displayPlayerAttack.draw(fightingHitbox.getRenderX(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
+    } else if(isEnemyOnAttack) {
+        HitBox& fightingHitbox = player->getFightingHitBox();
+        displayPlayerHit.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+        displayPlayerHit.draw(fightingHitbox.getRenderX(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
+    }else {
+        player->fightingDraw();
+    }
     if(enemy->getHealth() <= 0) {
-        displayDeath = enemy->getDeath()->getCurrentFrame();
+        displayEnemyDeath = enemy->getDeath()->getCurrentFrame();
         HitBox& fightingHitbox = enemy->getFightingHitBox();
-        displayDeath.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
-        displayDeath.draw(fightingHitbox.getRenderX(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
+        displayEnemyDeath.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+        displayEnemyDeath.draw(fightingHitbox.getRenderX(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
     } else if(isEnemyOnAttack) {
         HitBox& fightingHitbox = enemy->getFightingHitBox();
-        displayAttack.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
-        displayAttack.draw(fightingHitbox.getRenderX(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
+        displayEnemyAttack.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+        displayEnemyAttack.draw(fightingHitbox.getRenderX(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
+
+        //draw enemy projectile if has any    
+        Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
+        if(enemyAttack.hasProjectile()) {
+            displayEnemyProjectile.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+            displayEnemyProjectile.draw(fightingHitbox.getRenderX() - enemyAttack.getProjectileTraslation(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
+        }
+    } else if(isPlayerOnAttack) {
+        HitBox& fightingHitbox = enemy->getFightingHitBox();
+        displayEnemyHit.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+        displayEnemyHit.draw(fightingHitbox.getRenderX(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
     } else {
         enemy->fightingDraw();
     }

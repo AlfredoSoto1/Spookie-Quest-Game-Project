@@ -15,14 +15,21 @@ enum AttackType {
 class Attack {
 public:
     Attack(Animation* attackAnimation, int damage, int maxCoolDown);
+    Attack(Animation* attackAnimation, Animation* projectileAnimation, int damage, int maxCoolDown, int projectileSpeed);
     ~Attack();
 
     AttackType getAttackType();
     Animation* getAnimation();
+    Animation* getProjectileAnimation();
 
     int getDamage();
+    float getProjectileTraslation();
+
     bool provokeAttack(int* health, int baseDamage);
     bool isOnCoolDown();
+    bool hasProjectile();
+    
+    void updateProjectileTraslation();
     void reset();
 
 private:
@@ -30,9 +37,16 @@ private:
     int coolDown;
     int maxCoolDown;
 
-    bool hasAttacked;
+    float projectileSpeed;
+    float projectileLifeTime;
+    float currentProjectileLifeTime;
+    float projectileTrajectory;
 
-    Animation* attackAnimation;
+    bool hasAttacked;
+    bool isProjectile;
+
+    Animation* attackAnimation = nullptr;
+    Animation* projectileAnimation = nullptr;
 
     AttackType attackType;
 

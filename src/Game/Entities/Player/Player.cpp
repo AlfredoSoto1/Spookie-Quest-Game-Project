@@ -4,16 +4,34 @@
 Player::Player(const string& playerName, int health, int baseDamage) : 
     EntityFighter(playerName, HitBox(0, 0, 64, 64), HitBox(64, 64, 192, 192), health, baseDamage)
 {
+
+    /*
+        load player inventory
+    */
+    inventory = new Inventory();
+    ofImage item1;
+    item1.load("images/items/sword_1.png");
+    inventory->addItem(Item(item1));
+    item1.load("images/items/sword_2.png");
+    inventory->addItem(Item(item1));
+    item1.load("images/items/sword_3.png");
+    inventory->addItem(Item(item1));
+    item1.load("images/items/potion.png");
+    inventory->addItem(Item(item1));
+
     vector<ofImage> downFrames;
     vector<ofImage> upFrames;
     vector<ofImage> leftFrames;
     vector<ofImage> rightFrames;
-    vector<ofImage> fightingFrames;
+    vector<ofImage> deathFrames;
+    vector<ofImage> hitFrames;
     ofImage temp;
+    ofImage sprite;
 
     /*
         Load fight sprites
     */
+
     for (int i = 1; i < 5; i++) {
         temp.load("images/entities/player/downframes/player-ow-front" + std::to_string(i == 3 ? 1 : i) + ".png");
         downFrames.push_back(temp);
@@ -25,10 +43,17 @@ Player::Player(const string& playerName, int health, int baseDamage) :
         rightFrames.push_back(temp);
     }
 
-    temp.load("images/entities/player/fightingframes/player-f1.png");
-    fightingFrames.push_back(temp);
-    temp.load("images/entities/player/fightingframes/player-f2.png");
-    fightingFrames.push_back(temp);
+    vector<ofImage> idleFrames;
+    vector<ofImage> attackFrames1;
+    vector<ofImage> attackFrames2;
+    vector<ofImage> attackFrames3;
+
+    obtainFramesOf(&idleFrames,    4, 137, 86, "images/entities/player/Idle.png");
+    obtainFramesOf(&attackFrames1, 5, 137, 86, "images/entities/player/player_attack.png");
+    obtainFramesOf(&attackFrames2, 4, 137, 86, "images/entities/player/player_attack2.png");
+    obtainFramesOf(&attackFrames3, 4, 137, 86, "images/entities/player/player_attack3.png");
+    obtainFramesOf(&deathFrames,   6, 137, 86, "images/entities/player/Death.png");
+    obtainFramesOf(&hitFrames,   3, 137, 86, "images/entities/player/Hit.png");
 
     /*
         Load walking sprites
@@ -37,16 +62,60 @@ Player::Player(const string& playerName, int health, int baseDamage) :
     walkUp = new Animation(5, upFrames);
     walkLeft = new Animation(5, leftFrames);
     walkRight = new Animation(5, rightFrames);
-    fighting = new Animation(7, fightingFrames);
+    fighting = new Animation(7, idleFrames);
+
+    hit = new Animation(7, hitFrames);
+
+    death = new Animation(10, deathFrames);
+    death->setShowOnce(true);
+
+    //set attacks
+    addAttack(Attack(new Animation(4, attackFrames1), 10, 50));    
+    addAttack(Attack(new Animation(4, attackFrames2),  5, 50));    
+    addAttack(Attack(new Animation(4, attackFrames3),  5, 50));    
 
     //load Attack buttons
     buttonAttack.load("images/ui/buttons/rock.png");
+}
 
-    //set attacks
-    addAttack(Attack(nullptr, 10, 60));    
-    addAttack(Attack(nullptr, 5, 60 * 2));    
-    addAttack(Attack(nullptr, 5, 60 * 3));    
+Player::~Player() {
+    delete inventory;
 
+    delete walkUp;
+    delete walkDown;
+    delete walkLeft;
+    delete walkRight;
+
+    delete death;
+    delete hit;
+    
+    vector<Attack>& attacks = getAttacks();
+    for(unsigned int i = 0;i < attacks.size(); i++) {
+        if(attacks[i].getAnimation() != nullptr)
+            delete attacks[i].getAnimation();
+    }
+}
+
+void Player::obtainFramesOf(vector<ofImage>* frames, int frameCount, int imgWidth, int imgHeight, const string& path) {
+    ofImage sprite;
+    ofImage temp;
+    sprite.load(path);
+    for(int i = 0; i < frameCount; i++) {
+        temp.cropFrom(sprite, i * imgWidth, 0, imgWidth, imgHeight);
+        frames->push_back(temp);
+    }
+}
+
+Animation* Player::getHit() {
+    return hit;
+}
+
+Animation* Player::getDeath() {
+    return death;
+}
+
+Inventory* Player::getInventory() {
+    return inventory;
 }
 
 void Player::loadCamera(void* camera) {
@@ -134,7 +203,7 @@ void Player::fightingUpdate() {
     fightingSprite = fighting->getCurrentFrame();
     fighting->update();
 
-    int xpos = ofGetWidth() * (1.0 / 4.0) - fightingHitbox.getWidth()  / 2;
+    int xpos = ofGetWidth() * (1.0 / 4.0) - fightingHitbox.getWidth() / 2;
     int ypos = ofGetHeight() * (1.0 / 2.0) - fightingHitbox.getHeight() / 2;
 
     fightingHitbox.setX(xpos);
@@ -206,11 +275,4 @@ void Player::reset() {
     fightingHitbox.setX(64);
     fightingHitbox.setY(64);
     health = maxHealth;
-}
-
-Player::~Player() {
-    delete walkUp;
-    delete walkDown;
-    delete walkLeft;
-    delete walkRight;
 }
