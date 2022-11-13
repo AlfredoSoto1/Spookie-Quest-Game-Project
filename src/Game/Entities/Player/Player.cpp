@@ -44,45 +44,16 @@ Player::Player(const string& playerName, int health, int baseDamage) :
     }
 
     vector<ofImage> idleFrames;
-    sprite.load("images/entities/player/Idle.png");
-    for(unsigned int i = 0; i < 4; i++) {
-        temp.cropFrom(sprite, i * 137, 0, 137, 86);
-        idleFrames.push_back(temp);
-    }
-
-    //rightFrames
     vector<ofImage> attackFrames1;
-    sprite.load("images/entities/player/player_attack.png");
-    for(unsigned int i = 0; i < 5; i++) {
-        temp.cropFrom(sprite, i * 137, 0, 137, 86);
-        attackFrames1.push_back(temp);
-    }
-
     vector<ofImage> attackFrames2;
-    sprite.load("images/entities/player/player_attack2.png");
-    for(unsigned int i = 0; i < 4; i++) {
-        temp.cropFrom(sprite, i * 137, 0, 137, 86);
-        attackFrames2.push_back(temp);
-    }
-
     vector<ofImage> attackFrames3;
-    sprite.load("images/entities/player/player_attack3.png");
-    for(unsigned int i = 0; i < 4; i++) {
-        temp.cropFrom(sprite, i * 137, 0, 137, 86);
-        attackFrames3.push_back(temp);
-    }
 
-    sprite.load("images/entities/player/Death.png");
-    for(unsigned int i = 0; i < 6; i++) {
-        temp.cropFrom(sprite, i * 137, 0, 137, 86);
-        deathFrames.push_back(temp);
-    }
-
-    sprite.load("images/entities/player/Hit.png");
-    for(unsigned int i = 0; i < 3; i++) {
-        temp.cropFrom(sprite, i * 137, 0, 137, 86);
-        hitFrames.push_back(temp);
-    }
+    obtainFramesOf(&idleFrames,    4, 137, 86, "images/entities/player/Idle.png");
+    obtainFramesOf(&attackFrames1, 5, 137, 86, "images/entities/player/player_attack.png");
+    obtainFramesOf(&attackFrames2, 4, 137, 86, "images/entities/player/player_attack2.png");
+    obtainFramesOf(&attackFrames3, 4, 137, 86, "images/entities/player/player_attack3.png");
+    obtainFramesOf(&deathFrames,   6, 137, 86, "images/entities/player/Death.png");
+    obtainFramesOf(&hitFrames,   3, 137, 86, "images/entities/player/Hit.png");
 
     /*
         Load walking sprites
@@ -122,6 +93,16 @@ Player::~Player() {
     for(unsigned int i = 0;i < attacks.size(); i++) {
         if(attacks[i].getAnimation() != nullptr)
             delete attacks[i].getAnimation();
+    }
+}
+
+void Player::obtainFramesOf(vector<ofImage>* frames, int frameCount, int imgWidth, int imgHeight, const string& path) {
+    ofImage sprite;
+    ofImage temp;
+    sprite.load(path);
+    for(int i = 0; i < frameCount; i++) {
+        temp.cropFrom(sprite, i * imgWidth, 0, imgWidth, imgHeight);
+        frames->push_back(temp);
     }
 }
 
