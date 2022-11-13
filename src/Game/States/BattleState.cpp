@@ -61,6 +61,11 @@ void BattleState::update() {
         Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
         enemyAttack.getAnimation()->update();
         displayEnemyAttack = enemyAttack.getAnimation()->getCurrentFrame();
+        if(enemyAttack.hasProjectile()) {
+            enemyAttack.updateProjectileTraslation();
+            enemyAttack.getProjectileAnimation()->update();
+            displayEnemyProjectile = enemyAttack.getProjectileAnimation()->getCurrentFrame();
+        }
         isEnemyOnAttack = true;
 
         if(!player->getDeath()->hasEnded()) {
