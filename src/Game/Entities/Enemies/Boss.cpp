@@ -2,7 +2,7 @@
 #include "OverworldCamera.h"
 
 Boss::Boss(const string& name, int health, int baseDamage, int phases, int ox, int oy)
-    :   Enemy(name, EnemyE::MUSHROOM, health, baseDamage, ox, oy)
+    :   Enemy(name, EnemyE::EVIL_WIZARD, health, baseDamage, ox, oy)
 {
     this->maxPhases = phases;
     this->currentPhase = 0;

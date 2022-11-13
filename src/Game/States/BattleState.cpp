@@ -156,21 +156,30 @@ void BattleState::update() {
         //player attack animation
         playerAttack.getAnimation()->update();
         displayPlayerAttack = playerAttack.getAnimation()->getCurrentFrame();
+        //update enemy hit
+        enemy->getHit()->update();
+        displayEnemyHit = enemy->getHit()->getCurrentFrame();
         isPlayerOnAttack = true;
     }
 
-    //Enemy Attacks
+    //enemy chooses attack
     if(!enemyHasChosenAttack) {
         enemy->setAttackChoice(rand() % enemy->getNumberOfAttacks());
         enemyHasChosenAttack = true;
     }
     Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
+
+    //Enemy Attacks
     if(!playerAttack.isOnCoolDown()) {
         int currentPlayerHealth = player->getHealth();
         enemyAttack.provokeAttack(&currentPlayerHealth, enemy->getBaseDamage());
         player->setHealth(currentPlayerHealth);
+        //update enemy attack animation
         enemyAttack.getAnimation()->update();
         displayEnemyAttack = enemyAttack.getAnimation()->getCurrentFrame();
+        //update player hit
+        player->getHit()->update();
+        displayPlayerHit = player->getHit()->getCurrentFrame();
         isEnemyOnAttack = true;
         isPlayerOnAttack = false;
     }
@@ -202,7 +211,11 @@ void BattleState::draw() {
         HitBox& fightingHitbox = player->getFightingHitBox();
         displayPlayerAttack.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
         displayPlayerAttack.draw(fightingHitbox.getRenderX(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
-    } else {
+    } else if(isEnemyOnAttack) {
+        HitBox& fightingHitbox = player->getFightingHitBox();
+        displayPlayerHit.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+        displayPlayerHit.draw(fightingHitbox.getRenderX(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
+    }else {
         player->fightingDraw();
     }
     if(enemy->getHealth() <= 0) {
@@ -214,6 +227,10 @@ void BattleState::draw() {
         HitBox& fightingHitbox = enemy->getFightingHitBox();
         displayEnemyAttack.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
         displayEnemyAttack.draw(fightingHitbox.getRenderX(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
+    } else if(isPlayerOnAttack) {
+        HitBox& fightingHitbox = enemy->getFightingHitBox();
+        displayEnemyHit.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+        displayEnemyHit.draw(fightingHitbox.getRenderX(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
     } else {
         enemy->fightingDraw();
     }

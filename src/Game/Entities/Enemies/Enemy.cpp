@@ -9,6 +9,7 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
     vector<ofImage> idleLeftFrames;
     vector<ofImage> idleRightFrames;
     vector<ofImage> deathFrames;
+    vector<ofImage> hitFrames;
 
     ofImage temp;
     ofImage sprite;
@@ -39,6 +40,12 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
         for(unsigned int i = 0; i < 4; i++) {
             temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
             deathFrames.push_back(temp);
+        }
+
+        sprite.load("images/entities/enemy/Mushroom/Hit.png");
+        for(unsigned int i = 0; i < 4; i++) {
+            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+            hitFrames.push_back(temp);
         }
 
         //attack frames
@@ -93,6 +100,12 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
             deathFrames.push_back(temp);
         }
 
+        sprite.load("images/entities/enemy/Goblin/Hit.png");
+        for(unsigned int i = 0; i < 4; i++) {
+            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+            hitFrames.push_back(temp);
+        }
+
         //attack frames
         vector<ofImage> attack1;
         sprite.load("images/entities/enemy/Goblin/Attack1.png");
@@ -145,6 +158,12 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
             deathFrames.push_back(temp);
         }
 
+        sprite.load("images/entities/enemy/Skeleton/Hit.png");
+        for(unsigned int i = 0; i < 4; i++) {
+            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+            hitFrames.push_back(temp);
+        }
+
         //attack frames
         vector<ofImage> attack1;
         sprite.load("images/entities/enemy/Skeleton/Attack1.png");
@@ -168,6 +187,50 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
         addAttack(Attack(new Animation(4, attack1), 4, 90));
         addAttack(Attack(new Animation(4, attack2), 6, 90));
         addAttack(Attack(new Animation(4, attack3), 8, 90));
+    }else if(type == EnemyE::EVIL_WIZARD) {
+
+        sprite.load("images/entities/enemy/evilWizzard/Run_right.png");
+        for(unsigned int i = 0; i < 8; i++) {
+            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+            rightFrames.push_back(temp);
+        }
+        sprite.load("images/entities/enemy/evilWizzard/Run_left.png");
+        for(unsigned int i = 0; i < 8; i++) {
+            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+            leftFrames.push_back(temp);
+        }
+        sprite.load("images/entities/enemy/evilWizzard/Idle_right.png");
+        for(unsigned int i = 0; i < 8; i++) {
+            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+            idleRightFrames.push_back(temp);
+        }
+        sprite.load("images/entities/enemy/evilWizzard/Idle_left.png");
+        for(unsigned int i = 0; i < 8; i++) {
+            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+            idleLeftFrames.push_back(temp);
+        }
+
+        sprite.load("images/entities/enemy/evilWizzard/Death.png");
+        for(unsigned int i = 0; i < 5; i++) {
+            temp.cropFrom(sprite, (4 - i) * 150, 0, 150, 150);
+            deathFrames.push_back(temp);
+        }
+
+        sprite.load("images/entities/enemy/evilWizzard/Hit.png");
+        for(unsigned int i = 0; i < 4; i++) {
+            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+            hitFrames.push_back(temp);
+        }
+
+        //attack frames
+        vector<ofImage> attack1;
+        sprite.load("images/entities/enemy/evilWizzard/Attack.png");
+        for(unsigned int i = 0; i < 8; i++) {
+            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+            attack1.push_back(temp);
+        }
+
+        addAttack(Attack(new Animation(4, attack1), 4, 90));
     }
 
     /*
@@ -179,6 +242,8 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
     idleLeft = new Animation(5, idleLeftFrames);
 
     fighting = new Animation(7, idleLeftFrames);
+
+    hit = new Animation(4, hitFrames);
 
     death = new Animation(10, deathFrames);
     death->setShowOnce(true);
@@ -193,8 +258,6 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
 }
 
 Enemy::~Enemy() {
-    // delete walkUp;
-    // delete walkDown;
     delete walkLeft;
     delete walkRight;
     delete idleRight;
@@ -203,11 +266,16 @@ Enemy::~Enemy() {
     delete fighting;
 
     delete death;
+    delete hit;
 
     vector<Attack>& attacks = getAttacks();
     for(unsigned int i = 0;i < attacks.size(); i++) {
         delete attacks[i].getAnimation();
     }
+}
+
+Animation* Enemy::getHit() {
+    return hit;
 }
 
 Animation* Enemy::getDeath() {

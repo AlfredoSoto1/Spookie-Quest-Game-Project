@@ -31,9 +31,11 @@ private:
 
     ofImage displayPlayerAttack;
     ofImage displayPlayerDeath;
+    ofImage displayPlayerHit;
 
     ofImage displayEnemyAttack;
     ofImage displayEnemyDeath;
+    ofImage displayEnemyHit;
     
     int enemyChoice = 0;
     int currentButton;
@@ -43,6 +45,7 @@ private:
     bool canInteract;
     bool isAttacking;
     bool enemyHasChosenAttack;
+
     bool isEnemyOnAttack;
     bool isPlayerOnAttack;
 

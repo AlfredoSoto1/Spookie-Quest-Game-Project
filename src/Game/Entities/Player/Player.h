@@ -17,6 +17,7 @@ private:
     Animation *walkRight;
     Animation *fighting;
     Animation *death;
+    Animation *hit;
 
     vector<char> pressedKeys;
 
@@ -33,6 +34,7 @@ public:
 
     Inventory* getInventory();
     Animation* getDeath();
+    Animation* getHit();
 
     void loadCamera(void* camera);
 

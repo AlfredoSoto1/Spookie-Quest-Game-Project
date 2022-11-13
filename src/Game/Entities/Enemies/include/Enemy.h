@@ -10,6 +10,7 @@ enum EnemyE {
     MUSHROOM, 
     GOBLIN,
     SKELETON,
+    EVIL_WIZARD
 };
 
 class Enemy : public EntityFighter {
@@ -22,6 +23,7 @@ public:
     
     ofImage getSprite();
     Animation* getDeath();
+    Animation* getHit();
 
     void reset();
 
@@ -45,8 +47,6 @@ private:
     bool walking = false;
     bool dead = false;
     
-    // Animation *walkUp;
-    // Animation *walkDown;
     Animation *walkLeft;
     Animation *walkRight;
     Animation *idleRight;
@@ -54,6 +54,7 @@ private:
 
     Animation *fighting;
     Animation *death;
+    Animation *hit;
     ofImage sprite;
 };
 

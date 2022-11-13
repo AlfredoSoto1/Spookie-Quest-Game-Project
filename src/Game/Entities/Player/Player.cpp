@@ -24,6 +24,7 @@ Player::Player(const string& playerName, int health, int baseDamage) :
     vector<ofImage> leftFrames;
     vector<ofImage> rightFrames;
     vector<ofImage> deathFrames;
+    vector<ofImage> hitFrames;
     ofImage temp;
     ofImage sprite;
 
@@ -77,6 +78,12 @@ Player::Player(const string& playerName, int health, int baseDamage) :
         deathFrames.push_back(temp);
     }
 
+    sprite.load("images/entities/player/Hit.png");
+    for(unsigned int i = 0; i < 3; i++) {
+        temp.cropFrom(sprite, i * 137, 0, 137, 86);
+        hitFrames.push_back(temp);
+    }
+
     /*
         Load walking sprites
     */
@@ -85,6 +92,8 @@ Player::Player(const string& playerName, int health, int baseDamage) :
     walkLeft = new Animation(5, leftFrames);
     walkRight = new Animation(5, rightFrames);
     fighting = new Animation(7, idleFrames);
+
+    hit = new Animation(7, hitFrames);
 
     death = new Animation(10, deathFrames);
     death->setShowOnce(true);
@@ -107,12 +116,17 @@ Player::~Player() {
     delete walkRight;
 
     delete death;
+    delete hit;
     
     vector<Attack>& attacks = getAttacks();
     for(unsigned int i = 0;i < attacks.size(); i++) {
         if(attacks[i].getAnimation() != nullptr)
             delete attacks[i].getAnimation();
     }
+}
+
+Animation* Player::getHit() {
+    return hit;
 }
 
 Animation* Player::getDeath() {
@@ -213,12 +227,6 @@ void Player::fightingUpdate() {
 
     fightingHitbox.setX(xpos);
     fightingHitbox.setY(ypos);
-
-
-    // OverworldCamera* cameraPtr = static_cast<OverworldCamera*>(camera);
-    // double xAspectDif = ofGetWidth() / cameraPtr->getLenzWidth();
-    // double yAspectDif = ofGetHeight() / cameraPtr->getLenzHeight();
-    // fightingHitbox.setRenderWidth(fightingHitbox.getRenderWidth() * xAspectDif);
 }
 
 void Player::inOverworldDraw(void* camera) {
