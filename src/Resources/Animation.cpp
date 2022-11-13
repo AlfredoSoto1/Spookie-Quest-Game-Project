@@ -22,6 +22,10 @@ void Animation::setShowOnce(bool showOnce) {
         endedAnimation = false;
 }
 
+void Animation::resetTime() {
+    timer = 0;
+}
+
 void Animation::update() {
     if (++timer > speed && !endedAnimation) {
         if (++index == frames.size()) {

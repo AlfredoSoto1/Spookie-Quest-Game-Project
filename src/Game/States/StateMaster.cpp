@@ -256,33 +256,40 @@ void StateMaster::initAreas() {
         for(int y = 0;y < spawnImage3.getHeight(); y++) {
             ofColor spawnColor = spawnImage3.getColor(x, y);
             if(spawnColor == ofColor::red) {
-                int random = ofRandom(3);
-                if(random == 0) {
-                    Enemy *mushroom = new Enemy("mushroom", EnemyE::MUSHROOM, 20, 4, x, y);
-                    //enlarge image
-                    mushroom->getHitBox().setRenderWidth(300);
-                    mushroom->getHitBox().setRenderHeight(300);
-                    mushroom->getFightingHitBox().setRenderWidth(600);
-                    mushroom->getFightingHitBox().setRenderHeight(600);
-                    tempEntityList3.push_back(mushroom);
+                 Enemy *goblin = new Enemy("golbin", EnemyE::SKELETON, 20, 4, x, y);
+                //enlarge image
+                goblin->getHitBox().setRenderWidth(300);
+                goblin->getHitBox().setRenderHeight(300);
+                goblin->getFightingHitBox().setRenderWidth(600);
+                goblin->getFightingHitBox().setRenderHeight(600);
+                tempEntityList3.push_back(goblin);
+                // int random = ofRandom(3);
+                // if(random == 0) {
+                //     Enemy *mushroom = new Enemy("mushroom", EnemyE::MUSHROOM, 20, 4, x, y);
+                //     //enlarge image
+                //     mushroom->getHitBox().setRenderWidth(300);
+                //     mushroom->getHitBox().setRenderHeight(300);
+                //     mushroom->getFightingHitBox().setRenderWidth(600);
+                //     mushroom->getFightingHitBox().setRenderHeight(600);
+                //     tempEntityList3.push_back(mushroom);
 
-                }else if(random == 1){
-                    Enemy *goblin = new Enemy("golbin", EnemyE::GOBLIN, 20, 4, x, y);
-                    //enlarge image
-                    goblin->getHitBox().setRenderWidth(300);
-                    goblin->getHitBox().setRenderHeight(300);
-                    goblin->getFightingHitBox().setRenderWidth(600);
-                    goblin->getFightingHitBox().setRenderHeight(600);
-                    tempEntityList3.push_back(goblin);
-                }else if(random == 2){
-                    Enemy *goblin = new Enemy("skeleton", EnemyE::SKELETON, 20, 4, x, y);
-                    //enlarge image
-                    goblin->getHitBox().setRenderWidth(300);
-                    goblin->getHitBox().setRenderHeight(300);
-                    goblin->getFightingHitBox().setRenderWidth(600);
-                    goblin->getFightingHitBox().setRenderHeight(600);
-                    tempEntityList3.push_back(goblin);
-                }
+                // }else if(random == 1){
+                //     Enemy *goblin = new Enemy("golbin", EnemyE::GOBLIN, 20, 4, x, y);
+                //     //enlarge image
+                //     goblin->getHitBox().setRenderWidth(300);
+                //     goblin->getHitBox().setRenderHeight(300);
+                //     goblin->getFightingHitBox().setRenderWidth(600);
+                //     goblin->getFightingHitBox().setRenderHeight(600);
+                //     tempEntityList3.push_back(goblin);
+                // }else if(random == 2){
+                //     Enemy *goblin = new Enemy("skeleton", EnemyE::SKELETON, 20, 4, x, y);
+                //     //enlarge image
+                //     goblin->getHitBox().setRenderWidth(300);
+                //     goblin->getHitBox().setRenderHeight(300);
+                //     goblin->getFightingHitBox().setRenderWidth(600);
+                //     goblin->getFightingHitBox().setRenderHeight(600);
+                //     tempEntityList3.push_back(goblin);
+                // }
             }else if(spawnColor == ofColor::blue) {
                 Boss* bossLevel1 = new Boss("Boss-1", 20, 4, 2, x, y);
                 bossLevel1->getHitBox().setRenderWidth(300);

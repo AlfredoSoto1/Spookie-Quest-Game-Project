@@ -177,6 +177,11 @@ void BattleState::update() {
         //update enemy attack animation
         enemyAttack.getAnimation()->update();
         displayEnemyAttack = enemyAttack.getAnimation()->getCurrentFrame();
+        if(enemyAttack.hasProjectile()) {
+            enemyAttack.updateProjectileTraslation();
+            enemyAttack.getProjectileAnimation()->update();
+            displayEnemyProjectile = enemyAttack.getProjectileAnimation()->getCurrentFrame();
+        }
         //update player hit
         player->getHit()->update();
         displayPlayerHit = player->getHit()->getCurrentFrame();
@@ -227,6 +232,13 @@ void BattleState::draw() {
         HitBox& fightingHitbox = enemy->getFightingHitBox();
         displayEnemyAttack.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
         displayEnemyAttack.draw(fightingHitbox.getRenderX(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
+
+        //draw enemy projectile if has any    
+        Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
+        if(enemyAttack.hasProjectile()) {
+            displayEnemyProjectile.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+            displayEnemyProjectile.draw(fightingHitbox.getRenderX() - enemyAttack.getProjectileTraslation(), fightingHitbox.getRenderY(), fightingHitbox.getRenderWidth(), fightingHitbox.getRenderHeight());
+        }
     } else if(isPlayerOnAttack) {
         HitBox& fightingHitbox = enemy->getFightingHitBox();
         displayEnemyHit.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);

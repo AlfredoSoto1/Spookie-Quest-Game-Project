@@ -36,6 +36,7 @@ private:
     ofImage displayEnemyAttack;
     ofImage displayEnemyDeath;
     ofImage displayEnemyHit;
+    ofImage displayEnemyProjectile;
     
     int enemyChoice = 0;
     int currentButton;
