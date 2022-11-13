@@ -256,7 +256,7 @@ void StateMaster::initAreas() {
         for(int y = 0;y < spawnImage3.getHeight(); y++) {
             ofColor spawnColor = spawnImage3.getColor(x, y);
             if(spawnColor == ofColor::red) {
-                 Enemy *goblin = new Enemy("golbin", EnemyE::SKELETON, 20, 4, x, y);
+                 Enemy *goblin = new Enemy("golbin", EnemyE::DARK_WIZZARD, 20, 4, x, y);
                 //enlarge image
                 goblin->getHitBox().setRenderWidth(300);
                 goblin->getHitBox().setRenderHeight(300);

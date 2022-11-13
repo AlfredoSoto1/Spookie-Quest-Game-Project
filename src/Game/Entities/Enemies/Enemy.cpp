@@ -76,10 +76,10 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
         vector<ofImage> projectile;
         obtainFramesOf(&projectile, 8, 92, 92, "images/entities/enemy/Skeleton/projectile.png");
 
-        // addAttack(Attack(new Animation(4, attack1), 4, 90));
-        // addAttack(Attack(new Animation(4, attack2), 6, 90));
+        addAttack(Attack(new Animation(4, attack1), 4, 90));
+        addAttack(Attack(new Animation(4, attack2), 6, 90));
         addAttack(Attack(new Animation(4, attack3), new Animation(3, projectile), 8, 90, 60));
-    }else if(type == EnemyE::EVIL_WIZARD) {
+    }else if(type == EnemyE::EVIL_WIZZARD) {
 
         obtainFramesOf(&rightFrames    , 8, 150, 150, "images/entities/enemy/evilWizzard/Run_right.png");
         obtainFramesOf(&leftFrames     , 8, 150, 150, "images/entities/enemy/evilWizzard/Run_left.png");
@@ -93,6 +93,38 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
         obtainFramesOf(&attack1      , 8 , 150, 150, "images/entities/enemy/evilWizzard/Attack.png");
         
         addAttack(Attack(new Animation(4, attack1), 4, 90));
+    } else if(type == EnemyE::FIRE_WORM) {
+        obtainFramesOf(&rightFrames    , 9, 90, 90, "images/entities/enemy/fireWorm/Run_right.png");
+        obtainFramesOf(&leftFrames     , 9, 90, 90, "images/entities/enemy/fireWorm/Run_left.png");
+        obtainFramesOf(&idleRightFrames, 9, 90, 90, "images/entities/enemy/fireWorm/Idle_right.png");
+        obtainFramesOf(&idleLeftFrames , 9, 90, 90, "images/entities/enemy/fireWorm/Idle_left.png");
+        obtainFramesOf(&deathFrames    , 8, 90, 90, "images/entities/enemy/fireWorm/Death.png");
+        obtainFramesOf(&hitFrames      , 3, 90, 90, "images/entities/enemy/fireWorm/Hit.png");
+
+        //attack frames
+        vector<ofImage> attack1;
+        obtainFramesOf(&attack1      , 16 , 90, 90, "images/entities/enemy/fireWorm/Attack1.png");
+
+        vector<ofImage> projectile;
+        obtainFramesOf(&projectile, 6, 46, 46, "images/entities/enemy/fireWorm/projectile.png");
+
+        addAttack(Attack(new Animation(4, attack1), new Animation(3, projectile), 8, 60, 60));
+    } else if(type == EnemyE::DARK_WIZZARD) {
+        obtainFramesOf(&rightFrames    , 8, 250, 250, "images/entities/enemy/darkWizzard/Run_right.png");
+        obtainFramesOf(&leftFrames     , 8, 250, 250, "images/entities/enemy/darkWizzard/Run_left.png");
+        obtainFramesOf(&idleRightFrames, 8, 250, 250, "images/entities/enemy/darkWizzard/Idle_right.png");
+        obtainFramesOf(&idleLeftFrames , 8, 250, 250, "images/entities/enemy/darkWizzard/Idle_left.png");
+        obtainFramesOf(&deathFrames    , 7, 250, 250, "images/entities/enemy/darkWizzard/Death.png");
+        obtainFramesOf(&hitFrames      , 3, 250, 250, "images/entities/enemy/darkWizzard/Hit.png");
+
+        //attack frames
+        vector<ofImage> attack1;
+        vector<ofImage> attack2;
+        obtainFramesOf(&attack1      , 8 , 250, 250, "images/entities/enemy/darkWizzard/Attack1.png");
+        obtainFramesOf(&attack2      , 8 , 250, 250, "images/entities/enemy/darkWizzard/Attack2.png");
+
+        addAttack(Attack(new Animation(4, attack1), 8, 60));
+        addAttack(Attack(new Animation(4, attack2), 8, 60));
     }
 
     /*

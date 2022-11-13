@@ -10,7 +10,9 @@ enum EnemyE {
     MUSHROOM, 
     GOBLIN,
     SKELETON,
-    EVIL_WIZARD
+    EVIL_WIZZARD,
+    DARK_WIZZARD,
+    FIRE_WORM
 };
 
 class Enemy : public EntityFighter {
