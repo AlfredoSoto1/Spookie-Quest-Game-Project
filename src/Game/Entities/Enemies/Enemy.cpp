@@ -125,6 +125,28 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
 
         addAttack(Attack(new Animation(4, attack1), 8, 60));
         addAttack(Attack(new Animation(4, attack2), 8, 60));
+    }else if(type == EnemyE::FLYING_EYE) {
+        obtainFramesOf(&rightFrames    , 8, 150, 150, "images/entities/enemy/flyingEye/Run_right.png");
+        obtainFramesOf(&leftFrames     , 8, 150, 150, "images/entities/enemy/flyingEye/Run_left.png");
+        obtainFramesOf(&idleRightFrames, 8, 150, 150, "images/entities/enemy/flyingEye/Run_right.png");
+        obtainFramesOf(&idleLeftFrames , 8, 150, 150, "images/entities/enemy/flyingEye/Run_left.png");
+        obtainFramesOf(&deathFrames    , 4, 150, 150, "images/entities/enemy/flyingEye/Death.png");
+        obtainFramesOf(&hitFrames      , 4, 150, 150, "images/entities/enemy/flyingEye/Hit.png");
+
+        //attack frames
+        vector<ofImage> attack1;
+        vector<ofImage> attack2;
+        vector<ofImage> attack3;
+        obtainFramesOf(&attack1      , 8 , 150, 150, "images/entities/enemy/flyingEye/Attack1.png");
+        obtainFramesOf(&attack2      , 8 , 150, 150, "images/entities/enemy/flyingEye/Attack2.png");
+        obtainFramesOf(&attack3      , 6 , 150, 150, "images/entities/enemy/flyingEye/Attack3.png");
+
+        vector<ofImage> projectile;
+        obtainFramesOf(&projectile, 8, 48, 48, "images/entities/enemy/flyingEye/projectile.png");
+
+        addAttack(Attack(new Animation(4, attack1), new Animation(3, projectile), 8, 60, 60));
+        addAttack(Attack(new Animation(4, attack2), new Animation(3, projectile), 8, 60, 60));
+        addAttack(Attack(new Animation(4, attack3), new Animation(3, projectile), 8, 60, 60));
     }
 
     /*

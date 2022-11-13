@@ -7,7 +7,7 @@
 
 class Boss : public Enemy {
 public:
-    Boss(const string& name, int health, int baseDamage, int phases, int ox, int oy);
+    Boss(const string& name, EnemyE type, int health, int baseDamage, int phases, int ox, int oy);
     virtual ~Boss();
 
     int getPhasesCount();

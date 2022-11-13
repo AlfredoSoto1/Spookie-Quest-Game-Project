@@ -12,7 +12,8 @@ enum EnemyE {
     SKELETON,
     EVIL_WIZZARD,
     DARK_WIZZARD,
-    FIRE_WORM
+    FIRE_WORM,
+    FLYING_EYE
 };
 
 class Enemy : public EntityFighter {
