@@ -14,39 +14,47 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
     ofImage temp;
     ofImage sprite;
 
-   if(type == EnemyE::MUSHROOM) {
-        sprite.load("images/entities/enemy/Mushroom/Run_right.png");
-        for(unsigned int i = 0; i < 8; i++) {
-            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
-            rightFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/Mushroom/Run_left.png");
-        for(unsigned int i = 0; i < 8; i++) {
-            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
-            leftFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/Mushroom/Idle_right.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            idleRightFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/Mushroom/Idle_left.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            idleLeftFrames.push_back(temp);
-        }
+    if(type == EnemyE::MUSHROOM) {
 
-        sprite.load("images/entities/enemy/Mushroom/Death.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            deathFrames.push_back(temp);
-        }
+        obtainFramesOf(&rightFrames    , 8, 150, 150, "images/entities/enemy/Mushroom/Run_right.png");
+        obtainFramesOf(&leftFrames     , 8, 150, 150, "images/entities/enemy/Mushroom/Run_left.png");
+        obtainFramesOf(&idleRightFrames, 4, 150, 150, "images/entities/enemy/Mushroom/Idle_right.png");
+        obtainFramesOf(&idleLeftFrames , 4, 150, 150, "images/entities/enemy/Mushroom/Idle_left.png");
+        obtainFramesOf(&deathFrames    , 4, 150, 150, "images/entities/enemy/Mushroom/Death.png");
+        obtainFramesOf(&hitFrames      , 4, 150, 150, "images/entities/enemy/Mushroom/Hit.png");
 
-        sprite.load("images/entities/enemy/Mushroom/Hit.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            hitFrames.push_back(temp);
-        }
+        // sprite.load("images/entities/enemy/Mushroom/Run_right.png");
+        // for(unsigned int i = 0; i < 8; i++) {
+        //     temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+        //     rightFrames.push_back(temp);
+        // }
+        // sprite.load("images/entities/enemy/Mushroom/Run_left.png");
+        // for(unsigned int i = 0; i < 8; i++) {
+        //     temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+        //     leftFrames.push_back(temp);
+        // }
+        // sprite.load("images/entities/enemy/Mushroom/Idle_right.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     idleRightFrames.push_back(temp);
+        // }
+        // sprite.load("images/entities/enemy/Mushroom/Idle_left.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     idleLeftFrames.push_back(temp);
+        // }
+
+        // sprite.load("images/entities/enemy/Mushroom/Death.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     deathFrames.push_back(temp);
+        // }
+
+        // sprite.load("images/entities/enemy/Mushroom/Hit.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     hitFrames.push_back(temp);
+        // }
 
         //attack frames
         vector<ofImage> attack1;
@@ -73,38 +81,45 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
         addAttack(Attack(new Animation(4, attack3), 8, 90));
     } else if(type == EnemyE::GOBLIN) {
 
-        sprite.load("images/entities/enemy/Goblin/Run_right.png");
-        for(unsigned int i = 0; i < 8; i++) {
-            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
-            rightFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/Goblin/Run_left.png");
-        for(unsigned int i = 0; i < 8; i++) {
-            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
-            leftFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/Goblin/Idle_right.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            idleRightFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/Goblin/Idle_left.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            idleLeftFrames.push_back(temp);
-        }
+        obtainFramesOf(&rightFrames    , 8, 150, 150, "images/entities/enemy/Goblin/Run_right.png");
+        obtainFramesOf(&leftFrames     , 8, 150, 150, "images/entities/enemy/Goblin/Run_left.png");
+        obtainFramesOf(&idleRightFrames, 4, 150, 150, "images/entities/enemy/Goblin/Idle_right.png");
+        obtainFramesOf(&idleLeftFrames , 4, 150, 150, "images/entities/enemy/Goblin/Idle_left.png");
+        obtainFramesOf(&deathFrames    , 4, 150, 150, "images/entities/enemy/Goblin/Death.png");
+        obtainFramesOf(&hitFrames      , 4, 150, 150, "images/entities/enemy/Goblin/Hit.png");
 
-        sprite.load("images/entities/enemy/Goblin/Death.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            deathFrames.push_back(temp);
-        }
+        // sprite.load("images/entities/enemy/Goblin/Run_right.png");
+        // for(unsigned int i = 0; i < 8; i++) {
+        //     temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+        //     rightFrames.push_back(temp);
+        // }
+        // sprite.load("images/entities/enemy/Goblin/Run_left.png");
+        // for(unsigned int i = 0; i < 8; i++) {
+        //     temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+        //     leftFrames.push_back(temp);
+        // }
+        // sprite.load("images/entities/enemy/Goblin/Idle_right.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     idleRightFrames.push_back(temp);
+        // }
+        // sprite.load("images/entities/enemy/Goblin/Idle_left.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     idleLeftFrames.push_back(temp);
+        // }
 
-        sprite.load("images/entities/enemy/Goblin/Hit.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            hitFrames.push_back(temp);
-        }
+        // sprite.load("images/entities/enemy/Goblin/Death.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     deathFrames.push_back(temp);
+        // }
+
+        // sprite.load("images/entities/enemy/Goblin/Hit.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     hitFrames.push_back(temp);
+        // }
 
         //attack frames
         vector<ofImage> attack1;
@@ -131,38 +146,45 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
         addAttack(Attack(new Animation(4, attack3), 8, 90));
     }else if(type == EnemyE::SKELETON) {
 
-        sprite.load("images/entities/enemy/Skeleton/Run_right.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            rightFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/Skeleton/Run_left.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            leftFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/Skeleton/Idle_right.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            idleRightFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/Skeleton/Idle_left.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            idleLeftFrames.push_back(temp);
-        }
+        obtainFramesOf(&rightFrames    , 4, 150, 150, "images/entities/enemy/Skeleton/Run_right.png");
+        obtainFramesOf(&leftFrames     , 4, 150, 150, "images/entities/enemy/Skeleton/Run_left.png");
+        obtainFramesOf(&idleRightFrames, 4, 150, 150, "images/entities/enemy/Skeleton/Idle_right.png");
+        obtainFramesOf(&idleLeftFrames , 4, 150, 150, "images/entities/enemy/Skeleton/Idle_left.png");
+        obtainFramesOf(&deathFrames    , 4, 150, 150, "images/entities/enemy/Skeleton/Death.png");
+        obtainFramesOf(&hitFrames      , 4, 150, 150, "images/entities/enemy/Skeleton/Hit.png");
 
-        sprite.load("images/entities/enemy/Skeleton/Death.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            deathFrames.push_back(temp);
-        }
+        // sprite.load("images/entities/enemy/Skeleton/Run_right.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     rightFrames.push_back(temp);
+        // }
+        // sprite.load("images/entities/enemy/Skeleton/Run_left.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     leftFrames.push_back(temp);
+        // }
+        // sprite.load("images/entities/enemy/Skeleton/Idle_right.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     idleRightFrames.push_back(temp);
+        // }
+        // sprite.load("images/entities/enemy/Skeleton/Idle_left.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     idleLeftFrames.push_back(temp);
+        // }
 
-        sprite.load("images/entities/enemy/Skeleton/Hit.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            hitFrames.push_back(temp);
-        }
+        // sprite.load("images/entities/enemy/Skeleton/Death.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     deathFrames.push_back(temp);
+        // }
+
+        // sprite.load("images/entities/enemy/Skeleton/Hit.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     hitFrames.push_back(temp);
+        // }
 
         //attack frames
         vector<ofImage> attack1;
@@ -189,38 +211,45 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
         addAttack(Attack(new Animation(4, attack3), 8, 90));
     }else if(type == EnemyE::EVIL_WIZARD) {
 
-        sprite.load("images/entities/enemy/evilWizzard/Run_right.png");
-        for(unsigned int i = 0; i < 8; i++) {
-            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
-            rightFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/evilWizzard/Run_left.png");
-        for(unsigned int i = 0; i < 8; i++) {
-            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
-            leftFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/evilWizzard/Idle_right.png");
-        for(unsigned int i = 0; i < 8; i++) {
-            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
-            idleRightFrames.push_back(temp);
-        }
-        sprite.load("images/entities/enemy/evilWizzard/Idle_left.png");
-        for(unsigned int i = 0; i < 8; i++) {
-            temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
-            idleLeftFrames.push_back(temp);
-        }
+        obtainFramesOf(&rightFrames    , 8, 150, 150, "images/entities/enemy/evilWizzard/Run_right.png");
+        obtainFramesOf(&leftFrames     , 8, 150, 150, "images/entities/enemy/evilWizzard/Run_left.png");
+        obtainFramesOf(&idleRightFrames, 8, 150, 150, "images/entities/enemy/evilWizzard/Idle_right.png");
+        obtainFramesOf(&idleLeftFrames , 8, 150, 150, "images/entities/enemy/evilWizzard/Idle_left.png");
+        obtainFramesOf(&deathFrames    , 5, 150, 150, "images/entities/enemy/evilWizzard/Death.png");
+        obtainFramesOf(&hitFrames      , 4, 150, 150, "images/entities/enemy/evilWizzard/Hit.png");
 
-        sprite.load("images/entities/enemy/evilWizzard/Death.png");
-        for(unsigned int i = 0; i < 5; i++) {
-            temp.cropFrom(sprite, (4 - i) * 150, 0, 150, 150);
-            deathFrames.push_back(temp);
-        }
+        // sprite.load("images/entities/enemy/evilWizzard/Run_right.png");
+        // for(unsigned int i = 0; i < 8; i++) {
+        //     temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+        //     rightFrames.push_back(temp);
+        // }
+        // sprite.load("images/entities/enemy/evilWizzard/Run_left.png");
+        // for(unsigned int i = 0; i < 8; i++) {
+        //     temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+        //     leftFrames.push_back(temp);
+        // }
+        // sprite.load("images/entities/enemy/evilWizzard/Idle_right.png");
+        // for(unsigned int i = 0; i < 8; i++) {
+        //     temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+        //     idleRightFrames.push_back(temp);
+        // }
+        // sprite.load("images/entities/enemy/evilWizzard/Idle_left.png");
+        // for(unsigned int i = 0; i < 8; i++) {
+        //     temp.cropFrom(sprite, (7 - i) * 150, 0, 150, 150);
+        //     idleLeftFrames.push_back(temp);
+        // }
 
-        sprite.load("images/entities/enemy/evilWizzard/Hit.png");
-        for(unsigned int i = 0; i < 4; i++) {
-            temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
-            hitFrames.push_back(temp);
-        }
+        // sprite.load("images/entities/enemy/evilWizzard/Death.png");
+        // for(unsigned int i = 0; i < 5; i++) {
+        //     temp.cropFrom(sprite, (4 - i) * 150, 0, 150, 150);
+        //     deathFrames.push_back(temp);
+        // }
+
+        // sprite.load("images/entities/enemy/evilWizzard/Hit.png");
+        // for(unsigned int i = 0; i < 4; i++) {
+        //     temp.cropFrom(sprite, (3 - i) * 150, 0, 150, 150);
+        //     hitFrames.push_back(temp);
+        // }
 
         //attack frames
         vector<ofImage> attack1;
@@ -271,6 +300,16 @@ Enemy::~Enemy() {
     vector<Attack>& attacks = getAttacks();
     for(unsigned int i = 0;i < attacks.size(); i++) {
         delete attacks[i].getAnimation();
+    }
+}
+
+void Enemy::obtainFramesOf(vector<ofImage>* frames, int frameCount, int imgWidth, int imgHeight, const string& path) {
+    ofImage sprite;
+    ofImage temp;
+    sprite.load(path);
+    for(int i = 0; i < frameCount; i++) {
+        temp.cropFrom(sprite, (frameCount - 1 - i) * imgWidth, 0, imgWidth, imgHeight);
+        frames->push_back(temp);
     }
 }
 

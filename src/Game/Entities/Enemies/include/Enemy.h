@@ -56,6 +56,8 @@ private:
     Animation *death;
     Animation *hit;
     ofImage sprite;
+
+    void obtainFramesOf(vector<ofImage>* frames, int frameCount, int imgWidth, int imgHeight, const string& path);
 };
 
 #endif
