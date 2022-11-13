@@ -4,6 +4,21 @@
 Player::Player(const string& playerName, int health, int baseDamage) : 
     EntityFighter(playerName, HitBox(0, 0, 64, 64), HitBox(64, 64, 192, 192), health, baseDamage)
 {
+
+    /*
+        load player inventory
+    */
+    inventory = new Inventory();
+    ofImage item1;
+    item1.load("images/items/sword_1.png");
+    inventory->addItem(Item(item1));
+    item1.load("images/items/sword_2.png");
+    inventory->addItem(Item(item1));
+    item1.load("images/items/sword_3.png");
+    inventory->addItem(Item(item1));
+    item1.load("images/items/potion.png");
+    inventory->addItem(Item(item1));
+
     vector<ofImage> downFrames;
     vector<ofImage> upFrames;
     vector<ofImage> leftFrames;
@@ -14,6 +29,7 @@ Player::Player(const string& playerName, int health, int baseDamage) :
     /*
         Load fight sprites
     */
+
     for (int i = 1; i < 5; i++) {
         temp.load("images/entities/player/downframes/player-ow-front" + std::to_string(i == 3 ? 1 : i) + ".png");
         downFrames.push_back(temp);
@@ -42,11 +58,40 @@ Player::Player(const string& playerName, int health, int baseDamage) :
     //load Attack buttons
     buttonAttack.load("images/ui/buttons/rock.png");
 
-    //set attacks
-    addAttack(Attack(nullptr, 10, 60));    
-    addAttack(Attack(nullptr, 5, 60 * 2));    
-    addAttack(Attack(nullptr, 5, 60 * 3));    
 
+    //rightFrames
+    vector<ofImage> attackFrames;
+    ofImage sprite;
+    sprite.load("images/entities/player/fightingframes/player_attack.png");
+    for(unsigned int i = 0; i < 5; i++) {
+        temp.cropFrom(sprite, i * 137, 0, 137, 86);
+        attackFrames.push_back(temp);
+    }
+
+    //set attacks
+    addAttack(Attack(new Animation(4, attackFrames), 10, 50));    
+    addAttack(Attack(new Animation(4, attackFrames),  5, 50));    
+    addAttack(Attack(new Animation(4, attackFrames),  5, 50));    
+
+}
+
+Player::~Player() {
+    delete walkUp;
+    delete walkDown;
+    delete walkLeft;
+    delete walkRight;
+
+    delete inventory;
+    
+    vector<Attack>& attacks = getAttacks();
+    for(unsigned int i = 0;i < attacks.size(); i++) {
+        if(attacks[i].getAnimation() != nullptr)
+            delete attacks[i].getAnimation();
+    }
+}
+
+Inventory* Player::getInventory() {
+    return inventory;
 }
 
 void Player::loadCamera(void* camera) {
@@ -206,11 +251,4 @@ void Player::reset() {
     fightingHitbox.setX(64);
     fightingHitbox.setY(64);
     health = maxHealth;
-}
-
-Player::~Player() {
-    delete walkUp;
-    delete walkDown;
-    delete walkLeft;
-    delete walkRight;
 }

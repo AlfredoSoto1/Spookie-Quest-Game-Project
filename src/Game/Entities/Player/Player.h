@@ -5,6 +5,7 @@
 
 #include "Animation.h"
 #include "EntityFighter.h"
+#include "Inventory.h"
 
 class Player : public EntityFighter {
 private:
@@ -20,11 +21,15 @@ private:
     ofImage healthBar;
     ofImage buttonAttack;
 
+    Inventory* inventory;
+
     void* camera;
 
 public:
     Player(const string& playerName, int health, int baseDamage);
     ~Player();
+
+    Inventory* getInventory();
 
     void loadCamera(void* camera);
 

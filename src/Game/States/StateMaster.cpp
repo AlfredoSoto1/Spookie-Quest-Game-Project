@@ -147,7 +147,7 @@ void StateMaster::initAreas() {
     string areaBoundryPath1      = "images/areas/area3_boundry.png";
     string areaAudio1            = "audio/forest.wav";
     string areaFightingStage1    = "images/stages/stage3.png";
-    string areaEffect1           = "images/areas/darkness.png";
+    string areaEffect1           = "images/areas/darkness_1.png";
     
     ofPoint entrancePosition1(570, 300);
     vector<Entity*> tempEntityList1;
@@ -188,7 +188,7 @@ void StateMaster::initAreas() {
     string areaBoundryPath2     = "images/areas/area2_boundry.png";
     string areaAudio2           = "audio/forest.wav";
     string areaFightingStage2   = "images/stages/stage2.png";
-    string areaEffect2          = "images/areas/darkness.png";
+    string areaEffect2          = "images/areas/darkness_1.png";
     
     ofPoint entrancePosition2(570, 300);
     vector<Entity*> tempEntityList2;
@@ -248,7 +248,7 @@ void StateMaster::initAreas() {
     string areaBoundryPath3     = "images/areas/area1_boundry.png";
     string areaAudio3           = "audio/forest.wav";
     string areaFightingStage3   = "images/stages/stage1.png";
-    string areaEffect3          = "images/areas/darkness.png";
+    string areaEffect3          = "images/areas/darkness_1.png";
 
     vector<Entity*> tempEntityList3;
 
