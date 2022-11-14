@@ -164,10 +164,10 @@ void StateMaster::initAreas() {
                 tempEntityList1.push_back(mushroom);
             }else if(spawnColor == ofColor::blue) {
                 Boss* bossLevel3 = new Boss("Boss-3", EnemyE::DARK_WIZZARD, 20, 4, 2, x, y);
-                bossLevel3->getHitBox().setRenderWidth(400);
-                bossLevel3->getHitBox().setRenderHeight(400);
-                bossLevel3->getFightingHitBox().setRenderWidth(800);
-                bossLevel3->getFightingHitBox().setRenderHeight(800);
+                bossLevel3->getHitBox().setRenderWidth(500);
+                bossLevel3->getHitBox().setRenderHeight(500);
+                bossLevel3->getFightingHitBox().setRenderWidth(900);
+                bossLevel3->getFightingHitBox().setRenderHeight(900);
                 tempEntityList1.push_back(bossLevel3);
             }
         }
