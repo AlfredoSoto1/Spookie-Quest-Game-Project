@@ -70,12 +70,21 @@ Player::Player(const string& playerName, int health, int baseDamage) :
     death->setShowOnce(true);
 
     //set attacks
-    addAttack(Attack(new Animation(4, attackFrames1), 10, 50));    
-    addAttack(Attack(new Animation(4, attackFrames2),  5, 50));    
-    addAttack(Attack(new Animation(4, attackFrames3),  5, 50));    
+    Attack attack1 = Attack(new Animation(4, attackFrames1),  8, 50);
+    Attack attack2 = Attack(new Animation(4, attackFrames2),  6, 50);
+    Attack attack3 = Attack(new Animation(4, attackFrames3),  4, 50);
 
-    //load Attack buttons
-    buttonAttack.load("images/ui/buttons/rock.png");
+    ofImage buttonAttackTemp;
+    buttonAttackTemp.load("images/ui/buttons/Attack1.png");
+    attack1.setAttackLooks(buttonAttackTemp);
+    buttonAttackTemp.load("images/ui/buttons/Attack2.png");
+    attack2.setAttackLooks(buttonAttackTemp);
+    buttonAttackTemp.load("images/ui/buttons/Attack3.png");
+    attack3.setAttackLooks(buttonAttackTemp);
+
+    addAttack(attack1);    
+    addAttack(attack2);    
+    addAttack(attack3);    
 }
 
 Player::~Player() {
@@ -126,14 +135,19 @@ void Player::drawAttackList() {
     /*
         Draw Button for attacks depending how much the player has
     */
-    int leftX = ofGetWidth() / 2 - (int)(buttonAttack.getWidth() * attacks.size() / 2);
     for(unsigned int i = 0; i < attacks.size(); i++) {
         if(attackChoice == (int)i)
             ofSetColor(255, 255, 255);
         else
             ofSetColor(180, 180, 180);
-        buttonAttack.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
-        buttonAttack.draw(leftX + i * buttonAttack.getWidth(), ofGetHeight() - buttonAttack.getHeight(), buttonAttack.getWidth(), buttonAttack.getWidth());
+        int leftX = ofGetWidth() / 2 - (int)(attacks[i].getAttackLooks().getWidth() * attacks.size() / 2);
+
+        attacks[i].getAttackLooks().getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+        attacks[i].getAttackLooks().draw(
+            leftX + i * attacks[i].getAttackLooks().getWidth(), 
+            ofGetHeight() - attacks[i].getAttackLooks().getHeight(),
+            attacks[i].getAttackLooks().getWidth(),
+            attacks[i].getAttackLooks().getWidth());
     }
 
     ofSetColor(255, 255, 255);//go back to full brightness

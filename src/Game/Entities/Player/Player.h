@@ -43,7 +43,6 @@ private:
     vector<char> pressedKeys;
 
     ofImage healthBar;
-    ofImage buttonAttack;
 
     Inventory* inventory;
 

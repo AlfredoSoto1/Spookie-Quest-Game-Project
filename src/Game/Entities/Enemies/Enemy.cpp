@@ -31,8 +31,8 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
         obtainFramesOf(&projectile, 8, 50, 50, "images/entities/enemy/Mushroom/projectile.png");
 
         addAttack(Attack(new Animation(4, attack1), new Animation(3, projectile), 4, 90, 60));
-        addAttack(Attack(new Animation(4, attack2), 6, 90));
-        addAttack(Attack(new Animation(4, attack3), 8, 90));
+        addAttack(Attack(new Animation(4, attack2), 3, 90));
+        addAttack(Attack(new Animation(4, attack3), 3, 90));
     } else if(type == EnemyE::GOBLIN) {
 
         obtainFramesOf(&rightFrames    , 8, 150, 150, "images/entities/enemy/Goblin/Run_right.png");
@@ -53,9 +53,9 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
         vector<ofImage> projectile;
         obtainFramesOf(&projectile, 19, 100, 100, "images/entities/enemy/Goblin/projectile.png");
         
-        addAttack(Attack(new Animation(4, attack1), 4, 90));
-        addAttack(Attack(new Animation(4, attack2), 6, 90));
-        addAttack(Attack(new Animation(4, attack3), new Animation(3, projectile), 8, 90, 60));
+        addAttack(Attack(new Animation(4, attack1), 2, 90));
+        addAttack(Attack(new Animation(4, attack2), 4, 90));
+        addAttack(Attack(new Animation(4, attack3), new Animation(7, projectile), 8, 90, 60));
     }else if(type == EnemyE::SKELETON) {
 
         obtainFramesOf(&rightFrames    , 4, 150, 150, "images/entities/enemy/Skeleton/Run_right.png");
@@ -77,8 +77,8 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
         obtainFramesOf(&projectile, 8, 92, 92, "images/entities/enemy/Skeleton/projectile.png");
 
         addAttack(Attack(new Animation(4, attack1), 4, 90));
-        addAttack(Attack(new Animation(4, attack2), 6, 90));
-        addAttack(Attack(new Animation(4, attack3), new Animation(3, projectile), 8, 90, 60));
+        addAttack(Attack(new Animation(4, attack2), 3, 90));
+        addAttack(Attack(new Animation(4, attack3), new Animation(3, projectile), 6, 90, 60));
     }else if(type == EnemyE::EVIL_WIZZARD) {
 
         obtainFramesOf(&rightFrames    , 8, 150, 150, "images/entities/enemy/evilWizzard/Run_right.png");
@@ -92,7 +92,7 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
         vector<ofImage> attack1;
         obtainFramesOf(&attack1      , 8 , 150, 150, "images/entities/enemy/evilWizzard/Attack.png");
         
-        addAttack(Attack(new Animation(4, attack1), 4, 90));
+        addAttack(Attack(new Animation(4, attack1), 7, 90));
     } else if(type == EnemyE::FIRE_WORM) {
         obtainFramesOf(&rightFrames    , 9, 90, 90, "images/entities/enemy/fireWorm/Run_right.png");
         obtainFramesOf(&leftFrames     , 9, 90, 90, "images/entities/enemy/fireWorm/Run_left.png");
@@ -108,7 +108,7 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
         vector<ofImage> projectile;
         obtainFramesOf(&projectile, 6, 46, 46, "images/entities/enemy/fireWorm/projectile.png");
 
-        addAttack(Attack(new Animation(4, attack1), new Animation(3, projectile), 8, 60, 60));
+        addAttack(Attack(new Animation(4, attack1), new Animation(3, projectile), 5, 60, 60));
     } else if(type == EnemyE::DARK_WIZZARD) {
         obtainFramesOf(&rightFrames    , 8, 250, 250, "images/entities/enemy/darkWizzard/Run_right.png");
         obtainFramesOf(&leftFrames     , 8, 250, 250, "images/entities/enemy/darkWizzard/Run_left.png");
@@ -123,8 +123,8 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
         obtainFramesOf(&attack1      , 8 , 250, 250, "images/entities/enemy/darkWizzard/Attack1.png");
         obtainFramesOf(&attack2      , 8 , 250, 250, "images/entities/enemy/darkWizzard/Attack2.png");
 
-        addAttack(Attack(new Animation(4, attack1), 8, 60));
-        addAttack(Attack(new Animation(4, attack2), 8, 60));
+        addAttack(Attack(new Animation(4, attack1), 9, 60));
+        addAttack(Attack(new Animation(4, attack2), 6, 60));
     }else if(type == EnemyE::FLYING_EYE) {
         obtainFramesOf(&rightFrames    , 8, 150, 150, "images/entities/enemy/flyingEye/Run_right.png");
         obtainFramesOf(&leftFrames     , 8, 150, 150, "images/entities/enemy/flyingEye/Run_left.png");
@@ -144,9 +144,9 @@ Enemy::Enemy(const string& name, EnemyE type, int health, int baseDamage, int ox
         vector<ofImage> projectile;
         obtainFramesOf(&projectile, 8, 48, 48, "images/entities/enemy/flyingEye/projectile.png");
 
-        addAttack(Attack(new Animation(4, attack1), new Animation(3, projectile), 8, 60, 60));
-        addAttack(Attack(new Animation(4, attack2), new Animation(3, projectile), 8, 60, 60));
-        addAttack(Attack(new Animation(4, attack3), new Animation(3, projectile), 8, 60, 60));
+        addAttack(Attack(new Animation(4, attack1), new Animation(3, projectile), 5, 60, 60));
+        addAttack(Attack(new Animation(4, attack2), new Animation(3, projectile), 5, 60, 60));
+        addAttack(Attack(new Animation(4, attack3), new Animation(3, projectile), 6, 60, 60));
     }
 
     /*

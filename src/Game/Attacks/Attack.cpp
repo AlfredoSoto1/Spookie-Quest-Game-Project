@@ -23,6 +23,14 @@ Attack::~Attack() {
     
 }
 
+void Attack::setAttackLooks(ofImage img) {
+    this->attackLooks = img;
+}
+
+ofImage Attack::getAttackLooks() {
+    return attackLooks;
+}
+
 Animation* Attack::getProjectileAnimation() {
     if(isProjectile)
         return projectileAnimation;

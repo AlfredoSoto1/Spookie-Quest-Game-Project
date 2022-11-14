@@ -17,6 +17,9 @@ public:
     Attack(Animation* attackAnimation, int damage, int maxCoolDown);
     Attack(Animation* attackAnimation, Animation* projectileAnimation, int damage, int maxCoolDown, int projectileSpeed);
     ~Attack();
+    
+    void setAttackLooks(ofImage img);
+    ofImage getAttackLooks();
 
     AttackType getAttackType();
     Animation* getAnimation();
@@ -49,6 +52,8 @@ private:
     Animation* projectileAnimation = nullptr;
 
     AttackType attackType;
+
+    ofImage attackLooks;
 
 };
 
