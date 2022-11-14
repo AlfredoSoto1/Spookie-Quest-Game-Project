@@ -19,6 +19,7 @@ public:
     void inOverworldDraw(void* camera);
 
     void interact();
+    void drawInteraction(void* camera);
 
     FriendE getType();
 
@@ -30,10 +31,13 @@ private:
     Animation *idleRight;
     Animation *idleLeft;
 
+    ofImage textNineSlice[9];
+
     glm::vec2 movementDirection;
     glm::vec2 timeDirectionCounter;
 
     int speed;
+    int initialSpeed;
     int movingTime;
     int standingStillTime;
 
@@ -44,6 +48,9 @@ private:
 
     bool walking = false;
 
+    bool isInteracting = false;
+
+    void drawSpeech(int x, int y, int w, int h, int borderSize);
     void obtainFramesOf(vector<ofImage>* frames, int frameCount, int imgWidth, int imgHeight, const string& path);
 };
 

@@ -9,15 +9,15 @@ Player::Player(const string& playerName, int health, int baseDamage) :
         load player inventory
     */
     inventory = new Inventory();
-    ofImage item1;
-    item1.load("images/items/sword_1.png");
-    inventory->addItem(Item(item1));
-    item1.load("images/items/sword_2.png");
-    inventory->addItem(Item(item1));
-    item1.load("images/items/sword_3.png");
-    inventory->addItem(Item(item1));
-    item1.load("images/items/potion.png");
-    inventory->addItem(Item(item1));
+    // ofImage item1;
+    // item1.load("images/items/sword_1.png");
+    // inventory->addItem(Item(item1));
+    // item1.load("images/items/sword_2.png");
+    // inventory->addItem(Item(item1));
+    // item1.load("images/items/sword_3.png");
+    // inventory->addItem(Item(item1));
+    // item1.load("images/items/potion.png");
+    // inventory->addItem(Item(item1));
 
     vector<ofImage> downFrames;
     vector<ofImage> upFrames;

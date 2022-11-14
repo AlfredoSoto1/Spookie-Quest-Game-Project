@@ -39,7 +39,10 @@ private:
     OverworldCamera *camera;
 
     bool friendInteract;
+    bool collectItem;
     bool debugMapCollider;
+
+    ofImage item1;
 
     Animation* darknessAnimation;
 };

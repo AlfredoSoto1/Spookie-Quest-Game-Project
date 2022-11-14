@@ -7,6 +7,7 @@ OverworldState::OverworldState(Player *player, Area *area) {
     loadArea(area);
     this->friendInteract = false;
     this->debugMapCollider = false;
+    this->collectItem = false;
 
     vector<ofImage> ambianceFrames;
     ofImage ambianceImage;
@@ -18,6 +19,7 @@ OverworldState::OverworldState(Player *player, Area *area) {
     ambianceFrames.push_back(ambianceImage);
     darknessAnimation = new Animation(10, ambianceFrames);
 
+    item1.load("images/items/potion.png");
 }
 
 OverworldState::~OverworldState() {
@@ -59,9 +61,13 @@ void OverworldState::update() {
 
     darknessAnimation->update();
 
-    camera->update();
-
-    player->inOverworldUpdate();
+    if(!friendInteract) {
+        camera->update();
+        player->inOverworldUpdate();
+    }else if(collectItem) {
+        player->getInventory()->addItem(item1);
+        collectItem = false;
+    }
 
     if(player->getHealth() <= 0) {
         setFinished(true);
@@ -179,8 +185,9 @@ void OverworldState::draw() {
         }
 
         Friend* npc = dynamic_cast<Friend*>(entity);
-        if(npc != nullptr) { 
+        if(npc != nullptr) {
             npc->inOverworldDraw(camera);
+            npc->drawInteraction(camera);
             continue;
         }
     }
@@ -257,6 +264,9 @@ void OverworldState::keyPressed(int key) {
     }
     if(key == OF_KEY_UP) {
         player->getInventory()->prevSlot();
+    }
+    if(key == ' ') {
+        collectItem = !collectItem;
     }
 }
 

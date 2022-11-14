@@ -28,6 +28,9 @@ void Inventory::prevSlot() {
 
 void Inventory::draw() {
 
+    if(items.empty()) {
+        return;
+    }
     int hotbarHeight = inventorySizePxls * items.size();
     int xRender = ofGetWidth() - inventorySizePxls;
     int yRender = ofGetHeight() / 2 - hotbarHeight / 2;

@@ -4,6 +4,26 @@
 Friend::Friend(const string& name, FriendE friendType, int ox, int oy)
     : Entity(name, HitBox(ox, oy, 100, 100), 100)
 {
+    /*
+        Load Friend interactions
+    */
+    ofImage tempText;
+    tempText.load("images/entities/friend/text.png");
+
+    textNineSlice[0].cropFrom(tempText, 0 , 0, 4, 4);
+    textNineSlice[1].cropFrom(tempText, 5 , 0, 6, 4);
+    textNineSlice[2].cropFrom(tempText, 12, 0, 4, 4);
+
+    textNineSlice[3].cropFrom(tempText, 0 , 5, 4, 6);
+    textNineSlice[4].cropFrom(tempText, 5 , 5, 6, 6);
+    textNineSlice[5].cropFrom(tempText, 12, 5, 4, 6);
+
+    textNineSlice[6].cropFrom(tempText, 0 , 12, 4, 4);
+    textNineSlice[7].cropFrom(tempText, 5 , 12, 6, 4);
+    textNineSlice[8].cropFrom(tempText, 12, 12, 4, 4);
+    /*
+        load Friend propeties
+    */
     vector<ofImage> leftFrames;
     vector<ofImage> rightFrames;
     vector<ofImage> idleLeftFrames;
@@ -22,6 +42,7 @@ Friend::Friend(const string& name, FriendE friendType, int ox, int oy)
     walkRight = new Animation(5, rightFrames);
 
     speed = 5;
+    initialSpeed = speed;
     movingTime = 15;
     standingStillTime = 50;
     timeDirectionCounter = glm::vec2(0.0, 0.0);
@@ -52,9 +73,27 @@ FriendE Friend::getType() {
 
 void Friend::interact() {
     //friend interaction here
+    isInteracting = true;
 }
 
 void Friend::inOverworldUpdate() {
+
+    if(isInteracting) {
+        if(movementDirection.x < 0) {
+            idleLeft->update();
+            overworldSprite = idleLeft->getCurrentFrame();
+        } else if(movementDirection.x > 0) {
+            idleRight->update();
+            overworldSprite = idleRight->getCurrentFrame();
+        } else if(movementDirection.y > 0) {
+            idleRight->update();
+            overworldSprite = idleRight->getCurrentFrame();
+        } else if(movementDirection.y < 0) {
+            idleRight->update();
+            overworldSprite = idleRight->getCurrentFrame();
+        }     
+        return;
+    }
     //update here
     if(linePath == 0) {
         movementDirection.x = -2.0;
@@ -147,4 +186,43 @@ void Friend::inOverworldDraw(void* camera) {
 
     overworldSprite.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
     overworldSprite.draw(renderX, renderY, hitbox.getRenderWidth() * xAspectDif, hitbox.getRenderHeight() * yAspectDif);
+}
+
+void Friend::drawInteraction(void* camera) {
+    if(!isInteracting)
+        return;
+
+    int speechBlockWidth = 400;
+    int speechBlockHeight = 100;
+    drawSpeech(ofGetWidth()/2 - speechBlockWidth / 2, ofGetHeight() / 2 + 100, speechBlockWidth, speechBlockHeight, 10);
+
+    ofDrawBitmapString("Here, take this elixir. It can heal you back", ofGetWidth()/2 - speechBlockWidth / 2 + 20, ofGetHeight() / 2 + 120);
+    ofDrawBitmapString("from all the damages you took", ofGetWidth()/2 - speechBlockWidth / 2 + 20, ofGetHeight() / 2 + 140);
+    ofDrawBitmapString("Press Enter to collect item, once", ofGetWidth()/2 - speechBlockWidth / 2 + 20, ofGetHeight() / 2 + 160);
+
+    isInteracting = false;
+}
+
+void Friend::drawSpeech(int x, int y, int width, int height, int borderSize) {
+    textNineSlice[0].getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+    textNineSlice[1].getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+    textNineSlice[2].getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+    textNineSlice[3].getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+    textNineSlice[4].getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+    textNineSlice[5].getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+    textNineSlice[6].getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+    textNineSlice[8].getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+    textNineSlice[7].getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+    
+    textNineSlice[0].draw(x                                    , y             , borderSize          , borderSize);
+    textNineSlice[1].draw(x + borderSize                       , y             , width - borderSize/2, borderSize);
+    textNineSlice[2].draw(x + borderSize + width - borderSize/2, y             , borderSize          , borderSize);
+
+    textNineSlice[3].draw(x                                    , y + borderSize, borderSize          , height - borderSize/2);
+    textNineSlice[4].draw(x + borderSize                       , y + borderSize, width - borderSize/2, height - borderSize/2);
+    textNineSlice[5].draw(x + borderSize + width - borderSize/2, y + borderSize, borderSize          , height - borderSize/2);
+
+    textNineSlice[6].draw(x                                    , y + borderSize + height - borderSize/2, borderSize          , borderSize);
+    textNineSlice[7].draw(x + borderSize                       , y + borderSize + height - borderSize/2, width - borderSize/2, borderSize);
+    textNineSlice[8].draw(x + borderSize + width - borderSize/2, y + borderSize + height - borderSize/2, borderSize          , borderSize);
 }
