@@ -241,6 +241,11 @@ void StateMaster::initAreas() {
 
     vector<Entity*> tempEntityList3;
 
+    Friend* friendEntity = new Friend("Friend-instance", FriendE::WIZZARD, 1200, 1200);
+    friendEntity->getHitBox().setRenderWidth(250);
+    friendEntity->getHitBox().setRenderHeight(250);
+    tempEntityList3.push_back(friendEntity);
+
     for(int x = 0;x < spawnImage3.getWidth(); x++) {
         for(int y = 0;y < spawnImage3.getHeight(); y++) {
             ofColor spawnColor = spawnImage3.getColor(x, y);

@@ -121,11 +121,10 @@ void OverworldState::update() {
 
         Friend* npc = dynamic_cast<Friend*>(entity);
         if(npc != nullptr) {
-            if(friendInteract)
+            HitBox& npcHitBox = npc->getHitBox();
+            if(friendInteract && playerHitbox.collides(npcHitBox))
                 npc->interact();
             npc->inOverworldUpdate();
-            HitBox& npcHitBox = npc->getHitBox();
-            playerHitbox.collides(npcHitBox);
             continue;
         }
     }

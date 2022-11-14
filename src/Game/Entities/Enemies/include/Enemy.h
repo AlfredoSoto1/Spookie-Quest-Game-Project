@@ -44,8 +44,8 @@ private:
     int linePath = 0;
     int standingStillCounter = 0;
     
-    glm::vec2 timeDirectionCounter;
     glm::vec2 movementDirection;
+    glm::vec2 timeDirectionCounter;
 
     bool walking = false;
     bool dead = false;
@@ -58,7 +58,6 @@ private:
     Animation *fighting;
     Animation *death;
     Animation *hit;
-    ofImage sprite;
 
     void obtainFramesOf(vector<ofImage>* frames, int frameCount, int imgWidth, int imgHeight, const string& path);
 };
