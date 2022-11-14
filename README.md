@@ -1,5 +1,5 @@
-# PA1: Particle System
-This project is based on the OpenFrameworks Particle example.
+# PA2: SPOOKY-QUEST
+This project is based on the OpenFrameworks Spooky-Quest videogame example.
  This repository is part of a Programming Assignment for the Advanced Programming Course.
  The purpose of this project is to help the student create practical programming skills by implementing
  changes to the base code that require strong understanding of the concepts discussed in class.
@@ -29,8 +29,10 @@ If you have any notes to add for your TA about the project specs or creative add
 <p><b><i>USE MASTER BRANCH</b></i></p>
 
 <b>Phase 1 Explanation</b>
-<p>+ Pressing <code>"t"</code> toggles between colors <code>[red, green, blue]</code> in that secuence. <i>(Partner A)</i> </p>
-<p>+ Pressing <code>"s"</code> freezes the particles(pause the simulation). <i>(Partner B)</i> </p>
+<p>+ Walking Patterns: Changed walking patterns of the enemies from rectangles to triangle. <i>(Partner A)</i> </p>
+<p>+ Pressing <code>"ESC"</code> triggers a new state that inherits from the State class that pauses the game in the OverWorld and BattleState. <i>(Partner B)</i> </p>
+![image](https://user-images.githubusercontent.com/93926241/201682732-91ccf7c1-1985-4c73-903a-7943dc4270c2.png)
+
 <p>+ Pressing <code>"d"</code> increases velocity by x2 and Pressing <code>"a"</code> decreases velocity by x1/2. <i>(Partner B)</i> </p>
 
 <b>Phase 2 Explanation</b>
