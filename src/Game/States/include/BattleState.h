@@ -12,8 +12,8 @@ public:
     Enemy* getEnemy();
     
     void setEnemy(Enemy *enemy);
-    void setStage(ofImage stage);
-    
+    void setStage(Area* area);
+
     void update();
     void draw();
     
@@ -37,7 +37,7 @@ private:
     ofImage displayEnemyDeath;
     ofImage displayEnemyHit;
     ofImage displayEnemyProjectile;
-    
+
     int enemyChoice = 0;
     int currentButton;
     

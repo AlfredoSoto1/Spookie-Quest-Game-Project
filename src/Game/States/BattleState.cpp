@@ -43,8 +43,8 @@ void BattleState::setEnemy(Enemy *enemy) {
     this->enemy = enemy;
 }
 
-void BattleState::setStage(ofImage stage) {
-    this->stage = stage;
+void BattleState::setStage(Area* area) {
+    this->stage = area->getStage();
 }
 
 void BattleState::startBattle(Enemy *enemy) {

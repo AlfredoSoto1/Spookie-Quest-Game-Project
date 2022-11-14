@@ -36,9 +36,10 @@ private:
     Enemy *enemyToBattle;
     ofImage overworldImage;
     ofImage overWorldAreaCollider;
-    ofImage ambianceEffect;
     OverworldCamera *camera;
 
     bool friendInteract;
     bool debugMapCollider;
+
+    Animation* darknessAnimation;
 };

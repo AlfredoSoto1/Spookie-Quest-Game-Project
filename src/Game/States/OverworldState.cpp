@@ -7,10 +7,22 @@ OverworldState::OverworldState(Player *player, Area *area) {
     loadArea(area);
     this->friendInteract = false;
     this->debugMapCollider = false;
+
+    vector<ofImage> ambianceFrames;
+    ofImage ambianceImage;
+    ambianceImage.load("images/areas/darkness_1.png");
+    ambianceFrames.push_back(ambianceImage);
+    ambianceImage.load("images/areas/darkness_2.png");
+    ambianceFrames.push_back(ambianceImage);
+    ambianceImage.load("images/areas/darkness_3.png");
+    ambianceFrames.push_back(ambianceImage);
+    darknessAnimation = new Animation(10, ambianceFrames);
+
 }
 
 OverworldState::~OverworldState() {
     delete camera;
+    delete darknessAnimation;
 }
 
 Player* OverworldState::getPlayer() { 
@@ -45,8 +57,7 @@ void OverworldState::loadArea(Area* area) {
 
 void OverworldState::update() {
 
-    area->getAmbianceAnimation()->update();
-    ambianceEffect = area->getAmbianceAnimation()->getCurrentFrame();
+    darknessAnimation->update();
 
     camera->update();
 
@@ -175,8 +186,10 @@ void OverworldState::draw() {
         }
     }
 
-    //draw Effect
-    // ambianceEffect.draw(0,0, ofGetWidth(), ofGetHeight());
+    //draw Effect on overWorld
+    if(area->getType() == AreaE::CAVE) {
+        darknessAnimation->getCurrentFrame().draw(0,0, ofGetWidth(), ofGetHeight());
+    }
 
     // Draw HUD
     if(hud == true){
@@ -208,7 +221,6 @@ void OverworldState::draw() {
 
     player->getInventory()->draw();    
 }
-
 
 void OverworldState::keyPressed(int key) {
     player->keyPressed(key);
