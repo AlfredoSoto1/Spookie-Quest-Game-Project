@@ -32,7 +32,7 @@ If you have any notes to add for your TA about the project specs or creative add
 <p>- Walking Patterns: Changed walking patterns of the enemies from rectangles to triangle. <i>(Partner A)</i> </p>
 <p>- Pressing <code>"ESC"</code> triggers a new state that inherits from the State class that pauses the game in the OverWorld and BattleState. <i>(Partner B)</i> </p>
 
-<p>- Pressing <code>"d"</code> increases velocity by x2 and Pressing <code>"a"</code> decreases velocity by x1/2. <i>(Partner B)</i> </p>
+<p>- Displayed a HUD on the screen that tells the player his current life, number of enemies alive, and area name. Pressing <code>"k"</code> displays information hidden to the player (Number of enemies dead, player's position). <i>(Partner B)</i> </p>
 
 <b>Phase 2 Explanation</b>
 <p>- By left clicking in the screen and dragging the mouse, you can select a portion of the screen in which any particle that enters it will be magnified by x3. <i>(Partner A)</i> </p>
