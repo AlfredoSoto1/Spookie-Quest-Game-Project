@@ -47,7 +47,7 @@ This project is based on the OpenFrameworks Spooky-Quest videogame example.
 <img src="bin/screenShots/lava.png" width="400" height="300">
 
 by:
-Alfredo D. Soto Vélez; Email: alfredo.soto2@upr.edu
-Diego A. Perez Gandarillas; Email: diego.perez16@upr.edu
+<p>Alfredo D. Soto Vélez; Email: alfredo.soto2@upr.edu</p>
+<p>Diego A. Perez Gandarillas; Email: diego.perez16@upr.edu</p>
 
 
