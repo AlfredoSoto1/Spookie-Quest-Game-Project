@@ -1,18 +1,22 @@
 #include "Area.h"
 
-Area::Area(string name, Area *nextArea, string areaImagePath, string areaImageBoundryPath, string areaMusicPath, string areaStagePath, string areaImageAmbiance, ofPoint entrancePosition, vector<Entity*> entitiesInArea) {
-    this->name = name;
+Area::Area(AreaE type, Area *nextArea, string areaImagePath, string areaImageBoundryPath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Entity*> entitiesInArea) {
+    this->type = type;
     this->nextArea = nextArea;
 
     areaImage.load(areaImagePath);
-    areaImageBoundry.load(areaImageBoundryPath);
     areaStage.load(areaStagePath);
-    areaAmbiance.load(areaImageAmbiance);
+    areaImageBoundry.load(areaImageBoundryPath);
     
     areaMusic.load(areaMusicPath);
+    
     this->entrancePosition = entrancePosition;
     this->entitiesInArea = entitiesInArea;
     this->bossFightActivated = false;
+}
+
+Area::~Area() {
+    // delete ambianceAnimation;
 }
 
 int Area::getDeadEnemies() {
@@ -53,9 +57,6 @@ int Area::getRemainingEntities() {
     return entitiesInArea.size();
 }
 
-void Area::setName(string name) {
-    this->name = name;
-}
 void Area::setEntities(std::vector<Entity*> entitiesInArea) {
     this->entitiesInArea = entitiesInArea;
 }
@@ -97,14 +98,21 @@ void Area::clearAllEntities() {
 }
 
 string Area::getName() {
-    return name;
-}
-ofImage& Area::getImage() {
-    return areaImage;
+    if(type == AreaE::FOREST) {
+        return "forest";
+    } else if(type == AreaE::CAVE) {
+        return "Cave";
+    }else if(type == AreaE::ICE_CAVE) {
+        return "Ice-Cave";
+    }
 }
 
-ofImage& Area::getAmbianceImage() {
-    return areaAmbiance;
+AreaE Area::getType() {
+    return type;
+}
+
+ofImage& Area::getImage() {
+    return areaImage;
 }
 
 ofImage& Area::getAreaImageBoundry() {
@@ -115,7 +123,7 @@ ofImage& Area::getStage() {
     return areaStage;
 }
 
-ofSoundPlayer Area::getMusic() {
+ofSoundPlayer& Area::getMusic() {
     return areaMusic;
 }
 

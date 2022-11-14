@@ -5,16 +5,22 @@
 #include "Player.h"
 #include "Structure.h"
 
+enum AreaE {
+    CAVE,
+    FOREST,
+    ICE_CAVE
+};
+
 class Area {
 public:
-    Area(string name, Area *nextArea, string areaImagePath, string areaImageBoundryPath, string areaMusicPath, string areaStagePath, string areaImageAmbiance, ofPoint entrancePosition, vector<Entity*> entitiesInArea);
+    Area(AreaE type, Area *nextArea, string areaImagePath, string areaImageBoundryPath, string areaMusicPath, string areaStagePath, ofPoint entrancePosition, vector<Entity*> entitiesInArea);
+    ~Area();
     
     bool inBossFight();
     int getDeadEnemies();
     int getRemainingEnemies();
     int getRemainingEntities();
     
-    void setName(string name);
     void setEntities(std::vector<Entity*> entitiesInArea);
     void setDefeatedBoss(bool defeatedBoss);
     void setInBossFight(bool bossFightActivated);
@@ -24,18 +30,21 @@ public:
     void clearAllEntities();
 
     string getName();
+    AreaE getType();
+    
+    ofPoint getEntrancePos();
+
     ofImage& getImage();
     ofImage& getStage();
-    ofImage& getAmbianceImage();
     ofImage& getAreaImageBoundry();
-    ofSoundPlayer getMusic();
-    ofPoint getEntrancePos();
+    
+    ofSoundPlayer& getMusic();
+    
     vector<Entity*> getEntities();
     
     Area *getNextArea();
 private:
-    string name;
-    ofImage areaAmbiance;
+    AreaE type;
     ofImage areaImage;
     ofImage areaImageBoundry;
     ofImage areaStage;

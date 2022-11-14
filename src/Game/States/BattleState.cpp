@@ -43,8 +43,8 @@ void BattleState::setEnemy(Enemy *enemy) {
     this->enemy = enemy;
 }
 
-void BattleState::setStage(ofImage stage) {
-    this->stage = stage;
+void BattleState::setStage(Area* area) {
+    this->stage = area->getStage();
 }
 
 void BattleState::startBattle(Enemy *enemy) {
@@ -61,6 +61,11 @@ void BattleState::update() {
         Attack& enemyAttack = enemy->getAttack(enemy->getAttackChoice());
         enemyAttack.getAnimation()->update();
         displayEnemyAttack = enemyAttack.getAnimation()->getCurrentFrame();
+        if(enemyAttack.hasProjectile()) {
+            enemyAttack.updateProjectileTraslation();
+            enemyAttack.getProjectileAnimation()->update();
+            displayEnemyProjectile = enemyAttack.getProjectileAnimation()->getCurrentFrame();
+        }
         isEnemyOnAttack = true;
 
         if(!player->getDeath()->hasEnded()) {
