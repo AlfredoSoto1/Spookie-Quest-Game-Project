@@ -22,12 +22,13 @@ OverworldState::OverworldState(Player *player, Area *area) {
     ofImage itemImage;
     itemImage.load("images/items/potion.png");
     
-    item1 = Item(ItemE::ELIXIR, itemImage);
+    item1 = new Item(ItemE::ELIXIR, itemImage);
 }
 
 OverworldState::~OverworldState() {
     delete camera;
     delete darknessAnimation;
+    delete item1;
 }
 
 Player* OverworldState::getPlayer() { 
@@ -68,7 +69,7 @@ void OverworldState::update() {
         camera->update();
         player->inOverworldUpdate();
     }else if(collectItem) {
-        player->getInventory()->addItem(item1);
+        player->getInventory()->addItem(*item1);
         collectItem = false;
     }
 
