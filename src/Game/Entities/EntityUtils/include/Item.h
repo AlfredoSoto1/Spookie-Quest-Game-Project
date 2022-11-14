@@ -5,14 +5,21 @@
 
 #include "ofMain.h"
 
+enum ItemE {
+    ELIXIR
+};
+
 class Item {
 public:
-    Item(const ofImage& image);
+    Item(ItemE type, const ofImage& image);
+    Item() {}
     ~Item();
 
     ofImage& getImage();
+    ItemE getType();
 
 private:
+    ItemE type;
     ofImage itemImage;
 };
 

@@ -12,6 +12,10 @@ Inventory::~Inventory() {
     items.clear();
 }
 
+int Inventory::getCurrentSlot() {
+    return slotSelected;
+}
+
 void Inventory::nextSlot() {
     slotSelected++;
     if(slotSelected == (int)items.size()) {
@@ -60,6 +64,15 @@ void Inventory::update() {
     
 }
 
+bool Inventory::hasItemSlot(ItemE type) {
+    if(items.empty())
+        return false;
+    if(items[slotSelected].getType() == type) {
+        return true;
+    }
+    return false;
+}
+
 void Inventory::addItem(const Item& item) {
     items.push_back(item);
 }
@@ -71,5 +84,9 @@ void Inventory::removeItem(const int& slot) {
         }else {
             iterator++;
         }
+    }
+
+    if(slotSelected == (int)items.size()) {
+        slotSelected = 0;
     }
 }

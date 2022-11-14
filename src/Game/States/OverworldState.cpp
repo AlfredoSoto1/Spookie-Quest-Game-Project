@@ -19,7 +19,10 @@ OverworldState::OverworldState(Player *player, Area *area) {
     ambianceFrames.push_back(ambianceImage);
     darknessAnimation = new Animation(10, ambianceFrames);
 
-    item1.load("images/items/potion.png");
+    ofImage itemImage;
+    itemImage.load("images/items/potion.png");
+    
+    item1 = Item(ItemE::ELIXIR, itemImage);
 }
 
 OverworldState::~OverworldState() {
@@ -264,6 +267,12 @@ void OverworldState::keyPressed(int key) {
     }
     if(key == OF_KEY_UP) {
         player->getInventory()->prevSlot();
+    }
+    if(key == 'u') {
+        if(player->getInventory()->hasItemSlot(ItemE::ELIXIR)) {
+            player->getInventory()->removeItem(player->getInventory()->getCurrentSlot());
+            player->setHealth(player->getMaxHealth());
+        }
     }
     if(key == ' ') {
         collectItem = !collectItem;

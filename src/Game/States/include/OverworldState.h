@@ -42,7 +42,7 @@ private:
     bool collectItem;
     bool debugMapCollider;
 
-    ofImage item1;
+    Item item1;
 
     Animation* darknessAnimation;
 };
