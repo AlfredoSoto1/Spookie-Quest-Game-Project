@@ -3,40 +3,21 @@ This project is based on the OpenFrameworks Spooky-Quest videogame example.
  This repository is part of a Programming Assignment for the Advanced Programming Course.
  The purpose of this project is to help the student create practical programming skills by implementing
  changes to the base code that require strong understanding of the concepts discussed in class.
-
-## Setup
-1. Clone this project inside an OpenFrameworks installation's "apps/myApps/" directory
-2. Run the command "make" in the terminal or the "Build" Task in VSCode.
-
-## Submitting Assignment
-To submit this assignment, create a Release with the branch that holds all the changes you have added. If no Release is made,
-the last commit to the master branch will be graded.
-
-Don't forget that you must also fill out an evaluation form in Moodle to consider the project submitted.
-
-## Grading
-You will only be graded for specs that were completed.
-
-Any project that doesn't compile will receive a 0.
-
-If a partner has no commits in the repositories, he will receive a 0.
-
-## Student Notes
-If you have any notes to add for your TA about the project specs or creative additions, you may do so in this section of the README
-
+ 
 <h3>How to use</h3>
 
 <p><b><i>USE MASTER BRANCH</b></i></p>
 
-<b>Phase 1 Explanation</b>
-<p>- Walking Patterns: Changed walking patterns of the enemies from rectangles to triangle. <i>(Partner A)</i> </p>
-<p>- Pressing <code>"ESC"</code> triggers a new state that inherits from the State class that pauses the game in the OverWorld and BattleState. <i>(Partner B)</i> </p>
+<p>- Walking Patterns: Changed walking patterns of the enemies from rectangles to triangle. </p>
+<p>- Pressing <code>"ESC"</code> triggers a new state that inherits from the State class that pauses the game in the OverWorld and BattleState. </p>
 
-<p>- Displayed a HUD on the screen that tells the player his current life, number of enemies alive, and area name. Pressing <code>"k"</code> displays information hidden to the player (Number of enemies dead, player's position). <i>(Partner B)</i> </p>
+![github-small](bin/screenShots/PAUSED.png)
+
+<p>- Displayed a HUD on the screen that tells the player his current life, number of enemies alive, and area name. Pressing <code>"k"</code> displays information hidden to the player (Number of enemies dead, player's position). </p>
 
 <b>Phase 2 Explanation</b>
-<p>- By left clicking in the screen and dragging the mouse, you can select a portion of the screen in which any particle that enters it will be magnified by x3. <i>(Partner A)</i> </p>
-<p>- You can undo this selection by right clicking inside the rectangle. <i>(Partner A)</i></p>
+<p>- By left clicking in the screen and dragging the mouse, you can select a portion of the screen in which any particle that enters it will be magnified by x3. </p>
+<p>- You can undo this selection by right clicking inside the rectangle. </p>
 
 <b>Phase 3 Explanation</b>
 <details> <summary>Details about implementation in this phase</summary>
