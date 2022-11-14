@@ -10,6 +10,7 @@
 class OverworldState : public State {
 public:
     OverworldState(Player *player, Area *area);
+    ~OverworldState();
 
     Area* getArea();
     Player* getPlayer();
@@ -34,8 +35,8 @@ private:
     Player *player;
     Enemy *enemyToBattle;
     ofImage overworldImage;
-    ofImage overworldEffectImage;
     ofImage overWorldAreaCollider;
+    ofImage ambianceEffect;
     OverworldCamera *camera;
 
     bool friendInteract;

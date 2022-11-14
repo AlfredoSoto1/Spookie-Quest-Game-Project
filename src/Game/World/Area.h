@@ -7,7 +7,8 @@
 
 class Area {
 public:
-    Area(string name, Area *nextArea, string areaImagePath, string areaImageBoundryPath, string areaMusicPath, string areaStagePath, string areaImageAmbiance, ofPoint entrancePosition, vector<Entity*> entitiesInArea);
+    Area(string name, Area *nextArea, string areaImagePath, string areaImageBoundryPath, string areaMusicPath, string areaStagePath, vector<ofImage> ambianceFrames, ofPoint entrancePosition, vector<Entity*> entitiesInArea);
+    ~Area();
     
     bool inBossFight();
     int getDeadEnemies();
@@ -24,21 +25,24 @@ public:
     void clearAllEntities();
 
     string getName();
+    
     ofImage& getImage();
     ofImage& getStage();
-    ofImage& getAmbianceImage();
     ofImage& getAreaImageBoundry();
+    Animation* getAmbianceAnimation();
+    
     ofSoundPlayer getMusic();
     ofPoint getEntrancePos();
+    
     vector<Entity*> getEntities();
     
     Area *getNextArea();
 private:
     string name;
-    ofImage areaAmbiance;
     ofImage areaImage;
     ofImage areaImageBoundry;
     ofImage areaStage;
+    Animation* ambianceAnimation;
     
     ofSoundPlayer areaMusic;
 

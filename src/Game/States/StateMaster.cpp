@@ -148,6 +148,15 @@ void StateMaster::initAreas() {
     string areaAudio1            = "audio/forest.wav";
     string areaFightingStage1    = "images/stages/stage3.png";
     string areaEffect1           = "images/areas/darkness_1.png";
+
+    vector<ofImage> ambianceFrames;
+    ofImage ambianceImage;
+    ambianceImage.load("images/areas/darkness_1.png");
+    ambianceFrames.push_back(ambianceImage);
+    ambianceImage.load("images/areas/darkness_2.png");
+    ambianceFrames.push_back(ambianceImage);
+    ambianceImage.load("images/areas/darkness_3.png");
+    ambianceFrames.push_back(ambianceImage);
     
     ofPoint entrancePosition1(570, 300);
     vector<Entity*> tempEntityList1;
@@ -174,7 +183,7 @@ void StateMaster::initAreas() {
         }
     }
 
-    Area* iceCave = new Area("ice-cave", nullptr, areaPath1, areaBoundryPath1, areaAudio1, areaFightingStage1, areaEffect1, entrancePosition1, tempEntityList1);
+    Area* iceCave = new Area("ice-cave", nullptr, areaPath1, areaBoundryPath1, areaAudio1, areaFightingStage1, ambianceFrames, entrancePosition1, tempEntityList1);
     generatedAreas.push_back(iceCave);
     // this->currentArea = iceCave;
     /*
@@ -226,7 +235,7 @@ void StateMaster::initAreas() {
         }
     }
 
-    Area* cave = new Area("cave", iceCave, areaPath2, areaBoundryPath2, areaAudio2, areaFightingStage2, areaEffect2, entrancePosition2, tempEntityList2);
+    Area* cave = new Area("cave", iceCave, areaPath2, areaBoundryPath2, areaAudio2, areaFightingStage2, ambianceFrames, entrancePosition2, tempEntityList2);
     generatedAreas.push_back(cave);
 
     /*
@@ -297,8 +306,7 @@ void StateMaster::initAreas() {
     }
 
     ofPoint entrancePosition3(1679, 2003);
-
-    Area* area1 = new Area("wild-life", cave, areaPath3, areaBoundryPath3, areaAudio3, areaFightingStage3, areaEffect3, entrancePosition3, tempEntityList3);
+    Area* area1 = new Area("wild-life", cave, areaPath3, areaBoundryPath3, areaAudio3, areaFightingStage3, ambianceFrames, entrancePosition3, tempEntityList3);
     generatedAreas.push_back(area1);
 
 

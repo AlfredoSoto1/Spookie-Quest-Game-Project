@@ -1,18 +1,22 @@
 #include "Area.h"
 
-Area::Area(string name, Area *nextArea, string areaImagePath, string areaImageBoundryPath, string areaMusicPath, string areaStagePath, string areaImageAmbiance, ofPoint entrancePosition, vector<Entity*> entitiesInArea) {
+Area::Area(string name, Area *nextArea, string areaImagePath, string areaImageBoundryPath, string areaMusicPath, string areaStagePath, vector<ofImage> ambianceFrames, ofPoint entrancePosition, vector<Entity*> entitiesInArea) {
     this->name = name;
     this->nextArea = nextArea;
 
     areaImage.load(areaImagePath);
     areaImageBoundry.load(areaImageBoundryPath);
     areaStage.load(areaStagePath);
-    areaAmbiance.load(areaImageAmbiance);
+    this->ambianceAnimation = new Animation(7, ambianceFrames);
     
     areaMusic.load(areaMusicPath);
     this->entrancePosition = entrancePosition;
     this->entitiesInArea = entitiesInArea;
     this->bossFightActivated = false;
+}
+
+Area::~Area() {
+    delete ambianceAnimation;
 }
 
 int Area::getDeadEnemies() {
@@ -103,8 +107,8 @@ ofImage& Area::getImage() {
     return areaImage;
 }
 
-ofImage& Area::getAmbianceImage() {
-    return areaAmbiance;
+Animation* Area::getAmbianceAnimation() {
+    return ambianceAnimation;
 }
 
 ofImage& Area::getAreaImageBoundry() {

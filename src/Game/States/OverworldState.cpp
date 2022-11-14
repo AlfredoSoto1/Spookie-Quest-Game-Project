@@ -9,6 +9,10 @@ OverworldState::OverworldState(Player *player, Area *area) {
     this->debugMapCollider = false;
 }
 
+OverworldState::~OverworldState() {
+    delete camera;
+}
+
 Player* OverworldState::getPlayer() { 
     return player; 
 }
@@ -28,7 +32,6 @@ Area* OverworldState::getArea() {
 void OverworldState::loadArea(Area* area) {
     this->area = area;
     overworldImage = area->getImage();
-    overworldEffectImage = area->getAmbianceImage();
     overWorldAreaCollider = area->getAreaImageBoundry();
     music = area->getMusic();
     music.setVolume(0.25);
@@ -41,6 +44,10 @@ void OverworldState::loadArea(Area* area) {
 }
 
 void OverworldState::update() {
+
+    area->getAmbianceAnimation()->update();
+    ambianceEffect = area->getAmbianceAnimation()->getCurrentFrame();
+
     camera->update();
 
     player->inOverworldUpdate();
@@ -169,7 +176,7 @@ void OverworldState::draw() {
     }
 
     //draw Effect
-    // overworldEffectImage.draw(0,0, ofGetWidth(), ofGetHeight());
+    // ambianceEffect.draw(0,0, ofGetWidth(), ofGetHeight());
 
     // Draw HUD
     if(hud == true){
@@ -205,9 +212,10 @@ void OverworldState::draw() {
 
 void OverworldState::keyPressed(int key) {
     player->keyPressed(key);
-    if(key == 'b')
+    if(key == 'b') {
         area->setInBossFight(true);
-    else if(key == OF_KEY_ESC) {
+    }
+    if(key == OF_KEY_ESC) {
         setNextState(CurrentState::PAUSED);
         setFinished(true);
     }
@@ -220,19 +228,15 @@ void OverworldState::keyPressed(int key) {
     if(key == 'k') {
         hud = !hud;
     }
-    else if(key == 'h'){
+    if(key == 'h'){
         player->setHealth(player->getMaxHealth());
-
     }
-    else if(key == 'r'){
-
+    if(key == 'r'){
         for(Entity* entity : area->getEntities()){
             Enemy* enemy = dynamic_cast<Enemy*>(entity);
             if(enemy != nullptr) {
-                if (enemy->isDead()) {
+                if (enemy->isDead())
                     enemy->revive();
-
-                }
                 continue;
             }
         }
