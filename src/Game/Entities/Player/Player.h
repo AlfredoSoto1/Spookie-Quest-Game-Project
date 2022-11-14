@@ -42,8 +42,6 @@ private:
 
     vector<char> pressedKeys;
 
-    ofImage healthBar;
-
     Inventory* inventory;
 
     void* camera;
