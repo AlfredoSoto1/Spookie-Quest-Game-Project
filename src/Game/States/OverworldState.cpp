@@ -8,6 +8,8 @@ OverworldState::OverworldState(Player *player, Area *area) {
     this->friendInteract = false;
     this->debugMapCollider = false;
     this->collectItem = false;
+    this->isCollidingFriend = false;
+    this->hasOneItem = false;
 
     vector<ofImage> ambianceFrames;
     ofImage ambianceImage;
@@ -62,6 +64,8 @@ void OverworldState::loadArea(Area* area) {
 }
 
 void OverworldState::update() {
+
+    isCollidingFriend = false;
 
     darknessAnimation->update();
 
@@ -132,8 +136,10 @@ void OverworldState::update() {
         Friend* npc = dynamic_cast<Friend*>(entity);
         if(npc != nullptr) {
             HitBox& npcHitBox = npc->getHitBox();
-            if(friendInteract && playerHitbox.collides(npcHitBox))
+            isCollidingFriend = playerHitbox.collides(npcHitBox);
+            if(friendInteract && isCollidingFriend) {
                 npc->interact();
+            }
             npc->inOverworldUpdate();
             continue;
         }
@@ -245,7 +251,9 @@ void OverworldState::keyPressed(int key) {
         debugMapCollider = !debugMapCollider;
     }
     if(key == 'e') {
-        friendInteract = !friendInteract;
+        if(isCollidingFriend) {
+            friendInteract = !friendInteract;
+        }
     }
     if(key == 'k') {
         hud = !hud;
@@ -273,10 +281,14 @@ void OverworldState::keyPressed(int key) {
         if(player->getInventory()->hasItemSlot(ItemE::ELIXIR)) {
             player->getInventory()->removeItem(player->getInventory()->getCurrentSlot());
             player->setHealth(player->getMaxHealth());
+            hasOneItem = false;
         }
     }
     if(key == ' ') {
-        collectItem = !collectItem;
+        if(!hasOneItem) {
+            collectItem = !collectItem;
+        }
+        hasOneItem = true;
     }
 }
 
@@ -289,6 +301,13 @@ void OverworldState::reset() {
     player->keyReleased('a');
     player->keyReleased('s');
     player->keyReleased('d');
+    
+    player->keyReleased('e');
+    player->keyReleased(' ');
+    player->keyReleased('r');
+    player->keyReleased('h');
+    player->keyReleased('t');
+    player->keyReleased('k');
     setFinished(false);
     setNextState(CurrentState::NONE);
 

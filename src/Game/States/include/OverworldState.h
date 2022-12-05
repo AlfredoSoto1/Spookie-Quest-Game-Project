@@ -41,6 +41,9 @@ private:
     bool friendInteract;
     bool collectItem;
     bool debugMapCollider;
+    bool isCollidingFriend;
+
+    bool hasOneItem;
 
     Item* item1;
 

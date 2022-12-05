@@ -77,10 +77,10 @@ void Inventory::addItem(const Item& item) {
     items.push_back(item);
 }
 void Inventory::removeItem(const int& slot) {
-    int iterator = 0;
-    while(items.size() != iterator) {
-        if(iterator == slot) {
-            items.erase(items.begin() + iterator);
+    vector<Item>::iterator iterator = items.begin();
+    while(items.end() != iterator) {
+        if(iterator == (items.begin() + slot)) {
+            items.erase(items.begin() + slot);
         }else {
             iterator++;
         }
