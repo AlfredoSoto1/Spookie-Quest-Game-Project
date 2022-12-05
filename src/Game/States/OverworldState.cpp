@@ -21,10 +21,13 @@ OverworldState::OverworldState(Player *player, Area *area) {
     ambianceFrames.push_back(ambianceImage);
     darknessAnimation = new Animation(10, ambianceFrames);
 
+    hudIm.load("images/ui/HUD.png");
+
     ofImage itemImage;
     itemImage.load("images/items/potion.png");
     
     item1 = new Item(ItemE::ELIXIR, itemImage);
+
 }
 
 OverworldState::~OverworldState() {
@@ -209,30 +212,31 @@ void OverworldState::draw() {
 
     // Draw HUD
     if(hud == true){
+        hudIm.draw(35,25,(ofGetWidth()/3 + 100),(ofGetHeight()/2) + 50);
         ofSetColor(ofColor::black);
-        ofDrawRectangle(10,30,440,250);
-        ofSetColor(ofColor::gray);
-        ofDrawRectangle(30,45,400,220);
+        ofDrawBitmapString("AREA: " + ofToString(area->getName()), 105, 126);
+        ofDrawBitmapString("ENEMIES ALIVE: " + ofToString(area->getRemainingEnemies()), 105, 155);
+        ofDrawBitmapString("HEALTH: ", 105, 190);
+        ofDrawBitmapString(ofToString((int)(((float)player->getHealth() / player->getMaxHealth()) * 100)) + "%", 425, 190);
+        ofDrawBitmapString("PLAYER POSITION " + ofToString(player->getHitBox().getX()) + ", " + ofToString(player->getHitBox().getY()), 105, 225);
+        ofDrawBitmapString("DEAD ENEMIES:  " + ofToString(area->getDeadEnemies()), 105, 245);
+        player->drawHealthBar(165, 173, 256, 25, player->getHealth(), player->getMaxHealth());
         ofSetColor(ofColor::white);
-        ofDrawBitmapString("AREA: " + ofToString(area->getName()), 50, 80);
-        ofDrawBitmapString("ENEMIES ALIVE: " + ofToString(area->getRemainingEnemies()), 50, 100);
-        ofDrawBitmapString("HEALTH: ", 50, 126);
-        player->drawHealthBar(120, 110, 256, 25, player->getHealth(), player->getMaxHealth());
-        ofDrawBitmapString(ofToString((int)(((float)player->getHealth() / player->getMaxHealth()) * 100)) + "%", 385, 126);
-        ofDrawBitmapString("PLAYER POSITION " + ofToString(player->getHitBox().getX()) + ", " + ofToString(player->getHitBox().getY()), 50, 155);
-        ofDrawBitmapString("DEAD ENEMIES:  " + ofToString(area->getDeadEnemies()), 50, 175);
-    }
+    }                           
     else{
+
+        // ofSetColor(ofColor::black);
+        // ofDrawRectangle(10,30,440,140);
+        // ofSetColor(ofColor::gray);
+        // ofDrawRectangle(30,45,400,110);
+        hudIm.draw(35,25,(ofGetWidth()/3 + 100),ofGetHeight()/4);
         ofSetColor(ofColor::black);
-        ofDrawRectangle(10,30,440,140);
-        ofSetColor(ofColor::gray);
-        ofDrawRectangle(30,45,400,110);
+        ofDrawBitmapString("AREA: " + ofToString(area->getName()), 105, 80);
+        ofDrawBitmapString("ENEMIES ALIVE: " + ofToString(area->getRemainingEnemies()), 105, 100);
+        ofDrawBitmapString("HEALTH: ", 105, 126);
+        ofDrawBitmapString(ofToString((int)(((float)player->getHealth() / player->getMaxHealth()) * 100)) + "%", 420, 126);
+        player->drawHealthBar(160, 110, 256, 25, player->getHealth(), player->getMaxHealth());
         ofSetColor(ofColor::white);
-        ofDrawBitmapString("AREA: " + ofToString(area->getName()), 50, 80);
-        ofDrawBitmapString("ENEMIES ALIVE: " + ofToString(area->getRemainingEnemies()), 50, 100);
-        ofDrawBitmapString("HEALTH: ", 50, 126);
-        player->drawHealthBar(120, 110, 256, 25, player->getHealth(), player->getMaxHealth());
-        ofDrawBitmapString(ofToString((int)(((float)player->getHealth() / player->getMaxHealth()) * 100)) + "%", 385, 126);
     }
 
     player->getInventory()->draw();    

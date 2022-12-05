@@ -20,7 +20,7 @@ public:
     void setEnemy(Enemy *enemyToBattle);
 
     bool hud = false;
-
+    ofImage hudIm;
     void draw();
     void update();
     
